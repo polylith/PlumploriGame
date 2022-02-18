@@ -1,10 +1,16 @@
 ﻿namespace Language
 {
     /// <summary>
+    /// <para>
     /// Keys used for natural language output.
     /// This approach needs to be more sophisticated.
     /// Categories with correlations are needed to
     /// form more differentiated sentences.
+    /// </para>
+    /// <para>
+    /// Do NOT insert new keys at the beginning,
+    /// but ALWAYS at the end!!!
+    /// </para>
     /// </summary>
     public enum LangKey
     {
