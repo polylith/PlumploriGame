@@ -51,15 +51,9 @@ public class DoorBell : Interactable
     public override bool Interact(Interactable interactable)
     {
         ActionController actionController = ActionController.GetInstance();
-
-        if (actionController.IsCurrentAction(typeof(LookAction)))
-        {
-            ShowDescription();
-            return true;
-        }
-
+                
         if (!actionController.IsCurrentAction(typeof(UseAction)))
-            return false;
+            return base.Interact(interactable);
 
         Press();
         return true;

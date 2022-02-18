@@ -146,7 +146,7 @@ public abstract class Entity : MonoBehaviour
     }
 
     /// <summary>
-    /// Logs a detailed natural language description of
+    /// Shows a detailed natural language description of
     /// the entity and the states of its attributes.
     /// </summary>
     public void ShowDescription()
@@ -156,6 +156,7 @@ public abstract class Entity : MonoBehaviour
         if (null == s)
             return;
 
+        // TODO display text
         Debug.Log(s);
     }
 
