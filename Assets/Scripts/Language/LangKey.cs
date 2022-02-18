@@ -106,6 +106,8 @@
         TakePhoto,
         Portal,
         Robovac,
+        Off,
+        On,
         Charging,
         Resting,
         Starting,

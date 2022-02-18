@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -91,6 +90,7 @@ namespace Language
             texts.Add(SystemLanguage.English.ToString().ToLower(), "Englisch");
             texts.Add(SystemLanguage.German.ToString().ToLower(), "Deutsch");
 
+            texts.Add(LangKey.Off.ToString().ToLower(), "{0} ausgeschaltet");
             texts.Add(LangKey.Charging.ToString().ToLower(), "{0} lädt auf");
             texts.Add(LangKey.Resting.ToString().ToLower(), "{0} befindet sich im Ruhezustand");
             texts.Add(LangKey.Starting.ToString().ToLower(), "{0} startet");
@@ -201,6 +201,7 @@ namespace Language
             texts.Add(SystemLanguage.English.ToString().ToLower(), "English");
             texts.Add(SystemLanguage.German.ToString().ToLower(), "German");
 
+            texts.Add(LangKey.Off.ToString().ToLower(), "{0} is off");
             texts.Add(LangKey.Charging.ToString().ToLower(), "{0} is charging");
             texts.Add(LangKey.Resting.ToString().ToLower(), "{0} is resting");
             texts.Add(LangKey.Starting.ToString().ToLower(), "{0} is starting");
