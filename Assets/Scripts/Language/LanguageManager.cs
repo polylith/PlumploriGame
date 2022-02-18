@@ -91,6 +91,12 @@ namespace Language
             texts.Add(SystemLanguage.English.ToString().ToLower(), "Englisch");
             texts.Add(SystemLanguage.German.ToString().ToLower(), "Deutsch");
 
+            texts.Add(LangKey.Charging.ToString().ToLower(), "{0} lädt auf");
+            texts.Add(LangKey.Resting.ToString().ToLower(), "{0} befindet sich im Ruhezustand");
+            texts.Add(LangKey.Starting.ToString().ToLower(), "{0} startet");
+            texts.Add(LangKey.Working.ToString().ToLower(), "{0} arbeitet");
+            texts.Add(LangKey.Returning.ToString().ToLower(), "{0} kehrt zurück");
+
             texts.Add(LangKey.GoHere.ToString().ToLower(), "Gehe hierher");
             texts.Add(LangKey.Goto.ToString().ToLower(), "Gehe zu {0}");
             texts.Add(LangKey.PointerAction.ToString().ToLower(), "{0}");
@@ -195,6 +201,11 @@ namespace Language
             texts.Add(SystemLanguage.English.ToString().ToLower(), "English");
             texts.Add(SystemLanguage.German.ToString().ToLower(), "German");
 
+            texts.Add(LangKey.Charging.ToString().ToLower(), "{0} is charging");
+            texts.Add(LangKey.Resting.ToString().ToLower(), "{0} is resting");
+            texts.Add(LangKey.Starting.ToString().ToLower(), "{0} is starting");
+            texts.Add(LangKey.Working.ToString().ToLower(), "{0} is working");
+            texts.Add(LangKey.Returning.ToString().ToLower(), "{0} is returning");
             texts.Add(LangKey.GoHere.ToString().ToLower(), "Go here");
             texts.Add(LangKey.Goto.ToString().ToLower(), "Go to {0}");
             texts.Add(LangKey.PointerAction.ToString().ToLower(), "{0}");

@@ -99,6 +99,11 @@
         Develop,
         TakePhoto,
         Portal,
-        Robovac
+        Robovac,
+        Charging,
+        Resting,
+        Starting,
+        Working,
+        Returning,
     }
 }
