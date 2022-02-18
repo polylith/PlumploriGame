@@ -28,7 +28,6 @@ public class Robovac : Interactable
 
     public GameObject stationObject;
     public AudioSource audioSource;
-    public TestTarget targetObject;
     public AutoCameraRegisterer autoCameraRegisterer;
 
     private Vector3 moveDiff;
@@ -38,6 +37,7 @@ public class Robovac : Interactable
     private NavMeshAgent agent;
     private Vector3 lastPosition;
     private int currentTargetIndex = -1;
+    private Vector3 currentTargetPosition;
     private readonly List<Vector3> targets = new List<Vector3>();
     private float chargeState = 0.98f;
     private Sequence seq;
@@ -278,7 +278,6 @@ public class Robovac : Interactable
         CurrentState = State.Returning;
         Vector3 target = stationObject.transform.position + stationObject.transform.forward;
         SetDestination(target);
-        targetObject.target = target;
     }
 
     private bool CheckDistance()
@@ -287,7 +286,7 @@ public class Robovac : Interactable
             return true;
 
         moveDiff = transform.position - lastPosition;
-        distance = Vector3.Distance(transform.position, targetObject.transform.position);
+        distance = Vector3.Distance(transform.position, currentTargetPosition);
         return !agent.isStopped && !moveDiff.Equals(Vector3.zero) && distance > minDistance;
     }
 
@@ -303,8 +302,8 @@ public class Robovac : Interactable
             MovePathInfo info = NavMeshMover.CalculatePath(transform.position + Vector3.up, target);
             target = info.LastPoint;
             currentTargetIndex++;
-            targetObject.target = target;
-            SetDestination(targetObject.target);
+            currentTargetPosition = target;
+            SetDestination(target);
         }
         else
         {
