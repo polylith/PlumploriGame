@@ -17,7 +17,10 @@
             if (ActionCount == 0)
                 return true;
 
-            return ActionState(0).Interact(null);
+            bool res = ActionState(0).Interact(null);
+            ClearState();
+            UpdateToolTip();
+            return res;
         }
 
         public override int CheckActionState()
