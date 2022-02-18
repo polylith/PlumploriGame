@@ -3,12 +3,15 @@ using Movement;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
+using Television;
 
 public class Robovac : Interactable
 {
     public enum State
     {
-        Charging = 0,
+        Off = -1,
+        On,
+        Charging,
         Resting,
         Starting,
         Working,
@@ -18,6 +21,7 @@ public class Robovac : Interactable
     public delegate void OnChargeUpdateEvent(float value);
     public event OnChargeUpdateEvent OnChargeUpdate;
 
+    public State CurrentState { get; private set; } = State.Off;
     public float RestTime { get; set; } = 30f;
     public bool IsMoving { get => CheckDistance(); }
     public float ChargeState { get => chargeState; }
@@ -25,7 +29,7 @@ public class Robovac : Interactable
     public GameObject stationObject;
     public AudioSource audioSource;
     public TestTarget targetObject;
-    public State CurrentState { get; private set; }
+    public AutoCameraRegisterer autoCameraRegisterer;
 
     private Vector3 moveDiff;
     private float distance;
@@ -33,11 +37,11 @@ public class Robovac : Interactable
 
     private NavMeshAgent agent;
     private Vector3 lastPosition;
-    private int currentTargetIndex;
+    private int currentTargetIndex = -1;
     private readonly List<Vector3> targets = new List<Vector3>();
     private float chargeState = 0.98f;
     private Sequence seq;
-
+    
     public override List<string> GetAttributes()
     {
         List<string> attributes = new List<string>();
@@ -64,6 +68,9 @@ public class Robovac : Interactable
 
     public override Vector3 GetInteractionPosition()
     {
+        if (CurrentState < State.Working)
+            return transform.position - transform.forward;
+
         return GameManager.GetInstance().CurrentPlayer.transform.position;
     }
 
@@ -82,7 +89,8 @@ public class Robovac : Interactable
         this.targets.Clear();
         this.targets.AddRange(targets);
         currentTargetIndex = this.targets.Count;
-        NextTarget();
+        CurrentState = State.Off;
+        SwitchState();
     }
 
     private void SetRandomTargets()
@@ -103,8 +111,14 @@ public class Robovac : Interactable
 
         switch (CurrentState)
         {
+            case State.Off:
+                // nothing to do
+                break;
+            case State.On:
+                SwitchOn();
+                break;
             case State.Charging:
-                Charge();
+                CheckCharge();
                 break;
             case State.Resting:
                 // nothing to do
@@ -127,24 +141,51 @@ public class Robovac : Interactable
         }
     }
 
+    public void SwitchOn()
+    {
+        CurrentState = State.Charging;
+        Signal(2f);
+
+        if (null != autoCameraRegisterer)
+            autoCameraRegisterer.enabled = true;
+
+        GameEvent.GetInstance().Execute(SwitchState, 2f);
+    }
+
+    public void SwitchOff()
+    {
+        CurrentState = State.Off;
+
+        if (null != autoCameraRegisterer)
+            autoCameraRegisterer.enabled = false;
+
+        agent.enabled = false;
+        Signal(1.75f);
+    }
+
     private void Signal(float pitch = 2.5f)
     {
         AudioManager.GetInstance().PlaySound("blip", gameObject, pitch, audioSource);
     }
 
-    private void Charge()
+    private void CheckCharge()
     {
         UpdateCharge();
 
-        if (chargeState >= 1f)
+        if (chargeState < 1f)
         {
-            Signal(2.5f);
-            CurrentState = State.Resting;
-            GameEvent.GetInstance().Execute(StartWorking, RestTime);
-            return;
+            GameEvent.GetInstance().Execute(SwitchState, 1f);
         }
 
-        GameEvent.GetInstance().Execute(SwitchState, 1f);
+        Signal(2.5f);
+
+        if (targets.Count == 0)
+        {
+            GameEvent.GetInstance().Execute(SwitchOff, 1f);
+        }
+        
+        CurrentState = State.Resting;
+        GameEvent.GetInstance().Execute(StartWorking, RestTime);
     }
 
     private void EnterStation()
@@ -174,6 +215,7 @@ public class Robovac : Interactable
     {
         if (null == seq && targets.Count > 0)
         {
+            currentTargetIndex = 0;
             CurrentState = State.Starting;
             Vector3 target = stationObject.transform.position + stationObject.transform.forward + Vector3.up;
             target = NavMeshMover.GetWalkAblePoint(target);
@@ -232,7 +274,7 @@ public class Robovac : Interactable
 
     public void GotoStation()
     {
-        currentTargetIndex = targets.Count;
+        currentTargetIndex = -1;
         CurrentState = State.Returning;
         Vector3 target = stationObject.transform.position + stationObject.transform.forward;
         SetDestination(target);
@@ -280,22 +322,35 @@ public class Robovac : Interactable
         }
     }
 
+    private void SetPosition(Vector3 position)
+    {
+        position = NavMeshMover.GetWalkAblePoint(position);
+        transform.position = position;
+    }
+
     private void Start()
     {
-        if (null == agent)
+        agent = GetComponent<NavMeshAgent>();
+        agent.enabled = false;
+        minDistance = agent.stoppingDistance * 1.01f;
+
+        if (targets.Count == 0)
         {
-            agent = GetComponent<NavMeshAgent>();
-            agent.enabled = false;
-            minDistance = agent.stoppingDistance * 1.01f;
-
-            if (targets.Count == 0)
-            {
-                SetRandomTargets();
-            }
-
-            GameEvent.GetInstance().Execute(SwitchState, 5f);
+            SetRandomTargets();
         }
 
+        if (currentTargetIndex > -1 && currentTargetIndex < targets.Count)
+        {
+            CurrentState = State.Working;
+            SetPosition(targets[currentTargetIndex]);
+            currentTargetIndex++;
+        }
+        else if (targets.Count > 0)
+        {
+            CurrentState = State.On;
+        }
+
+        GameEvent.GetInstance().Execute(SwitchState, 5f);
         lastPosition = transform.position;
     }
 
