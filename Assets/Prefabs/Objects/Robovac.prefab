@@ -161,9 +161,6 @@ MonoBehaviour:
   stationObject: {fileID: 7229685025614881324}
   audioSource: {fileID: 6483543989314328045}
   targetObject: {fileID: 0}
-  moveDiff: {x: 0, y: 0, z: 0}
-  distance: 0
-  minDistance: 1
 --- !u!195 &7784978263359705640
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -171,7 +168,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5249170221944522621}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 1
   m_Speed: 1
@@ -186,6 +183,15 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 1
   m_ObstacleAvoidanceType: 1
+--- !u!170 &7304819800974608589
+AudioDistortionFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5249170221944522621}
+  m_Enabled: 1
+  m_DistortionLevel: 0.1
 --- !u!1 &6979428270423928247
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,6 +312,22 @@ PrefabInstance:
     - target: {fileID: -6284267539845961132, guid: 3a44b07d137a04579a9bffc57078baa2, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5732526131259188553, guid: 3a44b07d137a04579a9bffc57078baa2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5732526131259188553, guid: 3a44b07d137a04579a9bffc57078baa2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5732526131259188553, guid: 3a44b07d137a04579a9bffc57078baa2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5732526131259188553, guid: 3a44b07d137a04579a9bffc57078baa2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -180
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3a44b07d137a04579a9bffc57078baa2, type: 3}
       propertyPath: m_Name
