@@ -5187,7 +5187,7 @@ MonoBehaviour:
   volume: 0.6
   panStereo: 0
   spartialBlend: 0
-  maxDistance: 12
+  maxDistance: 15
   rolloffmode: 1
   loop: 1
   paused: 0
