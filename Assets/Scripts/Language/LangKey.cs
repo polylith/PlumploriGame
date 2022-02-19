@@ -111,6 +111,7 @@
         Charging,
         Resting,
         Starting,
+        Scanning,
         Working,
         Returning,
     }

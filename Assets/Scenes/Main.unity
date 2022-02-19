@@ -5102,6 +5102,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1218089897}
   - component: {fileID: 1218089898}
+  - component: {fileID: 1218089900}
+  - component: {fileID: 1218089899}
   m_Layer: 0
   m_Name: Robots
   m_TagString: Untagged
@@ -5135,13 +5137,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81f116546cd359f4c92d664c0b949a0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundID: vacuumcleaner.cleaning
+  soundID: vacuumcleaner.working
   clip: {fileID: 8300000, guid: a950d116606a3432c96b1873a9b09b27, type: 3}
   pitch: 0.25
-  volume: 1
+  volume: 0.6
   panStereo: 0
   spartialBlend: 0
-  maxDistance: 15
+  maxDistance: 12
+  rolloffmode: 1
+  loop: 1
+  paused: 0
+--- !u!114 &1218089899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218089896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f116546cd359f4c92d664c0b949a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundID: vacuumcleaner.signal
+  clip: {fileID: 8300000, guid: 0a6e75287c621438b97ab6af94bc2153, type: 3}
+  pitch: 1
+  volume: 0.6
+  panStereo: 0
+  spartialBlend: 0
+  maxDistance: 12
+  rolloffmode: 1
+  loop: 0
+  paused: 0
+--- !u!114 &1218089900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218089896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f116546cd359f4c92d664c0b949a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundID: vacuumcleaner.scanning
+  clip: {fileID: 8300000, guid: 08dc150bc01e847a5a4f9d5daf88eddd, type: 3}
+  pitch: 1
+  volume: 0.6
+  panStereo: 0
+  spartialBlend: 0
+  maxDistance: 12
   rolloffmode: 1
   loop: 1
   paused: 0
