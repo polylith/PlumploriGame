@@ -314,7 +314,8 @@ public abstract class Character : MonoBehaviour
 
         if (bCheckNavMesh)
         {
-            Vector3 start = transform.position + transform.forward;
+            Vector3 direction = (target - transform.position).normalized;
+            Vector3 start = transform.position + direction;
             MovePathInfo info = NavMeshMover.CalculatePath(start, target);
             path = info.points;
 
