@@ -314,7 +314,11 @@ public abstract class Character : MonoBehaviour
 
         if (bCheckNavMesh)
         {
-            Vector3 direction = (target - transform.position).normalized;
+            float distance = Vector3.Distance(transform.position, target);
+
+            Debug.Log("Distance " + transform.position + " -> " + target + " = " + distance);
+
+            Vector3 direction = distance < 0.5f ? Vector3.zero : (target - transform.position).normalized;
             Vector3 start = transform.position + direction;
             MovePathInfo info = NavMeshMover.CalculatePath(start, target);
             path = info.points;

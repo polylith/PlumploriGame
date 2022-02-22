@@ -75,10 +75,7 @@ public class Robovac : Interactable
 
     public override Vector3 GetInteractionPosition()
     {
-        if (CurrentState < State.Working)
-            return transform.position - transform.forward;
-
-        return GameManager.GetInstance().CurrentPlayer.transform.position;
+        return StartPosition;
     }
 
     public override int IsInteractionEnabled()
@@ -437,7 +434,7 @@ public class Robovac : Interactable
 
     private void Update()
     {
-        ShowState();
+        // ShowState();
 
         if (!agent.enabled)
             return;
