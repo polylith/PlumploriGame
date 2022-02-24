@@ -65,7 +65,7 @@ namespace Movement
                 NavMesh.CalculatePath(start, target, NavMesh.AllAreas, path);
             }
 
-            LogPath(path, start, info.target);
+            // LogPath(path, start, info.target);
 
             Vector3[] points = new Vector3[path.corners.Length];
 

@@ -135,6 +135,7 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
         }
     }
 
+    public string soundId = "";
     public bool uiExclusiveMode;
     public RectTransform uiParent;
     public TextMeshProUGUI headLine;
@@ -247,6 +248,9 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
         {
             if (null != ieScale)
                 StopCoroutine(ieScale);
+
+            if (isVisible && null != soundId && soundId.Length > 0)
+                AudioManager.GetInstance().PlaySound(soundId);
 
             ieScale = IEScale(scale);
             StartCoroutine(ieScale);

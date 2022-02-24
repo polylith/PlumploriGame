@@ -28,15 +28,7 @@ public class InteractableProxy : Interactable
 
     private void Start()
     {
-        foreach (Interactable interactable in interactables)
-        {
-            interactable.col.enabled = false;
-        }
-
-        foreach (Collider other in additionalColliders)
-        {
-            other.enabled = false;
-        }
+        InitColliders();
     }
 
     public override List<string> GetAttributes()
@@ -109,8 +101,35 @@ public class InteractableProxy : Interactable
         return res;
     }
 
+    private void InitColliders()
+    {
+        /* 
+         * If there are no additional colliders, 
+         * we avoid switching the colliders off.
+         */
+        if (null == additionalColliders || additionalColliders.Length == 0)
+            return;
+
+        foreach (Interactable interactable in interactables)
+        {
+            interactable.col.enabled = false;
+        }
+
+        foreach (Collider other in additionalColliders)
+        {
+            other.enabled = false;
+        }
+    }
+
     private void ToggleColliders()
     {
+        /* 
+         * If there are no additional colliders, 
+         * we avoid switching the colliders off.
+         */
+        if (null == additionalColliders || additionalColliders.Length == 0)
+            return;
+
         bool isEnabled = !col.enabled;
         col.enabled = isEnabled;
         isEnabled = !isEnabled;

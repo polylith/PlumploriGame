@@ -21,6 +21,13 @@ public class UIGame : MonoBehaviour
     private static UIGame ins;
     
     public bool IsUIExclusive { get; set; }
+    /* 
+     * TODO better solution 
+     * when two interactable uis are open, one is ui exclusive
+     * the other one is not, or both are ui exclusive, we get
+     * a problem
+     * solution bind ui exclusive to caller/owner
+     */
     public bool IsObjectVisible { get => showObject.gameObject.activeSelf; }
 
     public Transform tmpGUIParent;

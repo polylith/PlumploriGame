@@ -92,6 +92,8 @@ namespace Language
 
             texts.Add(LangKey.Off.ToString().ToLower(), "{0} ist ausgeschaltet");
             texts.Add(LangKey.On.ToString().ToLower(), "{0} ist eingeschaltet");
+            texts.Add(LangKey.ChargeState.ToString().ToLower(), "Ladezustand");
+            texts.Add(LangKey.CurrentState.ToString().ToLower(), "Aktueller Zustand");
             texts.Add(LangKey.Charging.ToString().ToLower(), "{0} lädt auf");
             texts.Add(LangKey.Resting.ToString().ToLower(), "{0} befindet sich im Ruhezustand");
             texts.Add(LangKey.Starting.ToString().ToLower(), "{0} startet");
@@ -123,6 +125,7 @@ namespace Language
             texts.Add(LangKey.Save.ToString().ToLower(), "{0} speichern");
             texts.Add(LangKey.Develop.ToString().ToLower(), "{0} entwickeln");
             texts.Add(LangKey.NotSaved.ToString().ToLower(), "{0} nicht gespeichert");
+            texts.Add(LangKey.SwitchOn.ToString().ToLower(), "{0} einschalten");
             texts.Add(LangKey.SwitchOff.ToString().ToLower(), "{0} ausschalten");
             
             texts.Add(LangKey.SwitchPlayer.ToString().ToLower(), "Spieler wechseln");
@@ -135,6 +138,7 @@ namespace Language
             texts.Add(LangKey.PC.ToString().ToLower(), "Rechner");
             texts.Add(LangKey.AntivirusApp.ToString().ToLower(), "Antivirus");
             texts.Add(LangKey.TaskMgrApp.ToString().ToLower(), "Prozesse");
+            texts.Add(LangKey.Progress.ToString().ToLower(), "Fortschritt");
             texts.Add(LangKey.Programs.ToString().ToLower(), "Programme");
             texts.Add(LangKey.Malware.ToString().ToLower(), "Schadsoftware");
             texts.Add(LangKey.CalcApp.ToString().ToLower(), "Taschenrechner");
@@ -179,6 +183,7 @@ namespace Language
             texts.Add(LangKey.Image.ToString().ToLower(), "Bild {0}");
             texts.Add(LangKey.Error.ToString().ToLower(), "Fehler {0}");
             texts.Add(LangKey.Lid.ToString().ToLower(), "Deckel");
+            texts.Add(LangKey.Environment.ToString().ToLower(), "Umgebung");
             texts.Add(LangKey.System.ToString().ToLower(), "System");
             texts.Add(LangKey.Clock.ToString().ToLower(), "Uhr");
             texts.Add(LangKey.CurrentTime.ToString().ToLower(), "Aktuelle Zeit");
@@ -188,12 +193,13 @@ namespace Language
             texts.Add(LangKey.AlarmClock.ToString().ToLower(), "Wecker");
             texts.Add(LangKey.CuckooClock.ToString().ToLower(), "Kuckucksuhr");
             texts.Add(LangKey.KillProcess.ToString().ToLower(), "Prozess beenden");
-            texts.Add(LangKey.ScanPC.ToString().ToLower(), "PC scannen");
-            texts.Add(LangKey.CleanPC.ToString().ToLower(), "PC bereinigen");
+            texts.Add(LangKey.Scan.ToString().ToLower(), "{0} scannen");
+            texts.Add(LangKey.Clean.ToString().ToLower(), "{0} reinigen");
             texts.Add(LangKey.ScanReport.ToString().ToLower(), "Scan Report");
             texts.Add(LangKey.ScanResult.ToString().ToLower(), "Infizierte Objekte gefunden: {0}");
             texts.Add(LangKey.ObjectsFound.ToString().ToLower(), "{0} Objekt(e) gefunden");
             texts.Add(LangKey.ObjectsRemoved.ToString().ToLower(), "{0} Objekt(e) entfernt");
+            texts.Add(LangKey.Data.ToString().ToLower(), "Daten");
 
 
             texts = new Dictionary<string, string>();
@@ -205,6 +211,8 @@ namespace Language
 
             texts.Add(LangKey.Off.ToString().ToLower(), "{0} is off");
             texts.Add(LangKey.On.ToString().ToLower(), "{0} is on");
+            texts.Add(LangKey.ChargeState.ToString().ToLower(), "Charge State");
+            texts.Add(LangKey.CurrentState.ToString().ToLower(), "Current State");
             texts.Add(LangKey.Charging.ToString().ToLower(), "{0} is charging");
             texts.Add(LangKey.Resting.ToString().ToLower(), "{0} is resting");
             texts.Add(LangKey.Starting.ToString().ToLower(), "{0} is starting");
@@ -235,8 +243,9 @@ namespace Language
             texts.Add(LangKey.Save.ToString().ToLower(), "Save {0}");
             texts.Add(LangKey.NotSaved.ToString().ToLower(), "{0} not saved");
             texts.Add(LangKey.Develop.ToString().ToLower(), "Develop {0}");
+            texts.Add(LangKey.SwitchOn.ToString().ToLower(), "Switch on {0}");
             texts.Add(LangKey.SwitchOff.ToString().ToLower(), "Switch off {0}");
-            
+
             texts.Add(LangKey.SwitchPlayer.ToString().ToLower(), "Switch Player");
 
             texts.Add(LangKey.EG.ToString().ToLower(), "G");
@@ -290,6 +299,7 @@ namespace Language
             texts.Add(LangKey.Image.ToString().ToLower(), "Image");
             texts.Add(LangKey.Lid.ToString().ToLower(), "Lid");
             texts.Add(LangKey.Clock.ToString().ToLower(), "Clock");
+            texts.Add(LangKey.Environment.ToString().ToLower(), "Environment");
             texts.Add(LangKey.System.ToString().ToLower(), "System");
             texts.Add(LangKey.CurrentTime.ToString().ToLower(), "current time");
             texts.Add(LangKey.Alarms.ToString().ToLower(), "Alarm Times");
@@ -298,14 +308,16 @@ namespace Language
             texts.Add(LangKey.AlarmClock.ToString().ToLower(), "Alarm-clock");
             texts.Add(LangKey.CuckooClock.ToString().ToLower(), "Cuckoo Clock");
             texts.Add(LangKey.KillProcess.ToString().ToLower(), "Kill Process");
+            texts.Add(LangKey.Progress.ToString().ToLower(), "Progress");
             texts.Add(LangKey.Programs.ToString().ToLower(), "Programs");
             texts.Add(LangKey.Malware.ToString().ToLower(), "Malware");
-            texts.Add(LangKey.ScanPC.ToString().ToLower(), "Scan PC");
-            texts.Add(LangKey.CleanPC.ToString().ToLower(), "Clean PC");
+            texts.Add(LangKey.Scan.ToString().ToLower(), "Scan {0}");
+            texts.Add(LangKey.Clean.ToString().ToLower(), "Clean {0}");
             texts.Add(LangKey.ScanReport.ToString().ToLower(), "Scan Report");
             texts.Add(LangKey.ScanResult.ToString().ToLower(), "Virulent objects found: {0}");
             texts.Add(LangKey.ObjectsFound.ToString().ToLower(), "{0} object(s) found");
             texts.Add(LangKey.ObjectsRemoved.ToString().ToLower(), "{0} object(s) removed");
+            texts.Add(LangKey.Data.ToString().ToLower(), "Data");
 
             return textDB;
         }

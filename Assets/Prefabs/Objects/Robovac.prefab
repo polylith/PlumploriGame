@@ -99,7 +99,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4385154606698714616}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed7a4a7a2d32f408d82ee0ff227d4365, type: 3}
   m_Name: 
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   langKey: Robovac
-  interactableUIPrefab: {fileID: 0}
+  interactableUIPrefab: {fileID: 5450902286562789300, guid: 6b177f501e0e748c6b62219913526ca1, type: 3}
   lookPos: {fileID: 0}
   interactPos: {fileID: 0}
   col: {fileID: 935340299474550126}
@@ -389,6 +389,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &4510543012713989706
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7229685025614881324}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.54490376, z: 1.1384392}
+  m_Center: {x: 0, y: 0.27245164, z: -0.06921959}
 --- !u!114 &697954980389124531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,19 +422,6 @@ MonoBehaviour:
   interactables:
   - {fileID: 3426588291821221958}
   additionalColliders: []
---- !u!65 &4510543012713989706
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7229685025614881324}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.54490376, z: 1.1384392}
-  m_Center: {x: 0, y: 0.27245164, z: -0.06921959}
 --- !u!1001 &6922322308341787945
 PrefabInstance:
   m_ObjectHideFlags: 0

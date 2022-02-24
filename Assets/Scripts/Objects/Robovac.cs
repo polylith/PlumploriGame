@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
 using Television;
+using Language;
 
 public class Robovac : Interactable
 {
@@ -12,17 +13,32 @@ public class Robovac : Interactable
         Off = -1,
         On,
         Charging,
+        Working,
         Resting,
         Starting,
         Scanning,
-        Working,
         Returning
     };
 
     public delegate void OnChargeUpdateEvent(float value);
     public event OnChargeUpdateEvent OnChargeUpdate;
 
-    public State CurrentState { get; private set; } = State.Off;
+    public delegate void OnProgressUpdateEvent(float value);
+    public event OnProgressUpdateEvent OnProgressUpdate;
+
+    public delegate void OnAutoScanEvent();
+    public event OnAutoScanEvent OnAutoScan;
+
+    public delegate void OnStateChangeEvent();
+    public event OnStateChangeEvent OnStateChange;
+
+    public State CurrentState {
+        get => currentState;
+        private set => SetCurrentState(value);
+    }
+
+    public float Progress { get => GetProgress(); }
+    public bool HasTargets { get => targets.Count > 0; }
     public float RestTime { get; set; } = 30f;
     public bool IsMoving { get => CheckDistance(); }
     public float ChargeState { get => chargeState; }
@@ -44,6 +60,7 @@ public class Robovac : Interactable
     private Vector3 currentTargetPosition;
     private List<Vector3> targets = new List<Vector3>();
     private float chargeState = 0.98f;
+    private State currentState = State.Off;
 
     private Sequence moveSeq;
     private Sequence raysSeq;
@@ -57,10 +74,21 @@ public class Robovac : Interactable
 
     public override string GetDescription()
     {
-        return Language.LanguageManager.GetText(
+        string text = LanguageManager.GetText(
             CurrentState.ToString(),
             GetText()
-        );
+        ) + ".";
+
+        if (CurrentState != State.Scanning && CurrentState != State.Working
+            && targets.Count == 0)
+        {
+            text += "\n" + LanguageManager.GetText(
+                Language.LangKey.NotAvailable,
+                LanguageManager.GetText(Language.LangKey.Data)
+            ) + "!";
+        }
+
+        return text;
     }
 
     public override void RegisterGoals()
@@ -78,20 +106,32 @@ public class Robovac : Interactable
         return StartPosition;
     }
 
-    public override int IsInteractionEnabled()
-    {
-        return base.IsInteractionEnabled();
-    }
-
-    public override bool Interact(Interactable interactable = null)
-    {
-        return base.Interact(interactable);
-    }
-
     private Vector3 GetStartPosition()
     {
         Vector3 target = stationObject.transform.position + stationObject.transform.forward + Vector3.up;
         return NavMeshMover.GetWalkAblePoint(target);
+    }
+
+    private float GetProgress()
+    {
+        float value = 0f;
+
+        if (targets.Count > 0)
+        {
+            float f = Mathf.Max(0f, currentTargetIndex);
+            value = f/targets.Count;
+        }
+
+        return value;
+    }
+
+    private void SetCurrentState(State state)
+    {
+        if (state == currentState)
+            return;
+
+        currentState = state;
+        OnStateChange?.Invoke();
     }
 
     public void SetTargets(List<Vector3> targets)
@@ -106,12 +146,14 @@ public class Robovac : Interactable
     public void StartScanning()
     {
         if (CurrentState == State.Off)
-            SwitchOn();
+            StateOn();
 
         CurrentState = State.Starting;
         agent.enabled = false;
         targets = NavMeshView.GetInstance().GetPoints(stationObject.transform, StartPosition);
-        LeaveStation(State.Scanning);
+        LeaveStation(State.Scanning, () => {
+            OnAutoScan?.Invoke();
+        });
         rays.transform.localScale = Vector3.zero;
         rays.SetActive(true);
         raysSeq = DOTween.Sequence().
@@ -120,7 +162,7 @@ public class Robovac : Interactable
             Append(rays.transform.DOLocalRotate(Vector3.up * 180f, 1f)).
             Join(rays.transform.DOScale(Vector3.one, 1f)).
             Append(rays.transform.DOLocalRotate(Vector3.up * -180f, 1f)).
-            Join(rays.transform.DOScale(Vector3.zero, 1f))
+            Join(rays.transform.DOScale(new Vector3(1f, 0f, 1f), 1f))
             .Play();
     }
 
@@ -136,6 +178,7 @@ public class Robovac : Interactable
 
         GotoStation();
         rays.SetActive(false);
+        OnAutoScan?.Invoke();
         ClearRaysSequence();
     }
 
@@ -143,6 +186,8 @@ public class Robovac : Interactable
     {
         if (IsMoving)
             return;
+
+        OnProgressUpdate?.Invoke(Progress);
 
         if (currentTargetIndex < targets.Count)
         {
@@ -171,7 +216,7 @@ public class Robovac : Interactable
                 // nothing to do
                 break;
             case State.On:
-                SwitchOn();
+                StateOn();
                 break;
             case State.Charging:
                 CheckCharge();
@@ -205,26 +250,33 @@ public class Robovac : Interactable
 
     public void SwitchOn()
     {
-        Signal(2f);
+        CurrentState = State.On;
+        SwitchState();
+    }
 
+    private void SwitchCamera(bool isOn)
+    {
         if (null != autoCameraRegisterer)
-            autoCameraRegisterer.enabled = true;
+            autoCameraRegisterer.enabled = isOn;
+    }
+
+    private void StateOn()
+    {
+        Signal(2f);
 
         if (CurrentState == State.On)
         {
             CurrentState = State.Charging;
-            GameEvent.GetInstance().Execute(SwitchState, 2f);
         }
+
+        GameEvent.GetInstance().Execute(SwitchState, 2f);
     }
 
     public void SwitchOff()
     {
         CurrentState = State.Off;
         currentTargetIndex = -1;
-
-        if (null != autoCameraRegisterer)
-            autoCameraRegisterer.enabled = false;
-
+        SwitchCamera(false);
         agent.enabled = false;
         Signal(1.75f);
     }
@@ -251,9 +303,14 @@ public class Robovac : Interactable
             GameEvent.GetInstance().Execute(SwitchOff, 1f);
             return;
         }
-        
+
         CurrentState = State.Resting;
-        GameEvent.GetInstance().Execute<State>(LeaveStation, State.Working, RestTime);
+        GameEvent.GetInstance().Execute(StartWorking, RestTime);
+    }
+
+    private void StartWorking()
+    {
+        LeaveStation(State.Working, NextTarget);
     }
 
     private void EnterStation()
@@ -275,13 +332,14 @@ public class Robovac : Interactable
                     audioSource1.Pause();
                     Signal(2f);
                     SwitchState();
+                    SwitchCamera(false);
                     ClearMoveSequence();
                 }).
                 Play();
         }
     }
 
-    private void LeaveStation(State nextState)
+    private void LeaveStation(State nextState, System.Action callBack = null)
     {
         if (null == moveSeq && targets.Count > 0)
         {
@@ -305,6 +363,8 @@ public class Robovac : Interactable
                     lastPosition = transform.position;
                     currentTargetIndex = 0;
                     agent.enabled = true;
+                    callBack?.Invoke();
+                    SwitchCamera(true);
                     ClearMoveSequence();
                 }).
                 Play();
@@ -339,7 +399,7 @@ public class Robovac : Interactable
         {
             chargeState += 0.01f;
         }
-        else if (CurrentState == State.Working)
+        else if (CurrentState > State.Resting)
         {
             chargeState -= 0.0001f;
 
@@ -374,7 +434,9 @@ public class Robovac : Interactable
         if (null != InteractableUI && InteractableUI.IsVisible
             || CurrentState != State.Working)
             return;
-        
+
+        OnProgressUpdate?.Invoke(Progress);
+
         if (currentTargetIndex < targets.Count)
         {
             Vector3 target = targets[currentTargetIndex];
@@ -410,13 +472,14 @@ public class Robovac : Interactable
     {
         agent = GetComponent<NavMeshAgent>();
         agent.enabled = false;
+        InitInteractableUI(true);
 
+        /*
         if (targets.Count == 0)
         {
-            GameEvent.GetInstance().Execute(StartScanning, 5f);
-            return;
+            targets = NavMeshView.GetInstance().GetPoints(stationObject.transform, StartPosition);
         }
-
+        */
         if (currentTargetIndex > -1 && currentTargetIndex < targets.Count)
         {
             CurrentState = State.Working;

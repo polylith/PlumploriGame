@@ -373,11 +373,17 @@ public abstract class Collectable : Interactable
             gameManager.UnHighlight();
 
         Player player = gameManager.CurrentPlayer;
+        // walk position is the interact position 
         Vector3 walkPosition = uiDropPoint.GetWalkPosition(this);
         Vector3 position = uiDropPoint.GetPosition();
+        dropRotation = uiDropPoint.GetRotation();
+
+        // rotate the walk position according to the rotation of the drop position
+        // TODO check if this really works in any case
+        walkPosition = Calc.RotatePointAroundPivot(walkPosition, position, dropRotation);
         SetLayer((int)Layers.Invisible);
         dropPosition = position;
-        dropRotation = uiDropPoint.GetRotation();
+        
         uiGame.SetCursorVisible(false);
         uiGame.SetOverUI(true);
         gameManager.GotoAndInteract(

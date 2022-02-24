@@ -222,7 +222,7 @@ namespace Television
 
         private void OnChannelsUpdate()
         {
-            if (!gameObject.activeInHierarchy)
+            if (!gameObject.activeInHierarchy || !State)
                 return;
 
             int tmpChannel = channel;
