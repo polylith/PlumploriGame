@@ -68,7 +68,9 @@ public class Robovac : Interactable
 
     public override List<string> GetAttributes()
     {
-        List<string> attributes = new List<string>();
+        List<string> attributes = new List<string> {
+            "HasTargets"
+        };
         return attributes;
     }
 
@@ -93,12 +95,13 @@ public class Robovac : Interactable
 
     public override void RegisterGoals()
     {
-        // TODO
+        RegisterAtoms(GetAttributes());
     }
 
     protected override void RegisterAtoms()
     {
-        // TODO
+        Formula f = new Negation(WorldDB.Get(Prefix + "HasTargets"));
+        WorldDB.RegisterFormula(new Implication(f, null));
     }
 
     public override Vector3 GetInteractionPosition()
@@ -138,9 +141,8 @@ public class Robovac : Interactable
     {
         this.targets.Clear();
         this.targets.AddRange(targets);
-        currentTargetIndex = this.targets.Count;
-        CurrentState = State.Off;
-        SwitchState();
+
+        Fire("HasTargets", this.targets.Count > 0);
     }
 
     public void StartScanning()
@@ -162,7 +164,7 @@ public class Robovac : Interactable
             Append(rays.transform.DOLocalRotate(Vector3.up * 180f, 1f)).
             Join(rays.transform.DOScale(Vector3.one, 1f)).
             Append(rays.transform.DOLocalRotate(Vector3.up * -180f, 1f)).
-            Join(rays.transform.DOScale(new Vector3(1f, 0f, 1f), 1f))
+            Join(rays.transform.DOScale(new Vector3(0f, 1f, 0f), 1f))
             .Play();
     }
 
@@ -176,6 +178,9 @@ public class Robovac : Interactable
             }
         }
 
+        List<Vector3> tmpTargets = new List<Vector3>();
+        tmpTargets.AddRange(targets);
+        SetTargets(tmpTargets);
         GotoStation();
         rays.SetActive(false);
         OnAutoScan?.Invoke();
