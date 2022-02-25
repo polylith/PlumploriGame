@@ -22,8 +22,10 @@ public class DoorBell : Interactable
 
     public override List<string> GetAttributes()
     {
-        List<string> list = new List<string>();
-        list.Add("IsPressed");
+        List<string> list = new List<string>
+        {
+            "IsPressed"
+        };
         return list;
     }
 
