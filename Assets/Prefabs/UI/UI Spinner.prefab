@@ -267,9 +267,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a3f633b71ba4031b64b60451638eab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  background: {fileID: 7411297932721212007}
   digits:
   - {fileID: 8060819120854609569}
   - {fileID: 8755369819884445525}
+  enabledDisplayColor: {r: 1, g: 0, b: 0, a: 1}
+  disabledDisplayColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  enabledBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  disabledBackgroundColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   upBtn: {fileID: 4711491727602336071}
   downBtn: {fileID: 7200340410494615331}
   maxValue: 24

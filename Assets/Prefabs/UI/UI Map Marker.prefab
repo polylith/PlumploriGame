@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 943d2631eab604229ab27f39ee444255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rectTransform: {fileID: 5017370268925233029}
   position: {fileID: 3455749551730095275}
   marker: {fileID: 781809793490598774}
 --- !u!1 &6739000678429633962

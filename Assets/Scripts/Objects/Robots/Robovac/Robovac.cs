@@ -38,11 +38,12 @@ public class Robovac : Interactable
     }
 
     public float Progress { get => GetProgress(); }
-    public bool HasTargets { get => targets.Count > 0; }
+    public bool HasTargets { get => null != targets && targets.Points.Count > 0; }
+    public NavMeshPointsData Targets { get => targets; }
     public float RestTime { get; set; } = 30f;
     public bool IsMoving { get => CheckDistance(); }
     public float ChargeState { get => chargeState; }
-
+    
     public Vector3 StartPosition { get => GetStartPosition(); }
 
     public GameObject stationObject;
@@ -58,7 +59,7 @@ public class Robovac : Interactable
     private Vector3 lastPosition;
     private int currentTargetIndex = -1;
     private Vector3 currentTargetPosition;
-    private List<Vector3> targets = new List<Vector3>();
+    private NavMeshPointsData targets;
     private float chargeState = 0.98f;
     private State currentState = State.Off;
 
@@ -82,7 +83,7 @@ public class Robovac : Interactable
         ) + ".";
 
         if (CurrentState != State.Scanning && CurrentState != State.Working
-            && targets.Count == 0)
+            && (null == targets || targets.Points.Count == 0))
         {
             text += "\n" + LanguageManager.GetText(
                 Language.LangKey.NotAvailable,
@@ -100,7 +101,7 @@ public class Robovac : Interactable
 
     protected override void RegisterAtoms()
     {
-        Formula f = new Negation(WorldDB.Get(Prefix + "HasTargets"));
+        Formula f = WorldDB.Get(Prefix + "HasTargets");
         WorldDB.RegisterFormula(new Implication(f, null));
     }
 
@@ -119,10 +120,10 @@ public class Robovac : Interactable
     {
         float value = 0f;
 
-        if (targets.Count > 0)
+        if (null != targets && targets.Points.Count > 0)
         {
             float f = Mathf.Max(0f, currentTargetIndex);
-            value = f/targets.Count;
+            value = f/targets.Points.Count;
         }
 
         return value;
@@ -137,12 +138,10 @@ public class Robovac : Interactable
         OnStateChange?.Invoke();
     }
 
-    public void SetTargets(List<Vector3> targets)
+    public void SetTargets(NavMeshPointsData data)
     {
-        this.targets.Clear();
-        this.targets.AddRange(targets);
-
-        Fire("HasTargets", this.targets.Count > 0);
+        targets = data;
+        Fire("HasTargets", null != targets && targets.Points.Count > 0);
     }
 
     public void StartScanning()
@@ -152,7 +151,7 @@ public class Robovac : Interactable
 
         CurrentState = State.Starting;
         agent.enabled = false;
-        targets = NavMeshView.GetInstance().GetPoints(stationObject.transform, StartPosition);
+        targets = NavMeshView.GetInstance().ExploreNavMesh(stationObject.transform, StartPosition);
         LeaveStation(State.Scanning, () => {
             OnAutoScan?.Invoke();
         });
@@ -170,17 +169,14 @@ public class Robovac : Interactable
 
     public void StopScanning()
     {
-        if (targets.Count > 6)
+        if (targets.Points.Count > 6)
         {
             for (int i = 0; i < 6; i++)
             {
-                targets.RemoveAt(0);
+                targets.Points.RemoveAt(0);
             }
         }
 
-        List<Vector3> tmpTargets = new List<Vector3>();
-        tmpTargets.AddRange(targets);
-        SetTargets(tmpTargets);
         GotoStation();
         rays.SetActive(false);
         OnAutoScan?.Invoke();
@@ -194,12 +190,12 @@ public class Robovac : Interactable
 
         OnProgressUpdate?.Invoke(Progress);
 
-        if (currentTargetIndex < targets.Count)
+        if (currentTargetIndex < targets.Points.Count)
         {
             if (currentTargetIndex > 0 && currentTargetIndex % 6 == 0)
                 Signal(4f);
 
-            Vector3 target = targets[currentTargetIndex];
+            Vector3 target = targets.Points[currentTargetIndex];
             target = NavMeshMover.GetWalkAblePoint(target);
             currentTargetIndex++;
             SetDestination(target);
@@ -286,11 +282,11 @@ public class Robovac : Interactable
         Signal(1.75f);
     }
 
-    private void Signal(float pitch = 2.5f)
+    private void Signal(float pitch = 2.5f, string soundId = "vacuumcleaner.signal")
     {
-        AudioManager.GetInstance().PlaySound("vacuumcleaner.signal", gameObject, pitch, audioSource2);
+        AudioManager.GetInstance().PlaySound(soundId, gameObject, pitch, audioSource2);
     }
-
+        
     private void CheckCharge()
     {
         UpdateCharge();
@@ -303,8 +299,9 @@ public class Robovac : Interactable
 
         Signal(2.5f);
 
-        if (targets.Count == 0)
+        if (null == targets || targets.Points.Count == 0)
         {
+            Signal(1f, "vacuumcleaner.error");
             GameEvent.GetInstance().Execute(SwitchOff, 1f);
             return;
         }
@@ -315,6 +312,7 @@ public class Robovac : Interactable
 
     private void StartWorking()
     {
+        currentTargetIndex = 0;
         LeaveStation(State.Working, NextTarget);
     }
 
@@ -346,7 +344,7 @@ public class Robovac : Interactable
 
     private void LeaveStation(State nextState, System.Action callBack = null)
     {
-        if (null == moveSeq && targets.Count > 0)
+        if (null == moveSeq && null != targets && targets.Points.Count > 0)
         {
             currentTargetIndex = 0;
             CurrentState = State.Starting;
@@ -436,15 +434,14 @@ public class Robovac : Interactable
 
     private void NextTarget()
     {
-        if (null != InteractableUI && InteractableUI.IsVisible
-            || CurrentState != State.Working)
+        if (CurrentState != State.Working)
             return;
 
         OnProgressUpdate?.Invoke(Progress);
 
-        if (currentTargetIndex < targets.Count)
+        if (currentTargetIndex < targets.Points.Count)
         {
-            Vector3 target = targets[currentTargetIndex];
+            Vector3 target = targets.Points[currentTargetIndex];
             target = NavMeshMover.GetWalkAblePoint(target);
             currentTargetIndex++;
             SetDestination(target);
@@ -480,18 +477,19 @@ public class Robovac : Interactable
         InitInteractableUI(true);
 
         /*
-        if (targets.Count == 0)
+        if (null == targets || targets.Points.Count == 0)
         {
-            targets = NavMeshView.GetInstance().GetPoints(stationObject.transform, StartPosition);
+            targets = NavMeshView.GetInstance().ExploreNavMesh(stationObject.transform, StartPosition);
         }
         */
-        if (currentTargetIndex > -1 && currentTargetIndex < targets.Count)
+        if (null != targets && currentTargetIndex > -1
+                && currentTargetIndex < targets.Points.Count)
         {
             CurrentState = State.Working;
-            SetPosition(targets[currentTargetIndex]);
+            SetPosition(targets.Points[currentTargetIndex]);
             currentTargetIndex++;
         }
-        else if (targets.Count > 0)
+        else
         {
             CurrentState = State.On;
         }
@@ -510,17 +508,5 @@ public class Robovac : Interactable
         SwitchState();
         UpdateCharge();
         lastPosition = transform.position;
-    }
-
-    private void ShowState()
-    {
-        string s = transform.name + " " + CurrentState.ToString() + " " + Mathf.Round(ChargeState * 100) + "%";
-
-        if (CurrentState == State.Working || CurrentState == State.Scanning)
-        {
-            s += " | " + currentTargetIndex + " / " + targets.Count;
-        }
-
-        Debug.Log(s);
     }
 }

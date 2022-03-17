@@ -13,6 +13,7 @@ public abstract class UIButton : MonoBehaviour, IPointerClickHandler, IPointerEn
     };
 
     public Vector3[] localScales;
+    public bool hoverScale = true;
 
     public bool HasClickAction { get => null != clickAction; }
     public bool IsBlocked { get => isBlocked; }
@@ -92,9 +93,10 @@ public abstract class UIButton : MonoBehaviour, IPointerClickHandler, IPointerEn
         else
             scale1 = Vector3.zero;
 
-        if (gameObject.activeSelf)
+        if (gameObject.activeSelf && hoverScale)
         {
-            Sequence seq = DOTween.Sequence()
+            DOTween.Sequence()
+                .SetAutoKill(true)
                 .Append(transform.DOScale(scale2, 0.125f))
                 .Append(transform.DOScale(scale1, 0.25f))
                 .Play();

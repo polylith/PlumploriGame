@@ -121,6 +121,23 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
 
     /// <summary>
     /// Checks if there are any open interactive uis for
+    /// and hide all other except the calling ui.
+    /// </summary>
+    /// <param name="excludeUI">ui to exclude from closing</param>
+    public static void CloseOtherActiveUIs(InteractableUI excludeUI)
+    {
+        foreach (InteractableUI ui in uiMap.Values)
+        {
+            if (ui != excludeUI)
+            {
+                // TODO maybe even remove
+                ui.Hide();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Checks if there are any open interactive uis for
     /// non-collectable interactables and hide them.
     /// </summary>
     public static void CloseActiveUIs()
@@ -135,12 +152,28 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
         }
     }
 
+    /// <summary>
+    /// Checks if there are any open interactive uis for
+    /// non-collectable interactables and hide them.
+    /// </summary>
+    public static void CloseAllUIs()
+    {
+        foreach (InteractableUI ui in uiMap.Values)
+        {
+            // TODO maybe even remove
+            ui.Hide();
+        }
+    }
+
     public string soundId = "";
     public bool uiExclusiveMode;
     public RectTransform uiParent;
     public TextMeshProUGUI headLine;
     public TextMeshProUGUI statusLine;
     public UIIconButton closeButton;
+
+    public delegate void OnVisibilityChangeEvent();
+    public event OnVisibilityChangeEvent OnVisibilityChange;
 
     public bool IsCollectable { get => null != interactable && interactable is Collectable; }
     public bool IsVisible { get => isVisible; }
@@ -271,6 +304,7 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
         yield return null;
 
         uiParent.localScale = scale;
+        OnVisibilityChange?.Invoke();
     }
 
     public void OnPointerEnter(PointerEventData eventData)

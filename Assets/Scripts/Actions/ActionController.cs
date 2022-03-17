@@ -270,7 +270,7 @@ namespace Action
                 Current.UpdateToolTip();
         }
 
-        private void ActionDenied()
+        public void ActionDenied()
         {
             AudioManager.GetInstance().PlaySound("action.denied", gameObject);
         }

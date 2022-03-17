@@ -130,6 +130,10 @@ namespace Language
             
             texts.Add(LangKey.SwitchPlayer.ToString().ToLower(), "Spieler wechseln");
 
+            texts.Add(LangKey.Shutdown.ToString().ToLower(), "Ausschalten");
+            texts.Add(LangKey.Reboot.ToString().ToLower(), "Neu starten");
+            texts.Add(LangKey.LogOff.ToString().ToLower(), "Abmelden");
+            
             texts.Add(LangKey.EG.ToString().ToLower(), "EG");
             texts.Add(LangKey.UG.ToString().ToLower(), "UG");
             texts.Add(LangKey.OG.ToString().ToLower(), "OG");
@@ -182,6 +186,10 @@ namespace Language
             texts.Add(LangKey.Camera.ToString().ToLower(), "Kamera");
             texts.Add(LangKey.Image.ToString().ToLower(), "Bild {0}");
             texts.Add(LangKey.Error.ToString().ToLower(), "Fehler {0}");
+            texts.Add(LangKey.Info.ToString().ToLower(), "Info {0}");
+            texts.Add(LangKey.Warning.ToString().ToLower(), "Hinweis {0}");
+            texts.Add(LangKey.Question.ToString().ToLower(), "Frage {0}");
+            texts.Add(LangKey.Prompt.ToString().ToLower(), "Abfrage");
             texts.Add(LangKey.Lid.ToString().ToLower(), "Deckel");
             texts.Add(LangKey.Environment.ToString().ToLower(), "Umgebung");
             texts.Add(LangKey.System.ToString().ToLower(), "System");
@@ -200,6 +208,12 @@ namespace Language
             texts.Add(LangKey.ObjectsFound.ToString().ToLower(), "{0} Objekt(e) gefunden");
             texts.Add(LangKey.ObjectsRemoved.ToString().ToLower(), "{0} Objekt(e) entfernt");
             texts.Add(LangKey.Data.ToString().ToLower(), "Daten");
+            texts.Add(LangKey.Yes.ToString().ToLower(), "Ja");
+            texts.Add(LangKey.No.ToString().ToLower(), "Nein");
+            texts.Add(LangKey.Ok.ToString().ToLower(), "Ok");
+            texts.Add(LangKey.Cancel.ToString().ToLower(), "Abbrechen");
+            texts.Add(LangKey.AppLaunchError.ToString().ToLower(), "<b><i>{0}</i> konnte nicht gestartet werden.</b><br>Das System kann diese Anwendung zur Zeit nicht starten. Bitte versuchen Sie es noch einmal.<br><b>Wenn das Problem weiterhin besteht, wenden Sie sich an Ihren Administrator.</b>");
+            texts.Add(LangKey.AutoSync.ToString().ToLower(), "Automatisch synchronisiert");
 
 
             texts = new Dictionary<string, string>();
@@ -248,6 +262,10 @@ namespace Language
 
             texts.Add(LangKey.SwitchPlayer.ToString().ToLower(), "Switch Player");
 
+            texts.Add(LangKey.Shutdown.ToString().ToLower(), "Shutdown");
+            texts.Add(LangKey.Reboot.ToString().ToLower(), "Reboot");
+            texts.Add(LangKey.LogOff.ToString().ToLower(), "Log off");
+            
             texts.Add(LangKey.EG.ToString().ToLower(), "G");
             texts.Add(LangKey.UG.ToString().ToLower(), "B");
             texts.Add(LangKey.OG.ToString().ToLower(), "");
@@ -296,6 +314,10 @@ namespace Language
             texts.Add(LangKey.Box.ToString().ToLower(), "Box");
             texts.Add(LangKey.Camera.ToString().ToLower(), "Camera");
             texts.Add(LangKey.Error.ToString().ToLower(), "Error {0}");
+            texts.Add(LangKey.Info.ToString().ToLower(), "Info {0}");
+            texts.Add(LangKey.Warning.ToString().ToLower(), "Warning {0}");
+            texts.Add(LangKey.Question.ToString().ToLower(), "Question {0}");
+            texts.Add(LangKey.Prompt.ToString().ToLower(), "Prompt");
             texts.Add(LangKey.Image.ToString().ToLower(), "Image");
             texts.Add(LangKey.Lid.ToString().ToLower(), "Lid");
             texts.Add(LangKey.Clock.ToString().ToLower(), "Clock");
@@ -318,6 +340,12 @@ namespace Language
             texts.Add(LangKey.ObjectsFound.ToString().ToLower(), "{0} object(s) found");
             texts.Add(LangKey.ObjectsRemoved.ToString().ToLower(), "{0} object(s) removed");
             texts.Add(LangKey.Data.ToString().ToLower(), "Data");
+            texts.Add(LangKey.Yes.ToString().ToLower(), "Yes");
+            texts.Add(LangKey.No.ToString().ToLower(), "No");
+            texts.Add(LangKey.Ok.ToString().ToLower(), "Ok");
+            texts.Add(LangKey.Cancel.ToString().ToLower(), "Cancel");
+            texts.Add(LangKey.AppLaunchError.ToString().ToLower(), "<b><i>{0}</i> failed to start.</b><br> System is unable to start this application at this time. Please retry again.<br><b>If the problem persits, contact your administrator.</b>");
+            texts.Add(LangKey.AutoSync.ToString().ToLower(), "Automatically synchronized");
 
             return textDB;
         }

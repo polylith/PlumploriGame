@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 using Language;
+using System.Collections.Generic;
+using Movement;
 
 /// <summary>
 /// This is the interactive UI for a Robovac.
@@ -36,6 +38,7 @@ public class RobovacUI : InteractableUI
 
     public RectTransform mapPanel;
     public UIMapMarker uiMapMarkerPrefab;
+    public RawImage mapImage;
     
     private float chargeValue = -1f;
     private int chargeColorIndex = -1;
@@ -46,6 +49,7 @@ public class RobovacUI : InteractableUI
         Color.red
     };
     private bool isMapPanelVisible;
+    private List<UIMapMarker> uiMapMarkers;
 
     protected override void Initialize()
     {
@@ -115,13 +119,7 @@ public class RobovacUI : InteractableUI
         string text = Mathf.Round(value * 100f) + " %";
         progressTextDisplay.SetText(text);
     }
-
-    private void ShowTargets()
-    {
-        ShowMapPanel(!isMapPanelVisible);
-        UpdateAutoScanButton();
-    }
-
+    
     private void AutoScan()
     {
         if (null == interactable || !(interactable is Robovac robovac))
@@ -221,7 +219,12 @@ public class RobovacUI : InteractableUI
         {
             state = 2;
             color = Color.green;
-            action = ShowTargets;
+
+            if (isMapPanelVisible)
+                action = HideMapPanel;
+            else
+                action = ShowMapPanel;
+
             toolTip = LanguageManager.GetText(
                 isMapPanelVisible ? LangKey.Hide : LangKey.Show,
                 LanguageManager.GetText(LangKey.Data)
@@ -249,10 +252,13 @@ public class RobovacUI : InteractableUI
         UpdateOnOffButton();
     }
 
-    private void ShowMapPanel(bool isVisible, bool instant = false)
+    private void ShowMapPanel(bool isVisible, bool instant = false,
+        System.Action callBack = null)
     {
         if (isMapPanelVisible == isVisible)
+        {
             return;
+        }
 
         isMapPanelVisible = isVisible;
 
@@ -261,10 +267,75 @@ public class RobovacUI : InteractableUI
         if (instant)
         {
             mapPanel.localScale = scale;
+            callBack?.Invoke();
         }
         else
         {
             mapPanel.DOScale(scale, 0.25f);
+
+            if (null != callBack)
+            {
+                GameEvent.GetInstance().Execute(callBack, 0.5f);
+            }
+        }
+    }
+
+    private void ShowMapPanel()
+    {
+        ShowMapPanel(true, false, ShowTargets);
+    }
+
+    private void HideMapPanel()
+    {
+        ShowMapPanel(false, false);
+    }
+
+    private void ShowTargets()
+    {
+        UpdateAutoScanButton();
+
+        if (!isMapPanelVisible)
+            return;
+
+        if (null == interactable || !(interactable is Robovac robovac))
+            return;
+
+        if (null != uiMapMarkers)
+        {
+            foreach (UIMapMarker marker in uiMapMarkers)
+            {
+                Destroy(marker.gameObject);
+            }
+
+            uiMapMarkers = null;
+        }
+
+        NavMeshPointsData targets = robovac.Targets;
+
+        if (null == targets || targets.Points.Count == 0)
+            return;
+
+        uiMapMarkers = new List<UIMapMarker>();
+
+        float x0 = targets.Rect.min.x;
+        float y0 = targets.Rect.min.y;
+        Rect mapRect = mapImage.rectTransform.rect;
+        Debug.Log(mapRect + "\n" + targets.Rect);
+        float fx = Mathf.Abs(mapRect.width / targets.Rect.width);
+        float fy = Mathf.Abs(mapRect.height / targets.Rect.height);
+
+        for (int i = 0; i < targets.Points.Count; i++)
+        {
+            Vector3 point = targets.Points[i];
+            float x = Mathf.Abs(point.x - x0) * fx;
+            // map z to y in 2D UI
+            float y = Mathf.Abs(point.z - y0) * fy;
+            UIMapMarker marker = Instantiate(uiMapMarkerPrefab) as UIMapMarker;
+            marker.transform.name = "UI Map Marker (" + i + ")";
+            marker.transform.SetParent(mapImage.transform);
+            marker.SetPosition(new Vector3(x, y, 0f));
+            marker.Show();
+            uiMapMarkers.Add(marker);
         }
     }
 }

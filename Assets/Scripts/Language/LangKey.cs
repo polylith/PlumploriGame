@@ -30,6 +30,11 @@
         ObjectsFound,
         ObjectsRemoved,
         UnknownCommand,
+        Error,
+        Info,
+        Warning,
+        Question,
+        Prompt,
         Environment,
         System,
         Progress,
@@ -104,7 +109,6 @@
         Saved,
         Save,
         Image,
-        Error,
         Develop,
         TakePhoto,
         Portal,
@@ -119,6 +123,15 @@
         Scanning,
         Working,
         Returning,
-        Data
+        Data,
+        Shutdown,
+        Reboot,
+        LogOff,
+        Yes,
+        No,
+        Ok,
+        Cancel,
+        AppLaunchError,
+        AutoSync
     }
 }

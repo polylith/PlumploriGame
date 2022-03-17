@@ -30,7 +30,7 @@ public class NavMeshView : MonoBehaviour
     private Transform parent;
     private float minX, maxX, minZ, maxZ;
 
-    public List<Vector3> GetPoints(Transform parent, Vector3 basePoint)
+    public NavMeshPointsData ExploreNavMesh(Transform parent, Vector3 basePoint)
     {
         this.basePoint = basePoint;
         this.parent = parent;
@@ -114,7 +114,11 @@ public class NavMeshView : MonoBehaviour
             z += dz;
         }
 
-        return points;
+        Rect rect = new Rect(
+            new Vector2(minX, minZ),
+            new Vector2(Mathf.Abs(maxX - minX), Mathf.Abs(maxZ - minZ))
+        );
+        return new NavMeshPointsData(points, rect);
     }
 
     private Vector3 AddPoint(Vector3 p)

@@ -10,7 +10,7 @@
 // to make commercial use of the work
 
 
-Shader "Hidden/GlitchShader" {
+Shader "ddShaders/GlitchShader" {
 	Properties{
 		_MainTex("Base (RGB)", 2D) = "white" {}
 		_DispTex("Base (RGB)", 2D) = "bump" {}

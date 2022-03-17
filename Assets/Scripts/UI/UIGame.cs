@@ -30,6 +30,8 @@ public class UIGame : MonoBehaviour
      */
     public bool IsObjectVisible { get => showObject.gameObject.activeSelf; }
 
+    public bool IsHidden { get => isHidden; }
+
     public Transform tmpGUIParent;
     public Transform showObject;
     public Image objectIcon;
@@ -41,6 +43,7 @@ public class UIGame : MonoBehaviour
     public Material uiSkybox;
     public Light uiSun;
 
+    private bool isHidden;
     private bool shadeVisible;
     private bool isObjectOnCursorVisible;
     private Material currentSkybox;
@@ -231,6 +234,23 @@ public class UIGame : MonoBehaviour
         escape.SetActive(visible);
     }
 
+    public void HideCursor(bool isHidden)
+    {
+        if (this.isHidden == isHidden)
+            return;
+
+        if (isHidden)
+        {
+            SetCursorVisible(false);
+            this.isHidden = true;
+        }
+        else
+        {
+            this.isHidden = false;
+            SetCursorVisible(true);
+        }
+    }
+
     public void HideCursor(float duration)
     {
         SetCursorVisible(false);
@@ -245,6 +265,9 @@ public class UIGame : MonoBehaviour
 
     public void SetCursorVisible(bool visible)
     {
+        if (IsHidden)
+            return;
+
         uiCursor.SetActive(visible);
         RestoreObjectIcon(visible);
     }
@@ -265,11 +288,17 @@ public class UIGame : MonoBehaviour
 
     public void SetCursorEnabled(bool enabled, bool mode)
     {
+        if (IsHidden)
+            return;
+
         uiCursor.SetEnabled(enabled, mode);
     }
 
     public void SetCursorDisabled(bool mode = true)
     {
+        if (IsHidden)
+            return;
+
         uiCursor.SetDisabled(mode);
     }
 

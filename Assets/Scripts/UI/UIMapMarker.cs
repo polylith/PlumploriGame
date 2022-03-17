@@ -6,12 +6,19 @@ public class UIMapMarker : MonoBehaviour
     public bool IsCurrent { get => isCurrent; set => SetCurrent(value); }
     public bool IsVisible { get => isVisible; set => SetVisible(value); }
 
+    public RectTransform rectTransform;
     public Image position;
     public Image marker;
 
     private bool isCurrent;
     private bool isVisible;
-    
+
+    public void SetPosition(Vector3 position)
+    {
+        rectTransform.position = position;
+        rectTransform.localScale = Vector3.one;
+    }
+
     public void Show()
     {
         SetVisible(true);

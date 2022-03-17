@@ -179,7 +179,18 @@ public class FotoCameraUI : InteractableUI
 
         SetFotoMode();
 
+        
+    }
+
+    private void ShowUIArrows(bool isVisible)
+    {
         UIArrows uiArrows = UIArrows.GetInstance();
+
+        if (!isVisible)
+        {
+            uiArrows.Hide(this);
+            return;
+        }
 
         if (!uiArrows.IsCurrentlyInUse)
         {
@@ -400,8 +411,9 @@ public class FotoCameraUI : InteractableUI
         if (!(interactable is FotoCamera fotoCam) || null == fotoCam)
             return;
 
-        HideColorGrandingPanel();
 
+        ShowUIArrows(true);
+        HideColorGrandingPanel();
         ShowObject(fotoCam);
 
         buttons[0].soundID = "camera.focus";
@@ -473,6 +485,7 @@ public class FotoCameraUI : InteractableUI
         if (!(interactable is FotoCamera fotoCam) || null == fotoCam)
             return;
 
+        ShowUIArrows(false);
         HideColorGrandingPanel();
         Player player = GameManager.GetInstance().CurrentPlayer;
         buttons[0].SetToolTip(LanguageManager.GetText(LangKey.Back));
@@ -514,7 +527,7 @@ public class FotoCameraUI : InteractableUI
 
         Clear();
         StopShow();
-        UIArrows.GetInstance().Hide(this);
+        ShowUIArrows(false);
     }
 
     private void GetSnapshot()
