@@ -1,12 +1,14 @@
 public class ProfiBrainUserInput : ProfiBrainColorInput
 {
-    private void Start()
-    {
-        
-    }
+    public bool EmptyInputs { get; set; }
 
     protected override void SetColorIndex()
     {
-        SetColorIndex(CurrentSelectedColorIndex);
+        int colorIndex = CurrentSelectedColorIndex;
+
+        if (EmptyInputs && ColorIndex > -1)
+            colorIndex = -1;
+
+        SetColorIndex(colorIndex);
     }
 }

@@ -107,7 +107,7 @@ public class TicTacToeApp : PCApp
 
     public override Dictionary<string, Action<bool>> GetDelegates()
     {
-        Dictionary<string, System.Action<bool>> dict = new Dictionary<string, System.Action<bool>>();
+        Dictionary<string, Action<bool>> dict = new Dictionary<string, Action<bool>>();
         dict.Add("TicTacToeApp.IsEnabled", SetEnabled);
         return dict;
     }

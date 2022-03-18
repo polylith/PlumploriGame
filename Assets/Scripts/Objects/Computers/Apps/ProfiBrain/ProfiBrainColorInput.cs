@@ -1,29 +1,20 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ProfiBrainColorInput : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class ProfiBrainColorInput : ProfiBrainColorDot, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public static int CurrentSelectedColorIndex { get => null != currentSelectedColorInput ? currentSelectedColorInput.colorIndex : -1; }
     private static ProfiBrainColorInput currentSelectedColorInput;
+        
+    public bool IsEnabled { get; set; }
 
-    public static readonly Color[] colors = new Color[] {
-        Color.red, Color.blue, Color.yellow, Color.green
-    };
-    public static readonly Color emptyColor = new Color(0.2f, 0.2f, 0.2f);
+    public string soundIdToken = "click2";
 
-    public int ColorIndex { get => colorIndex; set => SetColorIndex(value); }
+    public System.Action OnColorInput;
 
-    public int index;
-    public Image image;
-
-    private int colorIndex = -1;
-    private Vector3 currentScale = new Vector3(0.5f, 0.5f, 1f);
-    private Vector3 activeScale = new Vector3(0.5f, 0.5f, 1f);
-
-    private void Start()
+    public void Select()
     {
-        SetColorIndex(index);
+        SetColorIndex();
     }
 
     protected virtual void SetColorIndex()
@@ -39,18 +30,9 @@ public class ProfiBrainColorInput : MonoBehaviour, IPointerEnterHandler, IPointe
         activeScale = Vector3.one;
     }
 
-protected void SetColorIndex(int colorIndex)
+    protected override void SetColorIndex(int colorIndex)
     {
-        colorIndex = Mathf.Max(-1, colorIndex);
-
-        if (this.colorIndex == colorIndex)
-            return;
-
-        this.colorIndex = colorIndex;
-        Color color = this.colorIndex < 0 ? emptyColor : colors[this.colorIndex];
-        image.color = color;
-        currentScale = this.colorIndex < 0
-            ? new Vector3(0.5f, 0.5f, 1f) : new Vector3(0.8f, 0.8f, 1f);
+        base.SetColorIndex(colorIndex);
         Hightlight(false);
     }
 
@@ -62,23 +44,34 @@ protected void SetColorIndex(int colorIndex)
         activeScale = mode ? Vector3.one : currentScale;
     }
 
-    private void Update()
-    {
-        image.transform.localScale = Vector3.Lerp(image.transform.localScale, activeScale, 0.1f);
-    }
-
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (!IsEnabled)
+            return;
+
         SetColorIndex();
+
+        if (null != soundIdToken)
+        {
+            AudioManager.GetInstance().PlaySound(soundIdToken);
+        }
+
+        OnColorInput?.Invoke();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!IsEnabled)
+            return;
+
         Hightlight(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (!IsEnabled)
+            return;
+
         Hightlight(false);
     }
 }

@@ -74,6 +74,7 @@
         TicTacToeApp,
         TaskMgrApp,
         PromptApp,
+        ProfiBrainApp,
         Handle,
         Inventorybox,
         DoorBell,
@@ -132,6 +133,7 @@
         Ok,
         Cancel,
         AppLaunchError,
+        Options,
         AutoSync
     }
 }

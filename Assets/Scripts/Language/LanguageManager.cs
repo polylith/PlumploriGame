@@ -147,6 +147,7 @@ namespace Language
             texts.Add(LangKey.Malware.ToString().ToLower(), "Schadsoftware");
             texts.Add(LangKey.CalcApp.ToString().ToLower(), "Taschenrechner");
             texts.Add(LangKey.PromptApp.ToString().ToLower(), "Eingabeaufforderung");
+            texts.Add(LangKey.ProfiBrainApp.ToString().ToLower(), "Profi Brain");
             texts.Add(LangKey.TicTacToeApp.ToString().ToLower(), "Dodelschach");
             texts.Add(LangKey.Drawn.ToString().ToLower(), "Patt");
             texts.Add(LangKey.YouWin.ToString().ToLower(), "Sie gewinnen!");
@@ -212,6 +213,7 @@ namespace Language
             texts.Add(LangKey.No.ToString().ToLower(), "Nein");
             texts.Add(LangKey.Ok.ToString().ToLower(), "Ok");
             texts.Add(LangKey.Cancel.ToString().ToLower(), "Abbrechen");
+            texts.Add(LangKey.Options.ToString().ToLower(), "Optionen");
             texts.Add(LangKey.AppLaunchError.ToString().ToLower(), "<b><i>{0}</i> konnte nicht gestartet werden.</b><br>Das System kann diese Anwendung zur Zeit nicht starten. Bitte versuchen Sie es noch einmal.<br><b>Wenn das Problem weiterhin besteht, wenden Sie sich an Ihren Administrator.</b>");
             texts.Add(LangKey.AutoSync.ToString().ToLower(), "Automatisch synchronisiert");
 
@@ -276,6 +278,7 @@ namespace Language
             texts.Add(LangKey.TaskMgrApp.ToString().ToLower(), "Task Manager");
             texts.Add(LangKey.CalcApp.ToString().ToLower(), "Calculator");
             texts.Add(LangKey.PromptApp.ToString().ToLower(), "Prompt");
+            texts.Add(LangKey.ProfiBrainApp.ToString().ToLower(), "Profi Brain");
             texts.Add(LangKey.TicTacToeApp.ToString().ToLower(), "Tic Tac Toe");
             texts.Add(LangKey.Drawn.ToString().ToLower(), "Drawn");
             texts.Add(LangKey.YouWin.ToString().ToLower(), "You made it!");
@@ -344,6 +347,7 @@ namespace Language
             texts.Add(LangKey.No.ToString().ToLower(), "No");
             texts.Add(LangKey.Ok.ToString().ToLower(), "Ok");
             texts.Add(LangKey.Cancel.ToString().ToLower(), "Cancel");
+            texts.Add(LangKey.Options.ToString().ToLower(), "Options");
             texts.Add(LangKey.AppLaunchError.ToString().ToLower(), "<b><i>{0}</i> failed to start.</b><br> System is unable to start this application at this time. Please retry again.<br><b>If the problem persits, contact your administrator.</b>");
             texts.Add(LangKey.AutoSync.ToString().ToLower(), "Automatically synchronized");
 
