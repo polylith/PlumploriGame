@@ -25,6 +25,7 @@ public class UISpinner : MonoBehaviour
     public UIIconButton downBtn;
 
     public int maxValue = 99;
+    public int minValue = 0;
 
     private int value;
     private bool isEnabled = true;
@@ -52,11 +53,16 @@ public class UISpinner : MonoBehaviour
         downBtn.SetEnabled(isEnabled);
     }
 
-    public void SetValue(int value)
+    private void SetValue(int value)
     {
         this.value = value + maxValue;
         this.value %= maxValue;
 
+        if (minValue > 0)
+        {
+            this.value = Mathf.Clamp(this.value, minValue, maxValue - 1);
+        }
+        
         value = this.value;
 
         for (int i = 0; i < digits.Length; i++)

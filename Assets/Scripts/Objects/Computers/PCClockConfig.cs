@@ -85,9 +85,9 @@ public class PCClockConfig : MonoBehaviour
 
     private void UpdateTime(int h, int m, int s)
     {
-        hourSpinner.SetValue(h);
-        minSpinner.SetValue(m);
-        secSpinner.SetValue(s);
+        hourSpinner.Value = h;
+        minSpinner.Value = m;
+        secSpinner.Value = s;
     }
 
     private void Apply()

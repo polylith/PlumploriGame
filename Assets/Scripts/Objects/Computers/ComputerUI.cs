@@ -98,9 +98,14 @@ public class ComputerUI : InteractableUI
         );
     }
 
-        private void ClearAppParent()
+    private void ClearAppParent()
     {
         foreach (Transform trans in appParent)
+        {
+            Destroy(trans.gameObject);
+        }
+
+        foreach (Transform trans in desktopGrid)
         {
             Destroy(trans.gameObject);
         }

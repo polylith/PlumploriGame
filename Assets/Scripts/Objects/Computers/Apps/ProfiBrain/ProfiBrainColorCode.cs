@@ -4,13 +4,38 @@ using UnityEngine;
 public class ProfiBrainColorCode : MonoBehaviour
 {
     public bool OrderedEval { get; set; }
+    public int CodeLength { get => codeLength; set => SetCodeLength(value); }
+    public int NumberOfColors { get; set; }
 
     public ProfiBrainColorDot[] profiBrainColorDots;
+    private int codeLength;
     private int[] code;
 
-    public int[] GenerateCode() {
+    private void SetCodeLength(int codeLength)
+    {
+        if (this.codeLength == codeLength)
+            return;
+
+        this.codeLength = Mathf.Min(codeLength, profiBrainColorDots.Length);
+        int i = 0;
+
+        while (i < this.codeLength)
+        {
+            profiBrainColorDots[i].gameObject.SetActive(true);
+            i++;
+        }
+
+        while (i < profiBrainColorDots.Length)
+        {
+            profiBrainColorDots[i].gameObject.SetActive(false);
+            i++;
+        }
+    } 
+
+    public int[] GenerateCode()
+    {
         ProfiBrainColorDot.ShuffleColors();
-        int n = profiBrainColorDots.Length;
+        int n = Mathf.Min(NumberOfColors, codeLength);
         code = ArrayHelper.GetArray(0, n);
         ArrayHelper.ShuffleArray(code);
 
@@ -28,6 +53,19 @@ public class ProfiBrainColorCode : MonoBehaviour
             {
                 usedColors.Add(colorIndex);
             }
+        }
+
+        if (code.Length < codeLength)
+        {
+            List<int> codeList = new List<int>(code);
+
+            while (codeList.Count < codeLength)
+            {
+                codeList.Add(code[Random.Range(0, code.Length)]);
+            }
+
+            code = codeList.ToArray();
+            ArrayHelper.ShuffleArray(code);
         }
 
         ArrayHelper.Shuffle(usedColors);

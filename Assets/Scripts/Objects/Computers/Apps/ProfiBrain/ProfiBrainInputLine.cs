@@ -12,12 +12,37 @@ public class ProfiBrainInputLine : MonoBehaviour
     public int[] Code { get => GetCode(); }
     public bool OrderedEval { get => orderedEval; set => SetOrderedEval(value); }
     public bool EmptyInputs { get => emptyInputs; set => SetEmptyInputs(value); }
+    public int CodeLength { get => codeLength; set => SetCodeLength(value); }
 
     public Image back;
 
     private bool isEnabled;
     private bool orderedEval;
     private bool emptyInputs;
+    private int codeLength;
+
+    private void SetCodeLength(int codeLength)
+    {
+        if (this.codeLength == codeLength)
+            return;
+
+        this.codeLength = Mathf.Min(profiBrainUserInputs.Length, codeLength);
+        int i = 0;
+
+        while (i < this.codeLength)
+        {
+            profiBrainUserInputs[i].gameObject.SetActive(true);
+            profiBrainOutputs[i].gameObject.SetActive(true);
+            i++;
+        }
+
+        while (i < profiBrainUserInputs.Length)
+        {
+            profiBrainUserInputs[i].gameObject.SetActive(false);
+            profiBrainOutputs[i].gameObject.SetActive(false);
+            i++;
+        }
+    }
 
     private void SetEmptyInputs(bool emptyInputs)
     {
@@ -99,7 +124,7 @@ public class ProfiBrainInputLine : MonoBehaviour
 
     private int[] GetCode()
     {
-        int n = profiBrainUserInputs.Length;
+        int n = codeLength;
         int[] code = new int[n];
 
         for (int i = 0; i < n; i++)

@@ -109,8 +109,8 @@ public class DigitalClockUI : InteractableUI
         if (!(interactable is DigitalClock digitalClock))
             return;
 
-        hoursInput.SetValue(digitalClock.hour);
-        minutesInput.SetValue(digitalClock.min);
+        hoursInput.Value = digitalClock.hour;
+        minutesInput.Value = digitalClock.min;
     }
 
     public void Delete(DigitalClockAlarmEntryDisplay display)

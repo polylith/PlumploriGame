@@ -54,10 +54,13 @@ public class ProfiBrainApp : PCApp
 
         foreach (ProfiBrainInputLine profiBrainInputLine in profiBrainInputLines)
         {
+            profiBrainInputLine.CodeLength = settings.codeLength;
             profiBrainInputLine.OrderedEval = settings.orderedEval;
             profiBrainInputLine.EmptyInputs = settings.emptyInputs;
         }
 
+        profiBrainColorCode.CodeLength = settings.codeLength;
+        profiBrainColorCode.NumberOfColors = settings.numberOfColors;
         profiBrainColorCode.OrderedEval = settings.orderedEval;
         onlyUsedColors = settings.onlyUsedColors;
     }

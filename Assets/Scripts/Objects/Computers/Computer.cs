@@ -119,7 +119,13 @@ public class Computer : Interactable
     private void InitSystem()
     {
         apps = new List<PCApp>();
-        apps.AddRange(appsParent.GetComponentsInChildren<PCApp>());
+        PCApp[] arr = appsParent.GetComponentsInChildren<PCApp>();
+
+        foreach (PCApp pcAppPrefab in arr)
+        {
+            PCApp pcApp = Instantiate<PCApp>(pcAppPrefab);
+            apps.Add(pcApp);
+        }
 
         for (int i = 0; i < SysApps.Length; i++)
         {
