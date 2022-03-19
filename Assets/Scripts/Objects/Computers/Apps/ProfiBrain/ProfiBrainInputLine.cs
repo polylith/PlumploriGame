@@ -21,6 +21,12 @@ public class ProfiBrainInputLine : MonoBehaviour
     private bool emptyInputs;
     private int codeLength;
 
+    public void RandomInput()
+    {
+        int i = Random.Range(0, CodeLength);
+        GameEvent.GetInstance().Execute(profiBrainUserInputs[i].Click, 0.75f);
+    }
+
     private void SetCodeLength(int codeLength)
     {
         if (this.codeLength == codeLength)
@@ -59,11 +65,8 @@ public class ProfiBrainInputLine : MonoBehaviour
 
     private void SetOrderedEval(bool orderedEval)
     {
-        if (this.orderedEval == orderedEval)
-            return;
-
         this.orderedEval = orderedEval;
-        gridLayoutGroup.constraintCount = orderedEval ? 4 : 2;
+        gridLayoutGroup.constraintCount = OrderedEval ? CodeLength : (CodeLength > 2 ? 2 : 1);
     }
 
     public void SetAction(System.Action callBack)
@@ -104,8 +107,10 @@ public class ProfiBrainInputLine : MonoBehaviour
     {
         if (EmptyInputs)
         {
-            foreach (ProfiBrainUserInput profiBrainUserInput in profiBrainUserInputs)
+            for (int i = 0; i < CodeLength; i++)
             {
+                ProfiBrainUserInput profiBrainUserInput = profiBrainUserInputs[i];
+
                 if (profiBrainUserInput.ColorIndex > -1)
                     return true;
             }
@@ -113,8 +118,10 @@ public class ProfiBrainInputLine : MonoBehaviour
             return false;
         }
 
-        foreach (ProfiBrainUserInput profiBrainUserInput in profiBrainUserInputs)
+        for (int i = 0; i < CodeLength; i++)
         {
+            ProfiBrainUserInput profiBrainUserInput = profiBrainUserInputs[i];
+
             if (profiBrainUserInput.ColorIndex < 0)
                 return false;
         }
@@ -124,7 +131,7 @@ public class ProfiBrainInputLine : MonoBehaviour
 
     private int[] GetCode()
     {
-        int n = codeLength;
+        int n = CodeLength;
         int[] code = new int[n];
 
         for (int i = 0; i < n; i++)

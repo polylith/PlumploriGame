@@ -55,11 +55,17 @@ public class Computer : Interactable
     public override List<string> GetAttributes()
     {
         List<string> attributes = new List<string>() {
-            "IsEnabled",
             "HasVirus"
         };
 
-        // TODO add apps attributes
+        // TODO handle adding apps dynamically
+        foreach (PCApp pcApp in apps)
+        {
+            List<string> appAttributes = pcApp.GetAttributes();
+
+            if (null != appAttributes && appAttributes.Count > 0)
+                attributes.AddRange(appAttributes);
+        }
 
         return attributes;
     }
@@ -81,12 +87,43 @@ public class Computer : Interactable
 
     public override void RegisterGoals()
     {
-        // TODO
+        Formula F = WorldDB.Get(Prefix + "HasVirus");
+        WorldDB.RegisterFormula(new Implication(F, null));
+        WorldDB.RegisterFormula(new Implication(new Negation(F), null));
+
+        foreach (PCApp pcApp in apps)
+        {
+            List<Formula> list = pcApp.GetGoals();
+
+            if (null != list)
+            {
+                foreach (Formula fApp in list)
+                {
+                    WorldDB.RegisterFormula(fApp);
+                }
+            }
+        }
+
+        WorldDB.RegisterGoal(Prefix, "HasVirus", false);
     }
 
     protected override void RegisterAtoms()
     {
-        // TODO
+        RegisterAtoms(GetAttributes());
+        SetDelegate("HasVirus", SetVirus);
+
+        foreach (PCApp pcApp in apps)
+        {
+            Dictionary<string, System.Action<bool>> dict = pcApp.GetDelegates();
+
+            if (null != dict)
+            {
+                foreach (string key in dict.Keys)
+                {
+                    SetDelegate(key, dict[key]);
+                }
+            }
+        }
     }
 
     public override bool Interact(Interactable interactable)

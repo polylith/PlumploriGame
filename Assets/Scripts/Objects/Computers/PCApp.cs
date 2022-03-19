@@ -124,7 +124,7 @@ public abstract class PCApp : MonoBehaviour
         this.computer = computer;
     }
 
-    private void ShowAppTitle()
+    protected void ShowAppTitle()
     {
         string text = GetAppName();
 

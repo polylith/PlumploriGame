@@ -308,7 +308,7 @@ public class PromptApp : PCApp
         List<Formula> list = new List<Formula>();
         list.Add(new Implication(null, WorldDB.Get("PromptApp.IsEnabled")));
 
-        Debug.Log("TODO secret code");
+        // TODO secret code
 
         /*
         Conjunction con = new Conjunction();

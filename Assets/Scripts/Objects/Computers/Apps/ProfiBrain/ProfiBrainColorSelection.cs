@@ -9,6 +9,17 @@ public class ProfiBrainColorSelection : MonoBehaviour
 
     private bool isEnabled;
 
+    public void RandomInput()
+    {
+        int i = Random.Range(0, profiBrainColorInputs.Length);
+        GameEvent.GetInstance().Execute(profiBrainColorInputs[i].Click, 0.5f);
+
+        if (Random.value > 0.8f)
+        {
+            GameEvent.GetInstance().Execute(() => checkButton.Click(), 1f);
+        }
+    }
+
     public void ShowColors(bool onlyUsedColors, int[] usedColors)
     {
         if (onlyUsedColors)
@@ -34,6 +45,7 @@ public class ProfiBrainColorSelection : MonoBehaviour
         {
             for (int i = 0; i < profiBrainColorInputs.Length; i++)
             {
+                profiBrainColorInputs[i].gameObject.SetActive(true);
                 profiBrainColorInputs[i].ColorIndex = -1;
                 profiBrainColorInputs[i].ColorIndex = i;
             }

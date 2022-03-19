@@ -7,9 +7,12 @@ using Language;
 public class ProfiBrainOptions : MonoBehaviour
 {
     public ProfiBrainSettings Settings { get => settings; }
+    public int CurrentLevel { get => currentLevel; }
 
     public RectTransform rectTrans;
     public TextMeshProUGUI optionsTitle;
+    public TextMeshProUGUI[] labels;
+
     public UITextButton newGameButton;
     public UITextButton hideButton;
 
@@ -25,6 +28,7 @@ public class ProfiBrainOptions : MonoBehaviour
     private bool isVisible;
     private readonly ProfiBrainSettings settings = new ProfiBrainSettings();
     private System.Action newGameAction;
+    private int currentLevel;
 
     public void Init(System.Action newGameAction)
     {
@@ -41,6 +45,16 @@ public class ProfiBrainOptions : MonoBehaviour
         onlyUsedColorsCheck.OnStateChange += UpdateLevel;
         orderedEvalCheck.OnStateChange += UpdateLevel;
 
+        InitTexts();
+        newGameButton.SetAction(ApplySettings);
+        hideButton.SetAction(Hide);
+
+        isVisible = true;
+        SetVisible(false, true);
+    }
+
+    private void InitTexts()
+    {
         optionsTitle.SetText(
             LanguageManager.GetText(LangKey.Options)
         );
@@ -50,11 +64,27 @@ public class ProfiBrainOptions : MonoBehaviour
         hideButton.SetText(
             LanguageManager.GetText(LangKey.Cancel)
         );
-        newGameButton.SetAction(ApplySettings);
-        hideButton.SetAction(Hide);
-
-        isVisible = true;
-        SetVisible(false, true);
+        labels[0].SetText(
+            LanguageManager.GetText(LangKey.CodeLength)
+        );
+        labels[1].SetText(
+            LanguageManager.GetText(LangKey.NumberOfColors)
+        );
+        labels[2].SetText(
+            LanguageManager.GetText(LangKey.Mode)
+        );
+        labels[3].SetText(
+            LanguageManager.GetText(LangKey.AllowEmptyInputs)
+        );
+        labels[4].SetText(
+            LanguageManager.GetText(LangKey.ShowOnlyUsedColors)
+        );
+        labels[5].SetText(
+            LanguageManager.GetText(LangKey.OrderedEvaluation)
+        );
+        labels[6].SetText(
+            LanguageManager.GetText(LangKey.Level)
+        );
     }
 
     private void OnCodeLengthChange()
@@ -75,17 +105,20 @@ public class ProfiBrainOptions : MonoBehaviour
     {
         int codeLength = codeLengthSpinner.Value;
         int numberOfColors = numberOfColorsSpinner.Value;
-        int level = Mathf.Min(numberOfColors, codeLength) - 1;
+        int count = Mathf.Min(numberOfColors, codeLength) - codeLengthSpinner.minValue + 1;
+        int max = (codeLengthSpinner.maxValue - codeLengthSpinner.minValue);
 
-        if (!emptyInputsCheck.IsOn)
-            level++;
+        if (onlyUsedColorsCheck.IsOn)
+            count -= 2;
 
-        if (!onlyUsedColorsCheck.IsOn)
-            level++;
+        if (orderedEvalCheck.IsOn)
+            count -= 2;
 
-        if (!orderedEvalCheck.IsOn)
-            level++;
+        if (emptyInputsCheck.IsOn)
+            count--;
 
+        int level = Mathf.FloorToInt(((float)count / (float)max) * (float)stars.Length);
+        level = Mathf.Max(1, level);
         ShowLevel(level);
     }
 
@@ -93,6 +126,7 @@ public class ProfiBrainOptions : MonoBehaviour
     {
         int n = Mathf.Min(level, stars.Length);
         int i = 0;
+        currentLevel = n;
 
         while (i < n)
         {

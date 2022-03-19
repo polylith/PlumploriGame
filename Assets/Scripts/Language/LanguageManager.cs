@@ -217,6 +217,15 @@ namespace Language
             texts.Add(LangKey.AppLaunchError.ToString().ToLower(), "<b><i>{0}</i> konnte nicht gestartet werden.</b><br>Das System kann diese Anwendung zur Zeit nicht starten. Bitte versuchen Sie es noch einmal.<br><b>Wenn das Problem weiterhin besteht, wenden Sie sich an Ihren Administrator.</b>");
             texts.Add(LangKey.AutoSync.ToString().ToLower(), "Automatisch synchronisiert");
 
+            texts.Add(LangKey.CodeLength.ToString().ToLower(), "Länge des Codes");
+            texts.Add(LangKey.NumberOfColors.ToString().ToLower(), "Anzahl der Farben");
+            texts.Add(LangKey.Mode.ToString().ToLower(), "Modus");
+            texts.Add(LangKey.AllowEmptyInputs.ToString().ToLower(), "Leere Eingaben zulassen");
+            texts.Add(LangKey.ShowOnlyUsedColors.ToString().ToLower(), "Nur verwendete Farben zeigen");
+            texts.Add(LangKey.OrderedEvaluation.ToString().ToLower(), "Geordnete Auswertung");
+            texts.Add(LangKey.Level.ToString().ToLower(), "Level");
+
+
 
             texts = new Dictionary<string, string>();
             textDB.Add(SystemLanguage.English, texts);
@@ -350,6 +359,14 @@ namespace Language
             texts.Add(LangKey.Options.ToString().ToLower(), "Options");
             texts.Add(LangKey.AppLaunchError.ToString().ToLower(), "<b><i>{0}</i> failed to start.</b><br> System is unable to start this application at this time. Please retry again.<br><b>If the problem persits, contact your administrator.</b>");
             texts.Add(LangKey.AutoSync.ToString().ToLower(), "Automatically synchronized");
+
+            texts.Add(LangKey.CodeLength.ToString().ToLower(), "Code Length");
+            texts.Add(LangKey.NumberOfColors.ToString().ToLower(), "Number of colors");
+            texts.Add(LangKey.Mode.ToString().ToLower(), "Modus");
+            texts.Add(LangKey.AllowEmptyInputs.ToString().ToLower(), "Allow empty inputs");
+            texts.Add(LangKey.ShowOnlyUsedColors.ToString().ToLower(), "Only show used colors");
+            texts.Add(LangKey.OrderedEvaluation.ToString().ToLower(), "Ordered evaluation");
+            texts.Add(LangKey.Level.ToString().ToLower(), "Level");
 
             return textDB;
         }

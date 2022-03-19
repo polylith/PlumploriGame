@@ -134,6 +134,13 @@
         Cancel,
         AppLaunchError,
         Options,
-        AutoSync
+        AutoSync,
+        CodeLength,
+        NumberOfColors,
+        Mode,
+        AllowEmptyInputs,
+        ShowOnlyUsedColors,
+        OrderedEvaluation,
+        Level
     }
 }

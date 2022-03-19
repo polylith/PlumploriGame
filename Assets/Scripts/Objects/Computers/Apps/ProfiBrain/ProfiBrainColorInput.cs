@@ -46,6 +46,11 @@ public class ProfiBrainColorInput : ProfiBrainColorDot, IPointerEnterHandler, IP
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Click();
+    }
+
+    public void Click()
+    { 
         if (!IsEnabled)
             return;
 

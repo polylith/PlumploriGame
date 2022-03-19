@@ -20,22 +20,54 @@ public class ProfiBrainApp : PCApp
     
     public override List<string> GetAttributes()
     {
-        return new List<string>();
+        return new List<string>()
+        {
+            "ProfiBrainApp.IsEnabled",
+            "ProfiBrainApp.Level" + profiBrainOptions.stars.Length + "Solved"
+        };
     }
 
     public override Dictionary<string, Action<bool>> GetDelegates()
     {
-        return null;
+        Dictionary<string, Action<bool>> dict = new Dictionary<string, Action<bool>>();
+        dict.Add("ProfiBrainApp.IsEnabled", SetEnabled);
+        return dict;
     }
 
     public override List<Formula> GetGoals()
     {
-        throw new NotImplementedException();
+        List<Formula> list = new List<Formula>();
+        list.Add(new Implication(null, WorldDB.Get("ProfiBrainApp.IsEnabled")));
+        list.Add(new Implication(WorldDB.Get("ProfiBrainApp.Level" + profiBrainOptions.stars.Length + "Solved"), null));
+        return list;
     }
 
     protected override void Effect()
     {
-        // TODO
+        if (!isInfected || !IsActive)
+            return;
+
+        if (null != currentInputLine)
+        {
+            currentInputLine.RandomInput();
+
+            if (UnityEngine.Random.value > 0.5f)
+                profiBrainColorSelection.RandomInput();
+        }
+
+        GameEvent.GetInstance().Execute(Effect, UnityEngine.Random.Range(5f, 10f));
+    }
+
+    public override void SetInfected(bool isInfected)
+    {
+        if (this.isInfected == isInfected)
+            return;
+
+        this.isInfected = isInfected;
+        ShowAppTitle();
+
+        if (isInfected)
+            GameEvent.GetInstance().Execute(Effect, UnityEngine.Random.Range(1f, 5f));
     }
 
     protected override void Init()
@@ -86,6 +118,7 @@ public class ProfiBrainApp : PCApp
 
     private void FinishGame()
     {
+        SetCurrentLineIndex(-1);
         profiBrainColorCode.ShowCode();
         profiBrainColorSelection.SetCheckAction(Evaluate);
         profiBrainColorSelection.SetCheckButtonEnabled(false);
@@ -99,6 +132,9 @@ public class ProfiBrainApp : PCApp
             currentInputLine.IsEnabled = false;
         }
 
+        currentInputLine = null;
+        currentLineIndex = index;
+
         if (index >= profiBrainInputLines.Length)
         {
             AudioManager.GetInstance().PlaySound("lose", computer.gameObject);
@@ -106,7 +142,9 @@ public class ProfiBrainApp : PCApp
             return;
         }
 
-        currentLineIndex = index;
+        if (index < 0)
+            return;
+
         currentInputLine = profiBrainInputLines[index];
         currentInputLine.SetAction(OnColorInput);
         currentInputLine.IsEnabled = true;
@@ -131,6 +169,12 @@ public class ProfiBrainApp : PCApp
         {
             AudioManager.GetInstance().PlaySound("win", computer.gameObject);
             FinishGame();
+
+            if (profiBrainOptions.CurrentLevel == profiBrainOptions.stars.Length)
+            {
+                computer?.AppFire("ProfiBrainApp.Level" + profiBrainOptions.stars.Length + "Solved", true);
+            }
+
             return;
         }
 
