@@ -1,10 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class ProfiBrainApp : PCApp
 {
+    public int CurrentLevel { get => profiBrainOptions.CurrentLevel; }
+    public int MaxLevel { get => profiBrainOptions.MaxLevel; }
+
     public UIIconButton optionsButton;
     public UIIconButton newGameButton;
 
@@ -20,11 +21,18 @@ public class ProfiBrainApp : PCApp
     
     public override List<string> GetAttributes()
     {
-        return new List<string>()
+        List<string>attributes = new List<string>()
         {
-            "ProfiBrainApp.IsEnabled",
-            "ProfiBrainApp.Level" + profiBrainOptions.stars.Length + "Solved"
+            "ProfiBrainApp.IsEnabled"
+            
         };
+
+        for (int level = 1; level <= MaxLevel; level++)
+        {
+            attributes.Add("ProfiBrainApp.Level" + level + "Solved");
+        }
+
+        return attributes;
     }
 
     public override Dictionary<string, Action<bool>> GetDelegates()
@@ -38,7 +46,15 @@ public class ProfiBrainApp : PCApp
     {
         List<Formula> list = new List<Formula>();
         list.Add(new Implication(null, WorldDB.Get("ProfiBrainApp.IsEnabled")));
-        list.Add(new Implication(WorldDB.Get("ProfiBrainApp.Level" + profiBrainOptions.stars.Length + "Solved"), null));
+        List<Formula> conjunctionList = new List<Formula>();
+
+        for (int level = 1; level <= MaxLevel; level++)
+        {
+            list.Add(new Implication(WorldDB.Get("ProfiBrainApp.Level" + level + "Solved"), null));
+            conjunctionList.Add(WorldDB.Get("ProfiBrainApp.Level" + level + "Solved"));
+        }
+
+        list.Add(new Implication(new Conjunction(conjunctionList), null));
         return list;
     }
 
@@ -169,12 +185,7 @@ public class ProfiBrainApp : PCApp
         {
             AudioManager.GetInstance().PlaySound("win", computer.gameObject);
             FinishGame();
-
-            if (profiBrainOptions.CurrentLevel == profiBrainOptions.stars.Length)
-            {
-                computer?.AppFire("ProfiBrainApp.Level" + profiBrainOptions.stars.Length + "Solved", true);
-            }
-
+            computer?.AppFire("ProfiBrainApp.Level" + CurrentLevel + "Solved", true);
             return;
         }
 

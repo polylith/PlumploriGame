@@ -8,6 +8,7 @@ public class ProfiBrainOptions : MonoBehaviour
 {
     public ProfiBrainSettings Settings { get => settings; }
     public int CurrentLevel { get => currentLevel; }
+    public int MaxLevel { get => stars.Length - 1; }
 
     public RectTransform rectTrans;
     public TextMeshProUGUI optionsTitle;
