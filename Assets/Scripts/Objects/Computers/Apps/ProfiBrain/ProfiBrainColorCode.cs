@@ -100,26 +100,30 @@ public class ProfiBrainColorCode : MonoBehaviour
 
         result = new int[] { 0, 0 };
         
-        List<int> list = new List<int>(ArrayHelper.GetArray(0, n));
+        List<int> indexList = new List<int>(ArrayHelper.GetArray(0, n));
 
         for (int i = 0; i < n; i++)
         {
             if (this.code[i] == code[i])
             {
                 result[0] += 1;
-                list.Remove(i);
+                indexList.Remove(i);
             }
         }
 
-        foreach (int i in list)
+        List<int> foundList = new List<int>();
+
+        foreach (int i in indexList)
         {
             int colorIndex = this.code[i];
 
-            foreach (int j in list)
+            foreach (int j in indexList)
             {
-                if (i != j && colorIndex == code[j])
+                if (i != j && !foundList.Contains(j)
+                    && colorIndex == code[j])
                 {
                     result[1] += 1;
+                    foundList.Add(j);
                     break;
                 }
             }

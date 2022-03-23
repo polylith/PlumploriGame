@@ -115,10 +115,12 @@ public class ProfiBrainOptions : MonoBehaviour
         if (orderedEvalCheck.IsOn)
             count -= 2;
 
-        if (emptyInputsCheck.IsOn)
-            count--;
+        float fLevel = ((float)count / (float)max) * (float)stars.Length;
+        int level = Mathf.CeilToInt(fLevel);
 
-        int level = Mathf.FloorToInt(((float)count / (float)max) * (float)stars.Length);
+        if (emptyInputsCheck.IsOn)
+            level--;
+        
         level = Mathf.Max(1, level);
         ShowLevel(level);
     }

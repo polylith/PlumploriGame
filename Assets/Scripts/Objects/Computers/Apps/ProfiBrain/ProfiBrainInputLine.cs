@@ -166,7 +166,7 @@ public class ProfiBrainInputLine : MonoBehaviour
             return i == n;
         }
 
-        bool isSolved = result[0] == profiBrainUserInputs.Length;
+        bool isSolved = result[0] == CodeLength;
 
         for (int i = 0; i < result.Length; i++)
         {
