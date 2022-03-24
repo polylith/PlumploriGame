@@ -104,4 +104,12 @@ public class Negation : Formula
         string name = GetName();
         return new { name, fId }.GetHashCode();
     }
+
+    public override bool Contains(string formulaId)
+    {
+        if (fId.Equals(formulaId))
+            return true;
+
+        return GetFormula().Contains(formulaId);
+    }
 }

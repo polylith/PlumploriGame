@@ -88,4 +88,18 @@ public abstract class Junction : Formula
         s += ")";
         return s;
     }
+
+    public override bool Contains(string formulaId)
+    {
+        if (listIds.Contains(formulaId))
+            return true;
+
+        foreach (Formula f in GetList())
+        {
+            if (f.Contains(formulaId))
+                return true;
+        }
+
+        return false;        
+    }
 }

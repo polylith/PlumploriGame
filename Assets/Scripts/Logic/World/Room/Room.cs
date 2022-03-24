@@ -11,7 +11,6 @@ public class Room : MonoBehaviour
     public Transform startPosition;
     public Transform cameraPosition;
     public Transform cameraPositionsParent;
-    public Transform objectPlacesParent;
 
     [HideInInspector]
     public bool CamIsMoving;
@@ -50,7 +49,7 @@ public class Room : MonoBehaviour
 
     private void InitObjectPlaces()
     {
-        ObjectPlace[] places = objectPlacesParent.GetComponentsInChildren<ObjectPlace>();
+        ObjectPlace[] places = GetComponentsInChildren<ObjectPlace>();
         objectPlaces.AddRange(places);
     }
 

@@ -21,15 +21,19 @@ public class EntityData : AbstractData
         this.position = position;
         this.rotation = rotation;
         this.prefix = prefix;
+        /*
+         * TODO also hold specific states in a generic map
+         * e. g. whether a collectable is collected
+         */
     }
 
     public void Load()
     {
-
+        // TODO
     }
 
     public void Save()
     {
-
+        // TODO
     }
 }

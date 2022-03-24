@@ -31,4 +31,9 @@
     {
         return GetName();
     }
+
+    public override bool Contains(string formulaId)
+    {
+        return GetName().Equals(formulaId);
+    }
 }

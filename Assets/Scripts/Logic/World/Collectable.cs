@@ -37,16 +37,12 @@ public abstract class Collectable : Interactable
     private Quaternion rotation;
     private Vector3 scale;
     private int layer;
-    private RigidbodyConstraints constraints;
-    private bool useGravitiy;
 
     private InventorySlot inventorySlot;
     private InventoryContent inventoryContent;
     private bool collected = false;
     private bool isDropping;
-
-    private Vector3 dropPosition;
-    private Vector3 dropRotation;
+    private ObjectPlace objectPlace;
 
     public override List<string> GetAttributes()
     {
@@ -157,7 +153,6 @@ public abstract class Collectable : Interactable
         transform.position = position;
         transform.localRotation = rotation;
         transform.localScale = scale;
-        RestoreRB();
     }
 
     /// <summary>
@@ -166,41 +161,6 @@ public abstract class Collectable : Interactable
     public void RestoreLayer()
     {
         SetLayer(layer);
-    }
-
-    /// <summary>
-    /// Restore the rigid body
-    /// Might be removed
-    /// </summary>
-    protected void RestoreRB()
-    { 
-        Rigidbody rb = GetComponent<Rigidbody>();
-
-        if (null == rb)
-            return;
-
-        rb.useGravity = useGravitiy;
-        rb.constraints = constraints;
-    }
-
-    public void Unplace()
-    {
-        if (!collected)
-            FreezeRB(false);
-
-        StoreValues();
-    }
-
-    public void Place()
-    {
-        FreezeRB(true);
-        StoreValues();
-
-        if (!collected)
-            return;
-
-        inventoryContent.Remove(this);
-        collected = false;
     }
 
     /// <summary>
@@ -214,37 +174,6 @@ public abstract class Collectable : Interactable
         rotation = transform.localRotation;
         scale = transform.localScale;
         layer = transform.gameObject.layer;
-        StoreRB();
-    }
-
-    /// <summary>
-    /// will be removed
-    /// </summary>
-    public void FreezeRB(bool mode)
-    {
-        Rigidbody rb = GetComponent<Rigidbody>();
-
-        if (null == rb)
-            return;
-
-        rb.useGravity = !mode;
-        rb.constraints = mode ? RigidbodyConstraints.FreezeAll : RigidbodyConstraints.None;
-    }
-
-    /// <summary>
-    /// will be removed
-    /// </summary>
-    protected void StoreRB()
-    {
-        Rigidbody rb = GetComponent<Rigidbody>();
-
-        if (null == rb)
-            return;
-
-        useGravitiy = rb.useGravity;
-        rb.useGravity = false;
-        constraints = rb.constraints;
-        rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     /// <summary>
@@ -253,9 +182,17 @@ public abstract class Collectable : Interactable
     /// <returns>true when it could be added to the current player's inventory</returns>
     public bool Collect()
     {
-        Player player = GameManager.GetInstance().CurrentPlayer;
         CheckObjectIcon();
-        return AddInventory(player);
+        Player player = GameManager.GetInstance().CurrentPlayer;
+        bool isCollected = AddInventory(player);
+
+        if (isCollected && null != objectPlace)
+        {
+            objectPlace.SetCollectable(null);
+            objectPlace = null;
+        }
+
+        return isCollected;
     }
 
     public override bool Interact(Interactable interactable)
@@ -364,25 +301,24 @@ public abstract class Collectable : Interactable
         UIDropPoint uiDropPoint = UIDropPoint.GetInstance();
         UIGame uiGame = UIGame.GetInstance();
 
-        uiDropPoint.Show(false);
-        uiGame.ShowEscape(false);
-        uiGame.HideObjectOnCursor();
-        gameManager.ShowObjectPlaces(false);
-
         if (IsHighlighted)
             gameManager.UnHighlight();
 
         Player player = gameManager.CurrentPlayer;
         // walk position is the interact position 
-        Vector3 walkPosition = uiDropPoint.GetWalkPosition(this);
-        Vector3 position = uiDropPoint.GetPosition();
-        dropRotation = uiDropPoint.GetRotation();
+        objectPlace = uiDropPoint.ObjectPlace;
+        Vector3 walkPosition = objectPlace.GetWalkPosition(this);
+        Vector3 position = objectPlace.transform.position;
+        Vector3 dropRotation = objectPlace.GetRotation();
 
         // rotate the walk position according to the rotation of the drop position
         // TODO check if this really works in any case
-        walkPosition = Calc.RotatePointAroundPivot(walkPosition, position, dropRotation);
+        walkPosition = Calc.RotatePointAroundPivot(
+            walkPosition,
+            position,
+            dropRotation
+        );
         SetLayer((int)Layers.Invisible);
-        dropPosition = position;
         
         uiGame.SetCursorVisible(false);
         uiGame.SetOverUI(true);
@@ -391,6 +327,11 @@ public abstract class Collectable : Interactable
             position,
             InvokeDrop
         );
+
+        uiDropPoint.Show(false);
+        uiGame.ShowEscape(false);
+        uiGame.HideObjectOnCursor();
+        gameManager.ShowObjectPlaces(false);
     }
 
     /// <summary>
@@ -408,21 +349,30 @@ public abstract class Collectable : Interactable
         Inventory inventory = actionController.GetInventory();
         inventory.UpdateDisplay(player.GetInventoryContentCount());
 
-        transform.SetParent(gameManager.CurrentRoom.transform, true);
-        transform.gameObject.SetActive(true);
-        transform.position = dropPosition;
-        transform.localRotation = Quaternion.Euler(dropRotation);
-        RestoreLayer();
-
-        collected = false;
-        Fire("Collected", false);
-        Fire("Dropped", true);
-        col.enabled = true;
-        RestoreRB();
+        SetObjectPlace(objectPlace);
 
         AudioManager.GetInstance().PlaySound("plopp.2");
 
         FinishDrop();
+    }
+
+    /// <summary>
+    /// Puts this collectable to an given ObjectPlace.
+    /// </summary>
+    /// <param name="objectPlace">place for that collectable</param>
+    public void SetObjectPlace(ObjectPlace objectPlace)
+    {
+        this.objectPlace = objectPlace;
+        collected = false;
+        Fire("Collected", false);
+        Fire("Dropped", true);
+        col.enabled = true;
+
+        RestoreLayer();
+        transform.gameObject.SetActive(true);
+        transform.position = this.objectPlace.transform.position;
+        transform.localRotation = Quaternion.Euler(this.objectPlace.GetRotation());
+        this.objectPlace.SetCollectable(this);
     }
 
     /// <summary>

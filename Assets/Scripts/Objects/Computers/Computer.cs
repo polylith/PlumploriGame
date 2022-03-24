@@ -105,6 +105,7 @@ public class Computer : Interactable
         }
 
         WorldDB.RegisterGoal(Prefix, "HasVirus", false);
+        WorldDB.ShowDB();
     }
 
     protected override void RegisterAtoms()
@@ -114,6 +115,11 @@ public class Computer : Interactable
 
         foreach (PCApp pcApp in apps)
         {
+            List<string> pcAppAttributes = pcApp.GetAttributes();
+
+            if (null != pcAppAttributes && pcAppAttributes.Count > 0)
+                RegisterAtoms(pcAppAttributes);
+
             Dictionary<string, System.Action<bool>> dict = pcApp.GetDelegates();
 
             if (null != dict)

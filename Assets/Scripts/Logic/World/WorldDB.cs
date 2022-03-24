@@ -91,31 +91,49 @@ public static class WorldDB
         BooleanValue bv2 = BooleanValue.ResolveValue(isDesignated);
 
         Assignment<BooleanValue> ass = currentState.GetT();
+        // Get the interpretation of this formula from the assignment
         BooleanValue bv1 = ass.Get(formulaId);
+        bool isNewState = false;
 
+        // if bv1 is not null, the formula is already known
         if (null != bv1)
         {
+            /*
+             * if the interpretation has changed, that might
+             * be a new state or an already existing state
+             */
             if (!bv1.Equals(bv2))
-                SwitchState(formulaId, bv2);
+            {
+                isNewState = SwitchState(formulaId, bv2);
+            }
         }
         else
         {
+            /*
+             * if bv1 is null, bv2 is a new information that
+             * can be just added to the assignment
+             */
             ass.Set(formulaId, bv2);
+            isNewState = true;
         }
 
-        EvaluateFormulas();
+        bool isAntecedent = EvaluateFormulas(formulaId);
 
-        if (!tmpState.Equals(currentState))
+        if (isNewState)
         {
-            // TODO handling of state change
-            // AudioManager.GetInstance().PlaySound("notify");
+            Debug.Log(formulaId + " is antecedent ? " + isAntecedent);
+
+            // TODO visual handling of state change
+            if (isAntecedent)
+                AudioManager.GetInstance().PlaySound("notify");
         }
 
         ShowCurrentState();
     }
 
-    private static void EvaluateFormulas()
+    private static bool EvaluateFormulas(string formulaId)
     {
+        bool isAntecedent = false;
         BooleanValue bv = null;
         Assignment<BooleanValue> ass = currentState.GetT();
         string s = "";
@@ -132,6 +150,7 @@ public static class WorldDB
             Formula Q = rule.GetConsequent();
             BooleanValue bvP = BooleanValue.CastBoolean(interpretation.Evaluate(P));
             BooleanValue bvQ = BooleanValue.CastBoolean(interpretation.Evaluate(Q));
+            isAntecedent = rule.Contains(formulaId);
 
             s += "\tP " + bvP + " => Q " + bvQ + "\n";
 
@@ -215,6 +234,7 @@ public static class WorldDB
         Debug.Log(s);
 
         EvaluateGoals(ass);
+        return isAntecedent;
     }
 
     private static Assignment<BooleanValue> SetAssignments(Formula f, BooleanValue bv, Assignment<BooleanValue> ass)
@@ -255,7 +275,13 @@ public static class WorldDB
     private static void EvaluateGoals(Assignment<BooleanValue> ass)
     {
         if (!HasGoals)
+        {
+            /* 
+             * This never must not be the case!
+             * No goals, no end of game
+             */
             return;
+        }
 
         bool res = true;
         interpretation.SetAssignment(ass);
@@ -281,15 +307,19 @@ public static class WorldDB
         }
 
         if (res)
+        {
+            // TODO real finish -> call to gamemanager
             AudioManager.GetInstance().PlaySound("win");
+        }
     }
 
-    private static void SwitchState(string formulaId, BooleanValue bv)
+    private static bool SwitchState(string formulaId, BooleanValue bv)
     {
         Assignment<BooleanValue> ass1 = currentState.GetT();
         List<GraphNode<Assignment<BooleanValue>>> nodes = states.GetNodes();
         GraphNode<Assignment<BooleanValue>> nextState = null;
         int max = int.MinValue;
+        bool isNewState = false;
 
         foreach (GraphNode<Assignment<BooleanValue>> node in nodes)
         {
@@ -316,6 +346,7 @@ public static class WorldDB
             Assignment<BooleanValue> newass = ass1.Clone();
             newass.Replace(formulaId, bv);
             nextState = states.Get(newass);
+            isNewState = true;
         }
         else
         {
@@ -328,6 +359,7 @@ public static class WorldDB
 
         currentState.AddOut(nextState);
         currentState = nextState;
+        return isNewState;
     }
 
     public static void RegisterGoal(string prefix, string token, bool isDesignated)

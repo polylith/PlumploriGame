@@ -117,4 +117,15 @@
         string s = (null != P ? P.ToString() : "{ }") + " => " + (null != Q ? Q.ToString() : "{ }");
         return s;
     }
+
+    public override bool Contains(string formulaId)
+    {
+        if (!HasAntecedent())
+            return false;
+
+        if (pId.Equals(formulaId))
+            return true;
+
+        return GetAntecedent().Contains(formulaId);
+    }
 }

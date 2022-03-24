@@ -100,4 +100,15 @@ public class DNF : Formula
         s += " ] (" + index + ")";
         return s;
     }
+
+    public override bool Contains(string formulaId)
+    {
+        foreach (Atom atom in atoms)
+        {
+            if (atom.Contains(formulaId))
+                return true;
+        }
+
+        return false;
+    }
 }

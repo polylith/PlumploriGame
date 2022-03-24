@@ -11,15 +11,18 @@ public class CharacterSet : MonoBehaviour
     }
 
     public int Count { get => characters.Length; }
+    public bool IsReady { get => isReady; }
 
     public Player[] characters;
 
     private readonly Dictionary<string, Player> characterMap = new Dictionary<string, Player>();
+    private bool isReady;
 
     private void Awake()
     {
         if (null == ins)
         {
+            isReady = false;
             ins = this;
         }
         else
@@ -46,6 +49,9 @@ public class CharacterSet : MonoBehaviour
     /// </summary>
     public void InitCharacters()
     {
+        if (IsReady)
+            return;
+
         foreach (Player playerPrefab in characters)
         {
             Player player = GameObject.Instantiate<Player>(playerPrefab);
@@ -54,5 +60,7 @@ public class CharacterSet : MonoBehaviour
             player.transform.name = name;
             characterMap.Add(name, player);
         }
+
+        isReady = true;
     }
 }

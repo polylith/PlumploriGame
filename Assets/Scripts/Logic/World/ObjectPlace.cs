@@ -10,10 +10,11 @@ public class ObjectPlace : MonoBehaviour
     public DropOrientation dropOrientation;
     public Transform parentPosition;
     public bool IsVisible { get => render.enabled; }
-    public bool IsAvailable { get => CheckAvailable(); }
+    public bool IsAvailable { get => null == collectable; }
 
     private Collider col;
     private Renderer render;
+    private Collectable collectable;
 
     private void Awake()
     {
@@ -22,24 +23,20 @@ public class ObjectPlace : MonoBehaviour
         Hide();
     }
 
-    private bool CheckAvailable()
+    public void SetCollectable(Collectable collectable)
     {
-        Vector3 direction = dropOrientation == DropOrientation.Horizontal
-            ? transform.up : transform.forward;
-        RaycastHit hit;
+        this.collectable = collectable;
 
-        if (Physics.Raycast(transform.position, direction.normalized, out hit))
-        {
-            float distance = Vector3.Distance(transform.position, hit.point);
+        if (null == collectable)
+            return;
 
-            if (hit.collider.gameObject.activeSelf && distance < 0.5f)
-            {
-                Debug.Log(transform.name + " ray just hit the gameobject: " + hit.collider.gameObject.name + " in distance " + distance);
-                return false;
-            }
-        }
+        collectable.transform.SetParent(transform, true);
+    }
 
-        return true;
+    public Vector3 GetWalkPosition(Collectable collectable)
+    {
+        Vector3 relPosition = (collectable.GetInteractionPosition() - collectable.transform.position);
+        return CalculateWalkPosition() + relPosition;
     }
 
     public Bounds GetBounds()
@@ -72,11 +69,14 @@ public class ObjectPlace : MonoBehaviour
         {
             Vector3 position = hit.point;
             UIDropPoint uiDropPoint = UIDropPoint.GetInstance();
+            uiDropPoint.SetObjectPlace(this);
+            /*
             uiDropPoint.SetPosition(
                 position,
                 CalculateWalkPosition(),
                 GetRotation()
             );
+            */
             uiDropPoint.IsLegal = true;
             UIGame.GetInstance().SetCursorEnabled(true, true);
         }
@@ -90,7 +90,7 @@ public class ObjectPlace : MonoBehaviour
         return transform.localRotation.eulerAngles;
     }
 
-    private Vector3 CalculateWalkPosition()
+    public Vector3 CalculateWalkPosition()
     {
         if (dropOrientation == DropOrientation.Vertical)
         {

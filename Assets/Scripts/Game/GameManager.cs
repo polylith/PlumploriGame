@@ -48,8 +48,9 @@ public class GameManager : MonoBehaviour
         if (null == instance)
         {
             instance = this;
-            InitRoomConfigs();
+            InitEntitySets();
             InitPlayers();
+            InitRoomConfigs();
             InitWorld();
 
             GameEvent.GetInstance().Execute(StartGame,2f);
@@ -100,6 +101,14 @@ public class GameManager : MonoBehaviour
     {
         WorldDB.InitDB();
         // TODO build formulas and goals
+    }
+
+    /// <summary>
+    /// Initialize all entity sets
+    /// </summary>
+    private void InitEntitySets()
+    {
+        CollectableSet.GetInstance().Init();
     }
 
     /// <summary>

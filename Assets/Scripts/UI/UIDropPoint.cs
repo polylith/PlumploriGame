@@ -12,6 +12,7 @@ public class UIDropPoint : MonoBehaviour
 
     private static UIDropPoint ins;
 
+    public ObjectPlace ObjectPlace { get => objectPlace; }
     public bool IsLegal { get => isLegal; set => SetLegal(value); }
     public bool IsFreezed { get => isFreezed; set => SetFreezed(value); }
 
@@ -20,9 +21,7 @@ public class UIDropPoint : MonoBehaviour
     public Image img2;
 
     private Collectable collectable;
-    private Vector3 lastPosition;
-    private Vector3 walkPosition;
-    private Vector3 lastRotation;
+    private ObjectPlace objectPlace;
     private bool isLegal = true;
     private bool isFreezed = false;
 
@@ -61,41 +60,20 @@ public class UIDropPoint : MonoBehaviour
         img2.gameObject.SetActive(isLegal);
     }
 
-    public Vector3 GetPosition()
+    public void SetObjectPlace(ObjectPlace objectPlace)
     {
-        return lastPosition;
+        this.objectPlace = objectPlace;
+        img2.transform.position = canvas.worldCamera.WorldToScreenPoint(
+            objectPlace.transform.position
+        );
     }
-
-    public Vector3 GetWalkPosition(Collectable collectable)
-    {
-        Vector3 relPosition = (collectable.GetInteractionPosition() - collectable.transform.position);
-
-        return walkPosition + relPosition;
-    }
-
-    public Vector3 GetRotation()
-    {
-        return lastRotation;
-    }
-
-    public void SetPosition(Vector3 pos1, Vector3 pos2, Vector3 rotation)
-    {
-        lastRotation = rotation;
-        lastPosition = pos1;
-        walkPosition = pos2;        
-        img2.transform.position = canvas.worldCamera.WorldToScreenPoint(pos1);
-    }
-
-    public void ResetPosition(Vector3 pos2)
-    {
-        collectable.transform.position = pos2;
-    }
-        
+            
     public void Show(bool visible, Collectable collectable = null)
     {
         if (visible)
             canvas.worldCamera = Camera.main;
 
+        objectPlace = null;
         this.collectable = collectable;
         img2.gameObject.SetActive(visible);
         img2.transform.position = Vector3.zero;

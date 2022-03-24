@@ -67,4 +67,5 @@
     }
 
     public abstract Formula Simplify();
+    public abstract bool Contains(string formulaId);
 }
