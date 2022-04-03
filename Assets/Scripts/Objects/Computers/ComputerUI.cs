@@ -383,6 +383,7 @@ public class ComputerUI : InteractableUI
         pcCursor.SetVisible(true);
         computer.CurrentState = Computer.State.Running;
         ieAnim = null;
+        computer.UpdateScreen();
     }
 
     public void SetVirus(Computer computer)
@@ -487,6 +488,7 @@ public class ComputerUI : InteractableUI
 
         yield return new WaitForSecondsRealtime(0.5f);
 
+        computer.ResetScreen();
         computer.StopPCNoise();
 
         yield return new WaitForSecondsRealtime(0.5f);
@@ -523,6 +525,7 @@ public class ComputerUI : InteractableUI
         ClearAppParent();
         pcCursor.SetVisible(false);
         blueScreen.Show(isInteractive);
+        computer.UpdateScreen();
 
         if (isInteractive)
             return;

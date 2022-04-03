@@ -3,6 +3,7 @@ using Action;
 using DG.Tweening;
 using Language;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Computer : Interactable, IIPv4Device
 {
@@ -43,6 +44,9 @@ public class Computer : Interactable, IIPv4Device
     public IPv4Config IPv4Config { get => CheckIPv4Config(); }
 
     public PCAppInfo pcAppInfoPrefab;
+
+    public Canvas worldCanvas;
+    public Image computerScreen;
 
     public AudioSource audioSource;
 
@@ -150,6 +154,17 @@ public class Computer : Interactable, IIPv4Device
         return base.Interact(interactable);
     }
 
+    public void UpdateScreen()
+    {
+        CaptureUI.GetInstance().UIToImage(computerScreen);
+    }
+
+    public void ResetScreen()
+    {
+        computerScreen.sprite = null;
+        computerScreen.color = Color.black;
+    }
+
     private IPv4Config CheckIPv4Config()
     {
         if (null == ipV4Config)
@@ -171,6 +186,7 @@ public class Computer : Interactable, IIPv4Device
     private void Start()
     {
         InitInteractableUI(true);
+        worldCanvas.worldCamera = Camera.main;
     }
 
     private void InitSystem()
