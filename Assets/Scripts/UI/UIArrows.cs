@@ -25,6 +25,11 @@ public class UIArrows : MonoBehaviour
     private bool isVisible;
     private object owner;
 
+    private bool isUpButtonActive;
+    private bool isDownButtonActive;
+    private bool isLeftButtonActive;
+    private bool isRightButtonActive;
+
     private void Awake()
     {
         if (null == ins)
@@ -50,6 +55,11 @@ public class UIArrows : MonoBehaviour
         downButton.SetAction(downButtonAction);
         leftButton.SetAction(leftButtonAction);
         rightButton.SetAction(rightButtonAction);
+
+        isUpButtonActive = null != upButtonAction;
+        isDownButtonActive = null != downButtonAction;
+        isLeftButtonActive = null != leftButtonAction;
+        isRightButtonActive = null != rightButtonAction;
     }
 
     private void SetVisible(bool isVisible, bool instant)
@@ -138,5 +148,35 @@ public class UIArrows : MonoBehaviour
         downButton.SetToolTip(downButtonToolTip);
         leftButton.SetToolTip(leftButtonToolTip);
         rightButton.SetToolTip(rightButtonToolTip);
+    }
+
+    private void Update()
+    {
+        if (!isVisible)
+            return;
+
+        if (isUpButtonActive && Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            upButton.Click();
+            return;
+        }
+
+        if (isDownButtonActive && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            downButton.Click();
+            return;
+        }
+
+        if (isLeftButtonActive && Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            leftButton.Click();
+            return;
+        }
+
+        if (isRightButtonActive && Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            rightButton.Click();
+            return;
+        }
     }
 }
