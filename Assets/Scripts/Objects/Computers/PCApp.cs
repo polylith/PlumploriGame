@@ -29,13 +29,20 @@ using System.Collections.Generic;
 /// </summary>
 public abstract class PCApp : MonoBehaviour
 {
+    public enum Category {
+        System,
+        App,
+        Game
+    }
+
+    public bool IsReady { get; private set; }
     public bool IsInfected { get => isInfected; }
     public bool IsEnabled { get => isEnabled; }
     public bool IsActive { get => isActive; }
-    public bool IsReady { get => isReady; }
     public bool HasId { get => id > -1; }
     public int Id { get => id; set => SetId(value); }
 
+    public Category category;
     public Transform appContent;
     public string appName = "";
     public Sprite icon;
@@ -49,7 +56,6 @@ public abstract class PCApp : MonoBehaviour
     private IEnumerator ieScale;
     private bool iconInited;
     protected Computer computer;
-    private bool isReady;
     private bool isEnabled = true;
     private int id = -1;
 
@@ -204,6 +210,12 @@ public abstract class PCApp : MonoBehaviour
         ResetApp();
     }
 
+    /// <summary>
+    /// This method is called on closing an app.
+    /// The specific application should clean up here.
+    /// Calling the base method is not needed because
+    /// nothing will happen there.
+    /// </summary>
     public virtual void ResetApp()
     {
         // nothing to do here
@@ -214,8 +226,8 @@ public abstract class PCApp : MonoBehaviour
         if (this.isActive == isActive)
             return;
 
-        isReady = false;
         this.isActive = isActive;
+        IsReady = false;
         Vector3 scale = isActive ? Vector3.one : Vector3.zero;
 
         if (isActive)
@@ -227,7 +239,7 @@ public abstract class PCApp : MonoBehaviour
         if (instant)
         {
             transform.localScale = scale;
-            isReady = true;
+            IsReady = true;
         }
         else
         {
@@ -244,7 +256,8 @@ public abstract class PCApp : MonoBehaviour
 
     /// <summary>
     /// This method can be used to setup a start state
-    /// of a specific app.
+    /// of a specific app. Doesn't need to be called
+    /// in overridden versions.
     /// </summary>
     protected virtual void PreCall()
     {
@@ -263,6 +276,6 @@ public abstract class PCApp : MonoBehaviour
         }
 
         transform.localScale = scale;
-        isReady = true;
+        IsReady = true;
     }
 }

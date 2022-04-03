@@ -199,6 +199,25 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
     protected abstract void Initialize();
     protected abstract void BeforeHide();
 
+    protected void ShowStatus(string msg)
+    {
+        ShowStatus(msg, Color.black);
+    }
+
+    protected void ShowErrorStatus(string msg)
+    {
+        ShowStatus(msg, Color.red);
+    }
+
+    protected void ShowStatus(string msg, Color color)
+    {
+        if (null == statusLine)
+            return;
+
+        statusLine.SetText(msg);
+        statusLine.color = color;
+    }
+
     public void SetInteractable(Interactable interactable)
     {
         this.interactable = interactable;

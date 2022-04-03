@@ -38,6 +38,8 @@ public class ComputerUI : InteractableUI
     public Image bootBar;
     public TextMeshProUGUI bootPercentDisplay;
 
+    public IPv4ConfigDisplay ipV4ConfigDisplay;
+
     public PCClock pcClock;
 
     private IEnumerator ieAnim;
@@ -144,7 +146,7 @@ public class ComputerUI : InteractableUI
 
         if (null != interactable && interactable is Computer computer)
         {
-            StopPCNoise(computer);
+            computer.StopPCNoise();
             computer.CurrentState = Computer.State.Off;
         }
 
@@ -201,6 +203,11 @@ public class ComputerUI : InteractableUI
         blueScreen.Hide();
     }
 
+    public void UpdateConnectButton()
+    {
+        ipV4ConfigDisplay.UpdateConnectionInfo();
+    }
+
     private void LogOff()
     {
         if (null == interactable || !(interactable is Computer computer))
@@ -215,14 +222,14 @@ public class ComputerUI : InteractableUI
     {
         AudioManager audioManager = AudioManager.GetInstance();
         audioManager.PlaySound("pc.beep", computer.gameObject);
-        PCNoise(computer);
+        computer.PCNoise();
 
         DOTween.Sequence().
             SetAutoKill(true).
             SetDelay(2f).
             OnComplete(() =>
             {
-                StopPCNoise(computer);
+                computer.StopPCNoise();
                 pcCursor.SetVisible(true);
                 loginScreen.SetVisible(true);
             }).
@@ -251,7 +258,7 @@ public class ComputerUI : InteractableUI
     {
         computer.CurrentState = Computer.State.Rebooting;
         computer.CloseAllApps();
-        PCNoise(computer);
+        computer.PCNoise();
         HideDesktop();
         GameEvent.GetInstance().Execute<Computer>(Boot, computer, 3f);
     }
@@ -281,6 +288,7 @@ public class ComputerUI : InteractableUI
     private IEnumerator IEBoot(Computer computer)
     {
         HideDesktop();
+        ipV4ConfigDisplay.Init(computer);
 
         yield return null;
 
@@ -294,7 +302,7 @@ public class ComputerUI : InteractableUI
 
         yield return new WaitForSecondsRealtime(0.5f);
 
-        PCNoise(computer);
+        computer.PCNoise();
 
         yield return new WaitForSecondsRealtime(0.5f);
 
@@ -326,7 +334,7 @@ public class ComputerUI : InteractableUI
 
                 yield return new WaitForSecondsRealtime(zz);
 
-                PCNoise(computer);
+                computer.PCNoise();
             }
 
             bootBar.rectTransform.DOScale(new Vector3(f, 1f, 1f), 0.5f);
@@ -367,10 +375,11 @@ public class ComputerUI : InteractableUI
         computer.ShowAppIcons(desktopGrid, taskBar);
 
         bootTrans.gameObject.SetActive(false);
-        StopPCNoise(computer);
+        computer.StopPCNoise();
 
         yield return null;
 
+        UpdateConnectButton();
         pcCursor.SetVisible(true);
         computer.CurrentState = Computer.State.Running;
         ieAnim = null;
@@ -453,7 +462,7 @@ public class ComputerUI : InteractableUI
         pcCursor.SetVisible(false);
 
         AudioManager audioManager = AudioManager.GetInstance();
-        PCNoise(computer);
+        computer.PCNoise();
 
         yield return new WaitForSecondsRealtime(1f);
 
@@ -478,7 +487,7 @@ public class ComputerUI : InteractableUI
 
         yield return new WaitForSecondsRealtime(0.5f);
 
-        StopPCNoise(computer);
+        computer.StopPCNoise();
 
         yield return new WaitForSecondsRealtime(0.5f);
 
@@ -490,36 +499,12 @@ public class ComputerUI : InteractableUI
         ieAnim = null;
     }
 
-    public void Beep(Computer computer)
-    {
-        AudioManager.GetInstance().PlaySound("pc.error.beep", computer.gameObject);
-    }
-
-    private void PCNoise(Computer computer)
-    {
-        AudioManager.GetInstance().PlaySound(
-            "pc.noise",
-            computer.gameObject,
-            1f + 0.1f * Random.value,
-            computer.audioSource
-        );
-    }
-
-    private void StopPCNoise(Computer computer)
-    {
-        DOTween.Sequence().
-            SetAutoKill(true).
-            Append(computer.audioSource.DOFade(0f, 1f)).
-            OnComplete(() => computer.audioSource.Stop()).
-            Play();
-    }
-
     public void ShowBlueScreen(bool quickDown, bool isInteractive)
     {
         if (null == interactable || !(interactable is Computer computer))
             return;
 
-        PCNoise(computer);
+        computer.PCNoise();
         GameEvent.GetInstance().Execute<bool>(
             CrashDown,
             isInteractive,
@@ -533,16 +518,16 @@ public class ComputerUI : InteractableUI
             return;
 
         Flash(computer);
-        Beep(computer);
+        computer.Beep();
         computer.CloseAllApps();
+        ClearAppParent();
         pcCursor.SetVisible(false);
         blueScreen.Show(isInteractive);
 
         if (isInteractive)
             return;
 
-        AudioManager audioManager = AudioManager.GetInstance();
-        audioManager.PlaySound("electric", computer.gameObject);
+        computer.Electric();
 
         Shutdown();
         computer.Crashed = false;

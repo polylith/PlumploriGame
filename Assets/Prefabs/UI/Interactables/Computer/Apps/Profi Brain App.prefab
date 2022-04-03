@@ -11464,6 +11464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f76463b230e574729b37bb0977f553b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  category: 2
   appContent: {fileID: 7183511970899268592}
   appName: ProfiBrainApp
   icon: {fileID: 21300000, guid: d06853c2a4cc749489b0535999dfa728, type: 3}

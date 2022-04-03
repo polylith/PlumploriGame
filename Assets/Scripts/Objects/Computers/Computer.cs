@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Action;
+using DG.Tweening;
 using Language;
 using UnityEngine;
 
-public class Computer : Interactable
+public class Computer : Interactable, IIPv4Device
 {
     public static string[] SysApps = new string[]
     {
@@ -38,12 +39,14 @@ public class Computer : Interactable
     public bool IsRunning { get => CurrentState >= State.Running && CurrentState < State.ShuttingDown; }
     public bool HasVirus { get => hasVirus; }
     public bool Crashed { get; set; }
+    public bool IsConnected { get => IsRunning && null != IPv4Config && IPv4Config.IsConnected; }
+    public IPv4Config IPv4Config { get => CheckIPv4Config(); }
 
     public PCAppInfo pcAppInfoPrefab;
 
     public AudioSource audioSource;
 
-    public Transform appsParent;
+    public List<string> installedAppNames;
 
     public LoginData CurrentUser;
     
@@ -51,11 +54,13 @@ public class Computer : Interactable
     private Dictionary<int, PCAppInfo> infos = new Dictionary<int, PCAppInfo>();
     private List<PCApp> apps;
     private bool hasVirus = false;
+    private IPv4Config ipV4Config;
 
     public override List<string> GetAttributes()
     {
         List<string> attributes = new List<string>() {
-            "HasVirus"
+            "HasVirus",
+            "IsConnected"
         };
 
         // TODO handle adding apps dynamically
@@ -105,6 +110,7 @@ public class Computer : Interactable
         }
 
         WorldDB.RegisterGoal(Prefix, "HasVirus", false);
+        WorldDB.RegisterGoal(Prefix, "IsConnected", true);
         WorldDB.ShowDB();
     }
 
@@ -144,6 +150,14 @@ public class Computer : Interactable
         return base.Interact(interactable);
     }
 
+    private IPv4Config CheckIPv4Config()
+    {
+        if (null == ipV4Config)
+            ipV4Config = new IPv4Config();
+
+        return ipV4Config;
+    }
+
     private void CheckCurrentLoginData()
     {
         if (null == CurrentUser)
@@ -161,12 +175,12 @@ public class Computer : Interactable
 
     private void InitSystem()
     {
+        AppShop appShop = AppShop.GetInstance();
         apps = new List<PCApp>();
-        PCApp[] arr = appsParent.GetComponentsInChildren<PCApp>();
 
-        foreach (PCApp pcAppPrefab in arr)
+        foreach (string appName in installedAppNames)
         {
-            PCApp pcApp = Instantiate<PCApp>(pcAppPrefab);
+            PCApp pcApp = appShop.GetPCApp(appName);
             apps.Add(pcApp);
         }
 
@@ -181,12 +195,12 @@ public class Computer : Interactable
     {
         InitSystem();
 
+        /*
         foreach (PCApp app in apps)
         {
-            if (app.IsEnabled && app.IsReady && app.IsActive)
-                RegisterApp(app);
+            RegisterApp(app);
         }
-
+        */
         if (hasVirus)
         {
             hasVirus = false;
@@ -303,9 +317,25 @@ public class Computer : Interactable
         appIds.Remove(id);
     }
 
+    public void InstallApp(PCApp app)
+    {
+        installedAppNames.Add(app.appName);
+        apps.Add(app);
+
+        if (app.category == PCApp.Category.Game)
+        {
+            app.SetInfected(true);
+            SetVirus(true);
+        }
+
+        ComputerUI computerUI = ((ComputerUI)InteractableUI);
+        ShowAppIcons(computerUI.desktopGrid, computerUI.taskBar);
+        RegisterApp(app);
+    }
+
     private void RegisterApp(PCApp app)
     {
-        if (null == app)
+        if (null == app || !app.IsEnabled)
             return;
 
         int id = app.Id;
@@ -432,10 +462,15 @@ public class Computer : Interactable
         appIds.Clear();
         CurrentApp = null;
     }
+
+    public void Electric()
+    {
+        AudioManager.GetInstance().PlaySound("electric", gameObject);
+    }
         
     public void Beep(string arg)
     {
-        ((ComputerUI)InteractableUI).Beep(this);
+        Beep();
     }
 
     private void SetVirus(bool hasVirus)
@@ -455,6 +490,11 @@ public class Computer : Interactable
             foreach (PCAppInfo info in list)
             {
                 info.SetVirus(false);
+            }
+
+            foreach (PCApp pcApp in apps)
+            {
+                pcApp.SetInfected(false);
             }
 
             return;
@@ -511,5 +551,39 @@ public class Computer : Interactable
             CurrentState = State.Off;
 
         return CurrentUser;
+    }
+
+    public void Beep()
+    {
+        AudioManager.GetInstance().PlaySound("pc.error.beep", gameObject);
+    }
+
+    public void PCNoise()
+    {
+        AudioManager.GetInstance().PlaySound(
+            "pc.noise",
+            gameObject,
+            1f + 0.1f * Random.value,
+            audioSource
+        );
+    }
+
+    public void StopPCNoise()
+    {
+        DOTween.Sequence().
+            SetAutoKill(true).
+            Append(audioSource.DOFade(0f, 1f)).
+            OnComplete(() => audioSource.Stop()).
+            Play();
+    }
+
+    public void Send()
+    {
+        
+    }
+
+    public void Receive()
+    {
+        
     }
 }

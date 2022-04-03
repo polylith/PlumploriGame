@@ -113,6 +113,10 @@ namespace Language
             texts.Add(LangKey.CloseAction.ToString().ToLower(), "Schließe {0}");
             texts.Add(LangKey.Open.ToString().ToLower(), "Öffne {0}");
             texts.Add(LangKey.Close.ToString().ToLower(), "Schließe {0}");
+            texts.Add(LangKey.IsConnected.ToString().ToLower(), "{0} ist verbunden");
+            texts.Add(LangKey.IsDisconnected.ToString().ToLower(), "{0} ist nicht verbunden");
+            texts.Add(LangKey.Install.ToString().ToLower(), "{0} installieren");
+            texts.Add(LangKey.Installed.ToString().ToLower(), "{0} installiert");
             texts.Add(LangKey.Deactivate.ToString().ToLower(), "{0} deaktivieren");
             texts.Add(LangKey.Set.ToString().ToLower(), "{0} setzen");
             texts.Add(LangKey.Activate.ToString().ToLower(), "{0} aktivieren");
@@ -139,7 +143,9 @@ namespace Language
             texts.Add(LangKey.OG.ToString().ToLower(), "OG");
 
             texts.Add(LangKey.TV.ToString().ToLower(), "Fernseher");
+            texts.Add(LangKey.Router.ToString().ToLower(), "Router");
             texts.Add(LangKey.PC.ToString().ToLower(), "Rechner");
+            texts.Add(LangKey.PCAppShopApp.ToString().ToLower(), "App Shop");
             texts.Add(LangKey.AntivirusApp.ToString().ToLower(), "Antivirus");
             texts.Add(LangKey.TaskMgrApp.ToString().ToLower(), "Prozesse");
             texts.Add(LangKey.Progress.ToString().ToLower(), "Fortschritt");
@@ -193,7 +199,10 @@ namespace Language
             texts.Add(LangKey.Prompt.ToString().ToLower(), "Abfrage");
             texts.Add(LangKey.Lid.ToString().ToLower(), "Deckel");
             texts.Add(LangKey.Environment.ToString().ToLower(), "Umgebung");
+            texts.Add(LangKey.NetworkConnection.ToString().ToLower(), "Netzwerkverbindung");
             texts.Add(LangKey.System.ToString().ToLower(), "System");
+            texts.Add(LangKey.App.ToString().ToLower(), "Anwendung");
+            texts.Add(LangKey.Game.ToString().ToLower(), "Spiel");
             texts.Add(LangKey.Clock.ToString().ToLower(), "Uhr");
             texts.Add(LangKey.CurrentTime.ToString().ToLower(), "Aktuelle Zeit");
             texts.Add(LangKey.Alarms.ToString().ToLower(), "Alarmzeiten");
@@ -256,6 +265,10 @@ namespace Language
             texts.Add(LangKey.CloseAction.ToString().ToLower(), "Open {0}");
             texts.Add(LangKey.Open.ToString().ToLower(), "Open {0}");
             texts.Add(LangKey.Close.ToString().ToLower(), "Close {0}");
+            texts.Add(LangKey.IsConnected.ToString().ToLower(), "{0} is connected");
+            texts.Add(LangKey.IsDisconnected.ToString().ToLower(), "{0} is disconnected");
+            texts.Add(LangKey.Install.ToString().ToLower(), "{0} install");
+            texts.Add(LangKey.Installed.ToString().ToLower(), "{0} installed");
             texts.Add(LangKey.Delete.ToString().ToLower(), "Delete {0}");
             texts.Add(LangKey.Set.ToString().ToLower(), "Set {0}");
             texts.Add(LangKey.Deactivate.ToString().ToLower(), "Deactivate {0}");
@@ -282,7 +295,9 @@ namespace Language
             texts.Add(LangKey.OG.ToString().ToLower(), "");
 
             texts.Add(LangKey.TV.ToString().ToLower(), "TV");
+            texts.Add(LangKey.Router.ToString().ToLower(), "Router");
             texts.Add(LangKey.PC.ToString().ToLower(), "Computer");
+            texts.Add(LangKey.PCAppShopApp.ToString().ToLower(), "App Shop");
             texts.Add(LangKey.AntivirusApp.ToString().ToLower(), "Antivirus");
             texts.Add(LangKey.TaskMgrApp.ToString().ToLower(), "Task Manager");
             texts.Add(LangKey.CalcApp.ToString().ToLower(), "Calculator");
@@ -334,7 +349,10 @@ namespace Language
             texts.Add(LangKey.Lid.ToString().ToLower(), "Lid");
             texts.Add(LangKey.Clock.ToString().ToLower(), "Clock");
             texts.Add(LangKey.Environment.ToString().ToLower(), "Environment");
+            texts.Add(LangKey.NetworkConnection.ToString().ToLower(), "Network Connection");
             texts.Add(LangKey.System.ToString().ToLower(), "System");
+            texts.Add(LangKey.App.ToString().ToLower(), "App");
+            texts.Add(LangKey.Game.ToString().ToLower(), "Game");
             texts.Add(LangKey.CurrentTime.ToString().ToLower(), "current time");
             texts.Add(LangKey.Alarms.ToString().ToLower(), "Alarm Times");
             texts.Add(LangKey.Alarm.ToString().ToLower(), "Alarm");

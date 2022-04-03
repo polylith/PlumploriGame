@@ -3,6 +3,9 @@ using UnityEngine;
 using TMPro;
 using Language;
 
+/// <summary>
+/// This config is for setting up the pc clock
+/// </summary>
 public class PCClockConfig : MonoBehaviour
 {
     public PCClock pcClock;

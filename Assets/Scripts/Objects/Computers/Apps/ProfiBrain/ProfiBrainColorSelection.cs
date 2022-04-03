@@ -43,11 +43,16 @@ public class ProfiBrainColorSelection : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < profiBrainColorInputs.Length; i++)
+            int n = profiBrainColorInputs.Length;
+            int[] colorIndexArray = ArrayHelper.GetArray(0, n, 1);
+            ArrayHelper.Shuffle(colorIndexArray);
+
+            for (int i = 0; i < n; i++)
             {
+                int colorIndex = colorIndexArray[i];
                 profiBrainColorInputs[i].gameObject.SetActive(true);
                 profiBrainColorInputs[i].ColorIndex = -1;
-                profiBrainColorInputs[i].ColorIndex = i;
+                profiBrainColorInputs[i].ColorIndex = colorIndex;
             }
         }
 

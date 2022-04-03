@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 743ae38fa7ebd456f9528c7a10a02774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  category: 1
   appContent: {fileID: 1943271321670524888}
   appName: CalcApp
   icon: {fileID: 21300000, guid: 6a703bc4b03773841a484a4c81f63e60, type: 3}

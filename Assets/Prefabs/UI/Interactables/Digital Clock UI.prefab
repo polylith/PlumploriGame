@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5fa2f9551a864d6f893a595f8f9554f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundId: 
   uiExclusiveMode: 1
   uiParent: {fileID: 2502459186418044925}
   headLine: {fileID: 4948767742685991768}
@@ -2847,7 +2848,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2952701594566310533, guid: bd948e1b653ebf44686645d202a6ae5c, type: 3}
       propertyPath: m_Name
-      value: UI Icon Button
+      value: Close Button
       objectReference: {fileID: 0}
     - target: {fileID: 3596975006486526198, guid: bd948e1b653ebf44686645d202a6ae5c, type: 3}
       propertyPath: m_Sprite

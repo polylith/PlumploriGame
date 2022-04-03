@@ -102,6 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43ac932d680d04c58a5b03372e39501f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  category: 2
   appContent: {fileID: 1559199819241318581}
   appName: TicTacToeApp
   icon: {fileID: 21300000, guid: fb18ce204a2370646bdbf686e02d7ee1, type: 3}
