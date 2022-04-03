@@ -23,8 +23,11 @@ public class IPv4ConfigMap
     {
         foreach (IIPv4Device ipV4Device in ipMap.Values)
         {
-            IPv4Config ipV4config = ipV4Device.IPv4Config;
-            ipV4config.Reset();
+            if (null != ipV4Device)
+            {
+                IPv4Config ipV4config = ipV4Device.IPv4Config;
+                ipV4config.Reset();
+            }
         }
 
         this.offset = (uint)UnityEngine.Mathf.Max(1, offset);

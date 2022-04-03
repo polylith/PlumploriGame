@@ -54,14 +54,35 @@ public class RouterUI : InteractableUI
         connectionCount.SetText(text);
     }
 
+    private void MarkError(TMP_InputField field, string text)
+    {
+        string msg = LanguageManager.GetText(
+                LangKey.Error,
+                text
+            );
+        ShowErrorStatus(msg);
+        field.Select();
+        field.ActivateInputField();
+    }
+
     private void ApplyConfig(Router router)
     {
         IPv4Config config = null;
         int offset = 0;
         string ipString = ipInput.text;
-        string maskString = ipInput.text;
-        string offsetString = ipInput.text;
+        string maskString = maskInput.text;
+        string offsetString = offsetInput.text;
         string macString = router.InternIPv4Config.Mac;
+
+        if (!IPv4Config.IsValidIPv4Address(ipString))
+        {
+            MarkError(ipInput, ipString);
+        }
+
+        if (!IPv4Config.IsValidIPv4Address(maskString))
+        {
+            MarkError(maskInput, maskString);
+        }
 
         try
         {
@@ -74,7 +95,6 @@ public class RouterUI : InteractableUI
         }
         catch (System.Exception ex)
         {
-            // TODO ????????
             string msg = LanguageManager.GetText(
                 LangKey.Error,
                 ex.Message
@@ -90,16 +110,15 @@ public class RouterUI : InteractableUI
         }
         catch (System.Exception)
         {
-            string msg = LanguageManager.GetText(
-                LangKey.Error,
-                offsetString
-            );
-            ShowErrorStatus(msg);
+            MarkError(offsetInput, offsetString);
             return;
         }
 
-
-
+        router.ipString = config.IP;
+        router.maskString = config.Mask;
+        router.rangeOffset = offset;
+        router.Reconfig();
+        AudioManager.GetInstance().PlaySound("beep3x", router.gameObject);
     }
 
     private void SetLampState(int index, Color color)

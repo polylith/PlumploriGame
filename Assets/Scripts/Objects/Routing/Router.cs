@@ -92,6 +92,11 @@ public class Router : Interactable, IIPv4Device
         GameEvent.GetInstance().Execute(Transmit, Random.Range(5f, 30f));
     }
 
+    public void Reconfig()
+    {
+        InitConfig();
+    }
+
     private void InitConfig()
     {
         internIPvpV4Config = IPv4Config.GetIPv4Config(ipString, maskString);
@@ -205,7 +210,7 @@ public class Router : Interactable, IIPv4Device
 
         SetLampState(1, 0);
 
-        if (!isTransmitting)
+        if (!isTransmitting || !gameObject.activeInHierarchy)
             return;
 
         ieTransmit = IETransmit();

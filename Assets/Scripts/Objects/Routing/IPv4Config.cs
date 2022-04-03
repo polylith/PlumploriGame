@@ -50,7 +50,7 @@ public class IPv4Config : AbstractData
     {
         if (string.IsNullOrWhiteSpace(ipString))
             return false;
-
+                
         return validIpV4AddressRegex.IsMatch(ipString.Trim());
     }
 
