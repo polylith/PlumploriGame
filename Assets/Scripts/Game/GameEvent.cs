@@ -29,9 +29,16 @@ public class GameEvent : MonoBehaviour
 
         if (waitTime > 0f)
         {
-            IEnumerator ieNum = ExecuteWait(action, waitTime);
-            StartCoroutine(ieNum);
-            return ieNum;
+            try
+            {
+                IEnumerator ieNum = ExecuteWait(action, waitTime);
+                StartCoroutine(ieNum);
+                return ieNum;
+            }
+            catch (System.Exception)
+            {
+                return null;
+            }
         }
         else
         {
