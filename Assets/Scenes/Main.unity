@@ -2538,6 +2538,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 584728629}
+  - component: {fileID: 584728631}
   - component: {fileID: 584728630}
   m_Layer: 3
   m_Name: UI
@@ -2588,6 +2589,18 @@ MonoBehaviour:
   uiCamera: {fileID: 1578716823}
   uiSkybox: {fileID: 2100000, guid: cd2ad094efc2e4f58a0e59710edfc0e3, type: 2}
   uiSun: {fileID: 526513112}
+--- !u!114 &584728631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584728628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e152ed0b6a9a4abf9b7dbaaacce5d0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &586339581
 GameObject:
   m_ObjectHideFlags: 0
