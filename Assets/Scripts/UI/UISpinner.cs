@@ -49,8 +49,8 @@ public class UISpinner : MonoBehaviour
 
         background.color = isEnabled ? enabledBackgroundColor : disabledBackgroundColor;
 
-        upBtn.SetEnabled(isEnabled);
-        downBtn.SetEnabled(isEnabled);
+        upBtn.IsEnabled = isEnabled;
+        downBtn.IsEnabled = isEnabled;
     }
 
     private void SetValue(int value)

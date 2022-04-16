@@ -26,7 +26,7 @@ namespace Creation
         /// <returns>the bounds of the resulting single mesh</returns>
         public Bounds CloneObject(GameObject obj, GameObject copy, Shader shader = null)
         {
-            GameObject clone = Instantiate(obj) as GameObject;
+            GameObject clone = Instantiate(obj);
             clone.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             clone.transform.localPosition = Vector3.zero;
             Init(copy.transform);

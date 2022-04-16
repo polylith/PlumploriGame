@@ -103,7 +103,7 @@ public class AntivirusApp : PCApp
         cleanList?.Clear();
         isScanning = true;
         scanButton.Block(true);
-        cleanButton.SetEnabled(false);
+        cleanButton.IsEnabled = false;
         counted = 0;
 
         foreach (PCAppInfo appInfo in computer.GetAppInfos())
@@ -256,7 +256,7 @@ public class AntivirusApp : PCApp
         text += "<br><br><br></color>";
         report.SetText(text);
         reportBg.color = Color.white;
-        cleanButton.SetEnabled(scanResult.Count > 0);
+        cleanButton.IsEnabled = scanResult.Count > 0;
 
         if (cleanButton.IsEnabled)
             cleanButton.SetState(1);
@@ -416,7 +416,7 @@ public class AntivirusApp : PCApp
         reportBg.color = new Color(0.75f, 0.75f, 0.75f);
         scanButton.Block(false);
         cleanButton.Block(false);
-        cleanButton.SetEnabled(false);
+        cleanButton.IsEnabled = false;
     }
 
     public override List<string> GetAttributes()

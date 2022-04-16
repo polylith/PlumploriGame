@@ -133,6 +133,7 @@ namespace Language
             texts.Add(LangKey.SwitchOff.ToString().ToLower(), "{0} ausschalten");
             
             texts.Add(LangKey.SwitchPlayer.ToString().ToLower(), "Spieler wechseln");
+            texts.Add(LangKey.Player.ToString().ToLower(), "Spieler {0}");
 
             texts.Add(LangKey.Shutdown.ToString().ToLower(), "Ausschalten");
             texts.Add(LangKey.Reboot.ToString().ToLower(), "Neu starten");
@@ -154,6 +155,7 @@ namespace Language
             texts.Add(LangKey.CalcApp.ToString().ToLower(), "Taschenrechner");
             texts.Add(LangKey.PromptApp.ToString().ToLower(), "Eingabeaufforderung");
             texts.Add(LangKey.ProfiBrainApp.ToString().ToLower(), "Profi Brain");
+            texts.Add(LangKey.FourInARowApp.ToString().ToLower(), "Verbinde Vier");
             texts.Add(LangKey.TicTacToeApp.ToString().ToLower(), "Dodelschach");
             texts.Add(LangKey.Drawn.ToString().ToLower(), "Patt");
             texts.Add(LangKey.YouWin.ToString().ToLower(), "Sie gewinnen!");
@@ -222,18 +224,22 @@ namespace Language
             texts.Add(LangKey.No.ToString().ToLower(), "Nein");
             texts.Add(LangKey.Ok.ToString().ToLower(), "Ok");
             texts.Add(LangKey.Cancel.ToString().ToLower(), "Abbrechen");
+            texts.Add(LangKey.Option.ToString().ToLower(), "Option");
             texts.Add(LangKey.Options.ToString().ToLower(), "Optionen");
             texts.Add(LangKey.AppLaunchError.ToString().ToLower(), "<b><i>{0}</i> konnte nicht gestartet werden.</b><br>Das System kann diese Anwendung zur Zeit nicht starten. Bitte versuchen Sie es noch einmal.<br><b>Wenn das Problem weiterhin besteht, wenden Sie sich an Ihren Administrator.</b>");
             texts.Add(LangKey.AutoSync.ToString().ToLower(), "Automatisch synchronisiert");
 
             texts.Add(LangKey.CodeLength.ToString().ToLower(), "Länge des Codes");
             texts.Add(LangKey.NumberOfColors.ToString().ToLower(), "Anzahl der Farben");
+            texts.Add(LangKey.NumberOfPlayers.ToString().ToLower(), "Spieleranzahl");
             texts.Add(LangKey.Mode.ToString().ToLower(), "Modus");
             texts.Add(LangKey.AllowEmptyInputs.ToString().ToLower(), "Leere Eingaben zulassen");
             texts.Add(LangKey.ShowOnlyUsedColors.ToString().ToLower(), "Nur verwendete Farben zeigen");
             texts.Add(LangKey.OrderedEvaluation.ToString().ToLower(), "Geordnete Auswertung");
             texts.Add(LangKey.Level.ToString().ToLower(), "Level");
-
+            texts.Add(LangKey.UserMode.ToString().ToLower(), "Spielermodus");
+            texts.Add(LangKey.SimpleMode.ToString().ToLower(), "Leichter Modus");
+            texts.Add(LangKey.ProfiMode.ToString().ToLower(), "Profimodus");
 
 
             texts = new Dictionary<string, string>();
@@ -285,6 +291,7 @@ namespace Language
             texts.Add(LangKey.SwitchOff.ToString().ToLower(), "Switch off {0}");
 
             texts.Add(LangKey.SwitchPlayer.ToString().ToLower(), "Switch Player");
+            texts.Add(LangKey.Player.ToString().ToLower(), "Player {0}");
 
             texts.Add(LangKey.Shutdown.ToString().ToLower(), "Shutdown");
             texts.Add(LangKey.Reboot.ToString().ToLower(), "Reboot");
@@ -303,6 +310,7 @@ namespace Language
             texts.Add(LangKey.CalcApp.ToString().ToLower(), "Calculator");
             texts.Add(LangKey.PromptApp.ToString().ToLower(), "Prompt");
             texts.Add(LangKey.ProfiBrainApp.ToString().ToLower(), "Profi Brain");
+            texts.Add(LangKey.FourInARowApp.ToString().ToLower(), "Four in a Row");
             texts.Add(LangKey.TicTacToeApp.ToString().ToLower(), "Tic Tac Toe");
             texts.Add(LangKey.Drawn.ToString().ToLower(), "Drawn");
             texts.Add(LangKey.YouWin.ToString().ToLower(), "You made it!");
@@ -374,17 +382,22 @@ namespace Language
             texts.Add(LangKey.No.ToString().ToLower(), "No");
             texts.Add(LangKey.Ok.ToString().ToLower(), "Ok");
             texts.Add(LangKey.Cancel.ToString().ToLower(), "Cancel");
+            texts.Add(LangKey.Option.ToString().ToLower(), "Option");
             texts.Add(LangKey.Options.ToString().ToLower(), "Options");
             texts.Add(LangKey.AppLaunchError.ToString().ToLower(), "<b><i>{0}</i> failed to start.</b><br> System is unable to start this application at this time. Please retry again.<br><b>If the problem persits, contact your administrator.</b>");
             texts.Add(LangKey.AutoSync.ToString().ToLower(), "Automatically synchronized");
 
             texts.Add(LangKey.CodeLength.ToString().ToLower(), "Code Length");
             texts.Add(LangKey.NumberOfColors.ToString().ToLower(), "Number of colors");
+            texts.Add(LangKey.NumberOfPlayers.ToString().ToLower(), "Number of players");
             texts.Add(LangKey.Mode.ToString().ToLower(), "Modus");
             texts.Add(LangKey.AllowEmptyInputs.ToString().ToLower(), "Allow empty inputs");
             texts.Add(LangKey.ShowOnlyUsedColors.ToString().ToLower(), "Only show used colors");
             texts.Add(LangKey.OrderedEvaluation.ToString().ToLower(), "Ordered evaluation");
             texts.Add(LangKey.Level.ToString().ToLower(), "Level");
+            texts.Add(LangKey.UserMode.ToString().ToLower(), "User Mode");
+            texts.Add(LangKey.SimpleMode.ToString().ToLower(), "Simple Mode");
+            texts.Add(LangKey.ProfiMode.ToString().ToLower(), "Profi Mode");
 
             return textDB;
         }

@@ -597,7 +597,7 @@ public abstract class Character : MonoBehaviour
 
         if (currentAction is PointerAction)
         {
-            callBack.Invoke();
+            callBack?.Invoke();
 
             if (IsWalking)
                 SetWalking(false);
@@ -623,7 +623,7 @@ public abstract class Character : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(0.5f);
 
-        callBack.Invoke();
+        callBack?.Invoke();
 
         yield return new WaitForSecondsRealtime(0.35f);
 

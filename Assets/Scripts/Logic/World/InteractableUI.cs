@@ -113,7 +113,9 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
 
         if (!uiMap.ContainsKey(type))
         {
-            uiMap.Add(type, Instantiate<InteractableUI>(interactableUIPrefab));
+            InteractableUI interactableUI = Instantiate<InteractableUI>(interactableUIPrefab);
+            interactableUI.transform.name = interactableUIPrefab.transform.name;
+            uiMap.Add(type, interactableUI);
         }
 
         return uiMap[type];
@@ -193,7 +195,9 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
         }
 
         Scale(false, true);
-        closeButton.SetAction(Hide);
+
+        if (null != closeButton)
+            closeButton.SetAction(Hide);
     }
 
     protected abstract void Initialize();

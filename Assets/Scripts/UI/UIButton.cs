@@ -18,7 +18,7 @@ public abstract class UIButton : MonoBehaviour, IPointerClickHandler, IPointerEn
     public bool HasClickAction { get => null != clickAction; }
     public bool IsBlocked { get => isBlocked; }
     public int State { get => state; }
-    public bool IsEnabled { get => isEnabled; }
+    public bool IsEnabled { get => isEnabled; set => SetEnabled(value); }
     public System.Action OnClick;
     public EventTrigger.TriggerEvent action;
     public Image background;
@@ -35,7 +35,7 @@ public abstract class UIButton : MonoBehaviour, IPointerClickHandler, IPointerEn
 
     private void Start()
     {
-        if (state == 1)
+        if (state > -1)
             SetState(0);
     }
 
@@ -81,7 +81,7 @@ public abstract class UIButton : MonoBehaviour, IPointerClickHandler, IPointerEn
 
         if (state > -1)
         {
-            if (changeColor)
+            if (changeColor || !IsEnabled)
                 background.color = IsEnabled ? colors[this.state] : new Color(0.75f, 0.75f, 0.75f);
 
             if (state < localScales.Length)
@@ -105,7 +105,7 @@ public abstract class UIButton : MonoBehaviour, IPointerClickHandler, IPointerEn
             transform.localScale = scale1;
     }
 
-    public virtual void SetEnabled(bool isEnabled)
+    protected virtual void SetEnabled(bool isEnabled)
     {
         this.isEnabled = isEnabled;
         SetState(0);

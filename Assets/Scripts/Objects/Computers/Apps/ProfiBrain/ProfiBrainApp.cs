@@ -116,7 +116,7 @@ public class ProfiBrainApp : PCApp
     private void NewGame()
     {
         SetupOptions();
-        optionsButton.SetEnabled(false);
+        optionsButton.IsEnabled = false;
         profiBrainOptions.Hide();
 
         foreach (ProfiBrainInputLine profiBrainInputLine in profiBrainInputLines)
@@ -138,7 +138,7 @@ public class ProfiBrainApp : PCApp
         profiBrainColorCode.ShowCode();
         profiBrainColorSelection.SetCheckAction(Evaluate);
         profiBrainColorSelection.SetCheckButtonEnabled(false);
-        optionsButton.SetEnabled(true);
+        optionsButton.IsEnabled = true;
     }
 
     private void SetCurrentLineIndex(int index)
@@ -165,7 +165,7 @@ public class ProfiBrainApp : PCApp
         currentInputLine.SetAction(OnColorInput);
         currentInputLine.IsEnabled = true;
         profiBrainColorSelection.IsEnabled = true;
-        optionsButton.SetEnabled(currentLineIndex < 1);
+        optionsButton.IsEnabled = currentLineIndex < 1;
     }
 
     private void OnColorInput()

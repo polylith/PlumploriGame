@@ -73,6 +73,9 @@ namespace Creation
 
         public void AddMeshes(Transform trans, bool destroy = false)
         {
+            if (trans.gameObject.activeSelf)
+                MergeMeshes(trans, destroy);
+
             foreach (Transform child in trans)
             {
                 if (child.gameObject.activeSelf)
@@ -83,9 +86,6 @@ namespace Creation
                     MergeMeshes(child, destroy);
                 }
             }
-
-            if (trans.gameObject.activeSelf)
-                MergeMeshes(trans, destroy);
         }
 
         public void MergeMeshes(Transform trans, bool destroy = false)
@@ -102,6 +102,11 @@ namespace Creation
                 return;
 
             Mesh mesh = meshFilter.sharedMesh;
+
+            if (!mesh.isReadable)
+            {
+                Debug.LogError(mesh.name + " not readable!");
+            }
 
             if (meshRenderer is SkinnedMeshRenderer)
             {

@@ -446,19 +446,27 @@ public class AudioManager : MonoBehaviour
     /// <param name="pitch">pitch of the sound</param>
     /// <param name="audioSource">Audio Source to play</param>
     /// <returns>the Audio Source actually used</returns>
+    /// TODO remove gameobjeect, not used any more
     public AudioSource PlaySound(string soundID, GameObject obj, float pitch, AudioSource audioSource)
     {
         if (!dict.ContainsKey(soundID) || !isAudioOn || null == audioSource || !audioSource.gameObject.activeInHierarchy)
             return null;
 
-        Sound sound = dict[soundID];
-        SetupAudioSource(audioSource, sound);
+        try
+        {
+            Sound sound = dict[soundID];
+            SetupAudioSource(audioSource, sound);
 
-        if (pitch != 1f)
-            audioSource.pitch *= pitch;
+            if (pitch != 1f)
+                audioSource.pitch *= pitch;
 
-        if (!audioSource.isPlaying)
-            audioSource.Play();
+            if (!audioSource.isPlaying)
+            {
+                audioSource.time = 0f;
+                audioSource.Play();
+            }
+        }
+        catch (System.Exception) { }
 
         return audioSource;
     }

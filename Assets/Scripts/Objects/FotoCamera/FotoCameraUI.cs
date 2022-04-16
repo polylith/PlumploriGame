@@ -502,7 +502,7 @@ public class FotoCameraUI : InteractableUI
         uISnapshot.SetImage(fotos[index]);
         
         buttons[3].gameObject.SetActive(true);
-        buttons[3].SetEnabled(player.HasInventoryCapacity());
+        buttons[3].IsEnabled = player.HasInventoryCapacity();
         zoomTrans.gameObject.SetActive(false);
         FocalLengthTrans.gameObject.SetActive(false);
     }

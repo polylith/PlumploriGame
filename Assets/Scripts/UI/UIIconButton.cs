@@ -15,7 +15,7 @@ public class UIIconButton : UIButton
     public Image icon;
     public bool changeIconColor = true;
 
-    public override void SetEnabled(bool isEnabled)
+    protected override void SetEnabled(bool isEnabled)
     {
         base.SetEnabled(isEnabled);
         SetState(0);

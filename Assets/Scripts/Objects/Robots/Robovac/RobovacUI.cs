@@ -125,7 +125,7 @@ public class RobovacUI : InteractableUI
         if (null == interactable || !(interactable is Robovac robovac))
             return;
 
-        autoScanButton.SetEnabled(false);
+        autoScanButton.IsEnabled = false;
 
         if (robovac.CurrentState != Robovac.State.Scanning)
         {
@@ -192,7 +192,7 @@ public class RobovacUI : InteractableUI
             )
         );
 
-        onOffButton.SetEnabled(isEnabled);
+        onOffButton.IsEnabled = isEnabled;
     }
 
     private void UpdateAutoScanButton()
@@ -237,7 +237,7 @@ public class RobovacUI : InteractableUI
 
         autoScanButton.SetToolTip(toolTip);
         autoScanButton.SetAction(action);
-        autoScanButton.SetEnabled(!isScanning);        
+        autoScanButton.IsEnabled = !isScanning;        
     }
 
     private void UpdateCurrentStateDisplay()

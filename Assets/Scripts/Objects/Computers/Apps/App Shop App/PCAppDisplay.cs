@@ -73,7 +73,7 @@ public class PCAppDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private void SetIsInstalled(bool isInstalled)
     {
         this.isInstalled = isInstalled;
-        installButton.SetEnabled(!isInstalled);
+        installButton.IsEnabled = !isInstalled;
         progressText.SetText(
             LanguageManager.GetText(
                 isInstalled ? LangKey.Installed : LangKey.Install

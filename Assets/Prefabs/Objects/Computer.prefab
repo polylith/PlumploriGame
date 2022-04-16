@@ -408,6 +408,7 @@ MonoBehaviour:
   - TaskMgrApp
   - PromptApp
   - CalcApp
+  - FourInARowApp
   CurrentUser: {fileID: 5265636658075015159, guid: ee19b4ee0506c443bb6bfebeb77b14a4, type: 3}
 --- !u!65 &6544818940764297298
 BoxCollider:

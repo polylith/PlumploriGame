@@ -11,7 +11,7 @@ public class UITextButton : UIButton
 
     public TextMeshProUGUI textMesh;
 
-    public override void SetEnabled(bool isEnabled)
+    protected override void SetEnabled(bool isEnabled)
     {
         base.SetEnabled(isEnabled);
         SetState(0);

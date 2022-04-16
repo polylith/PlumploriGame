@@ -199,7 +199,7 @@ public class TaskMgrApp : PCApp
     private void SetCurrent(PCAppInfo appInfo = null)
     {
         bool b = null != appInfo;
-        killButton.SetEnabled(b);
+        killButton.IsEnabled = b;
         killButton.SetState(b ? 1 : 0);
 
         if (current == appInfo)

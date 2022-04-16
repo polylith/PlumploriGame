@@ -76,6 +76,6 @@ public class ProfiBrainColorSelection : MonoBehaviour
 
     public void SetCheckButtonEnabled(bool isEnabled)
     {
-        checkButton.SetEnabled(isEnabled);
+        checkButton.IsEnabled = isEnabled;
     } 
 }

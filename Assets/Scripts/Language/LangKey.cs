@@ -84,6 +84,7 @@
         TaskMgrApp,
         PromptApp,
         ProfiBrainApp,
+        FourInARowApp,
         Handle,
         Inventorybox,
         DoorBell,
@@ -112,6 +113,7 @@
         Cabinette,
         Cupboard,
         SwitchPlayer,
+        Player,
         Camera,
         SwitchOn,
         SwitchOff,
@@ -142,14 +144,19 @@
         Ok,
         Cancel,
         AppLaunchError,
+        Option,
         Options,
         AutoSync,
         CodeLength,
         NumberOfColors,
+        NumberOfPlayers,
         Mode,
         AllowEmptyInputs,
         ShowOnlyUsedColors,
         OrderedEvaluation,
-        Level
+        Level,
+        UserMode,
+        SimpleMode,
+        ProfiMode
     }
 }

@@ -72,7 +72,8 @@ public class ObjectCamera : MonoBehaviour
             cam.transform.position = objectPosition.position + relPosition;
         }
 
-        cam.transform.LookAt(this.obj.transform.position);
+        //cam.transform.LookAt(this.obj.transform.position);
+        cam.transform.LookAt(this.obj.transform.position + bounds.center);
         //TODO ??? spot.transform.LookAt(this.obj.transform.position);
         gameObject.SetActive(true);
     }

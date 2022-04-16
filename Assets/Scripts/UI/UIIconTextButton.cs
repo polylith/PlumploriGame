@@ -5,7 +5,7 @@ public class UIIconTextButton : UIIconButton
 {
     public TextMeshProUGUI textMesh;
 
-    public override void SetEnabled(bool isEnabled)
+    protected override void SetEnabled(bool isEnabled)
     {
         base.SetEnabled(isEnabled);
         SetState(0);

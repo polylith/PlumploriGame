@@ -338,11 +338,13 @@ public class Computer : Interactable, IIPv4Device
         installedAppNames.Add(app.appName);
         apps.Add(app);
 
+        /* TODO
         if (app.category == PCApp.Category.Game)
         {
             app.SetInfected(true);
             SetVirus(true);
         }
+        */
 
         ComputerUI computerUI = ((ComputerUI)InteractableUI);
         ShowAppIcons(computerUI.desktopGrid, computerUI.taskBar);

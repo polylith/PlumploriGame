@@ -124,7 +124,9 @@ public class RouterUI : InteractableUI
     private void SetLampState(int index, Color color)
     {
         index = Mathf.Clamp(index, 0, lamps.Length);
-        lamps[index].color = color;
+
+        if (lamps[index].gameObject.activeSelf)
+            lamps[index].color = color;
     }
 
     private void Connect(Router router)

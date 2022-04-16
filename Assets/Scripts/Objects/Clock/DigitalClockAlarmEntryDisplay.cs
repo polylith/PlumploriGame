@@ -56,7 +56,7 @@ public class DigitalClockAlarmEntryDisplay : MonoBehaviour
 
     public void UpdateIsOnButton()
     {
-        isOnBtn.SetEnabled(Alarmdata.IsOn);
+        isOnBtn.IsEnabled = Alarmdata.IsOn;
         isOnBtn.SetState(Alarmdata.IsOn ? 0 : -1);
         isOnIcon.gameObject.SetActive(Alarmdata.IsOn);
     }
