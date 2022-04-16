@@ -307,7 +307,7 @@ public class Telephone : Interactable, ITelephoneDevice
     private static float[][] signalPitches = new float[][] {
         new float[] { 1.1f, 1.1f },
         new float[] { 1.5f, 1.5f },
-        new float[] { 1.75f, 1.75f, 1.85f, 1.85f, 2f, 2f }
+        new float[] { 5f, 5f, 5.49f, 5.49f, 6.12f, 6.12f }
     };
 
     private IEnumerator PlaySignal(int signalType, int maxSignals, int successLimit)
