@@ -242,13 +242,15 @@ public class Telephone : Interactable, ITelephoneDevice
         currentNumber = number;
         currentConnection = PhoneDirectory.GetPhone(currentNumber);
         audioFilter.distortionLevel = 0.65f;
+        inUse = true;
         AudioManager.GetInstance().PlaySound("signal", handset, 1f, audioSource);
-        audioSource.mute = false;
         StartCoroutine(Dial());
     }
 
     private IEnumerator Dial()
     {
+        audioSource.mute = false;
+
         yield return new WaitForSecondsRealtime(1.5f);
 
         AudioManager.GetInstance().StopSound("signal", handset, true);
