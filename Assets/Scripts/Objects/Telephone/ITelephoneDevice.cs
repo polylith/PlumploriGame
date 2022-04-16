@@ -1,6 +1,7 @@
 public interface ITelephoneDevice
 {
     public bool InUse { get; }
+    public string Name { get; }
     public string Number { get; }
     public bool HasNumber { get; }
 

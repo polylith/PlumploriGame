@@ -15,14 +15,15 @@ public static class PhoneDirectory
 
         for (int i = 0; i < numbers.Length; i++)
         {
+            string name = Language.NameDB.GetName();
             string number = numbers[i];
-            TelephoneDevice device = new TelephoneDevice(number);
+            TelephoneDevice device = new TelephoneDevice(name, number);
             Register(device);
         }
 
         isInited = true;
     }
-
+    
     public static ITelephoneDevice GetPhone(string number)
     {
         if (null == number || !dict.ContainsKey(number))
@@ -40,23 +41,26 @@ public static class PhoneDirectory
     }
 
     private static Dictionary<string, ITelephoneDevice> dict = new Dictionary<string, ITelephoneDevice>();
-    private static Dictionary<string, List<string>> phonebooks = new Dictionary<string, List<string>>();
+    private static Dictionary<string, PhoneBook> phonebooks = new Dictionary<string, PhoneBook>();
 
-    public static List<string> GetPhoneList(ITelephoneDevice phoneDevice)
+    public static PhoneBook GetPhoneList(ITelephoneDevice phoneDevice)
     {
         if (!phonebooks.ContainsKey(phoneDevice.Number))
         {
-            List<string> list = new List<string>();
+            PhoneBook phoneBook = new PhoneBook();
 
             foreach (string number in dict.Keys)
             {
                 if (!number.Equals(phoneDevice.Number))
                 {
-                    list.Add(number);
+                    string name = phoneDevice.Name;
+                    PhoneBookEntry entry = new PhoneBookEntry()
+                    { Name = name, Number = number };
+                    phoneBook.Add(entry);
                 }
             }
 
-            phonebooks.Add(phoneDevice.Number, list);
+            phonebooks.Add(phoneDevice.Number, phoneBook);
         }
 
         return phonebooks[phoneDevice.Number];

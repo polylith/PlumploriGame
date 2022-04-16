@@ -6,29 +6,39 @@ using UnityEngine.EventSystems;
 public class UIPhonebookEntry : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public Image back;
-    public TextMeshProUGUI textMesh;
+    public TextMeshProUGUI entryNameDisplay;
+    public TextMeshProUGUI entryNumberDisplay;
 
-    private string number;
+    private string entryName = "???";
+    private string entryNumber;
     private TelephoneUI telephoneUI;
 
-    public UIPhonebookEntry Instantiate(string number, TelephoneUI telephoneUI, int i)
+    public UIPhonebookEntry Instantiate(string name, string number, TelephoneUI telephoneUI, int i)
     {
         UIPhonebookEntry entry = Instantiate(this) as UIPhonebookEntry;
         entry.telephoneUI = telephoneUI;
         entry.name = "Entry " + i;
+        entry.SetName(name);
         entry.SetNumber(number);
         return entry;
     }
 
     private void Awake()
     {
-        textMesh.SetText("");
+        entryNameDisplay.SetText("");
+        entryNumberDisplay.SetText("");
+    }
+
+    public void SetName(string name)
+    {
+        entryName = name;
+        entryNameDisplay.SetText(name);
     }
 
     public void SetNumber(string number)
     {
-        this.number = number;
-        textMesh.SetText(number);
+        entryNumber = number;
+        entryNumberDisplay.SetText(number);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -36,7 +46,7 @@ public class UIPhonebookEntry : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (telephoneUI.InUse)
             return;
 
-        telephoneUI.InputNumber(number);
+        telephoneUI.InputNumber(entryNumber);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

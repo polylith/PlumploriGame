@@ -299,12 +299,14 @@ public class TelephoneUI : InteractableUI
 
         ClearPhonebook();
 
-        List<string> phonelist = PhoneDirectory.GetPhoneList(phone);
+        PhoneBook phoneBook = PhoneDirectory.GetPhoneList(phone);
+        List<PhoneBookEntry> phonelist = phoneBook.Entries;
 
         for (int i = 0; i < phonelist.Count; i++)
         {
-            string number = phonelist[i];
-            UIPhonebookEntry entry = entryPrefab.Instantiate(number, this, i);
+            string name = phonelist[i].Name;
+            string number = phonelist[i].Number;
+            UIPhonebookEntry entry = entryPrefab.Instantiate(name, number, this, i);
             entry.transform.SetParent(list, false);
         }
 

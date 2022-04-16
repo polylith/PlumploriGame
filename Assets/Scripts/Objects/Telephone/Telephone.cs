@@ -46,10 +46,12 @@ public class Telephone : Interactable, ITelephoneDevice
     };
 
     public bool InUse { get => inUse; }
+    public string Name { get => deviceName; }
     public string Number { get => number; }
     public bool HasNumber { get => null != number; }
 
     public Color color = Color.clear;
+    public string deviceName = "???";
     public string number;
     public GameObject handset;
     public AudioSource audioSource;
@@ -288,21 +290,24 @@ public class Telephone : Interactable, ITelephoneDevice
             return;
 
         int signalType = null == currentConnection ? 2 : (currentConnection.InUse || Random.value < 0.25f ? 1 : 0);
-
-        //if (signalType > 0)
-          //  currentConnection = null;
-
-        int successLimit = signalType == 0 ? Random.Range(3, 5) : 4;
+        
+        int successLimit = signalType == 0 ? Random.Range(3, 5) : signalType == 1 ?  4 : 2;
         int maxSignals = signalType == 0 ? Random.Range(2, successLimit) : successLimit;
-        successLimit *= 2;
-        maxSignals *= 2;
+        successLimit *= signalTimes[signalType].Length;
+        maxSignals *= signalTimes[signalType].Length;
         StartCoroutine(PlaySignal(signalType, maxSignals, successLimit));
     }
 
     private static float[][] signalTimes = new float[][] {
         new float[] { 1f, 4f },
-        new float[] { 0.48f, 0.48f },
-        new float[] { 0.24f, 0.24f }
+        new float[] { 0.24f, 0.24f },
+        new float[] { 0.2f, 0.1f, 0.2f, 0.1f, 0.2f, 0.75f }
+    };
+
+    private static float[][] signalPitches = new float[][] {
+        new float[] { 1.1f, 1.1f },
+        new float[] { 1.5f, 1.5f },
+        new float[] { 1.75f, 1.75f, 1.85f, 1.85f, 2f, 2f }
     };
 
     private IEnumerator PlaySignal(int signalType, int maxSignals, int successLimit)
@@ -313,14 +318,18 @@ public class Telephone : Interactable, ITelephoneDevice
         audioSource.mute = true;
         audioSource.loop = true;
         audioSource.Pause();
-
+        float[] durations = signalTimes[signalType];
+        float[] pitches = signalPitches[signalType];
         int i = 0;
         
         while (i < maxSignals)
         {
+            float duration = durations[i % durations.Length];
+
             if (i % 2 == 0)
             {
                 audioSource.time = 0f;
+                audioSource.pitch = pitches[i % pitches.Length];
                 audioSource.Play();
                 audioSource.mute = false;
 
@@ -336,7 +345,7 @@ public class Telephone : Interactable, ITelephoneDevice
                 audioSource.mute = true;                
             }
 
-            yield return new WaitForSecondsRealtime(signalTimes[signalType][i % 2]);
+            yield return new WaitForSecondsRealtime(duration);
 
             if (!inUse)
                 break;
@@ -345,6 +354,7 @@ public class Telephone : Interactable, ITelephoneDevice
         }
 
         audioSource.Pause();
+        audioSource.pitch = 1f;
         audioSource.mute = false;
         audioSource.loop = false;
 

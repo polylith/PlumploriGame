@@ -2,15 +2,19 @@ public class TelephoneDevice : ITelephoneDevice
 {
     public bool InUse { get => inUse; }
 
+    public string Name { get => deviceName; }
+
     public string Number { get => number; }
 
     public bool HasNumber { get => null != number; }
 
+    private string deviceName = "???";
     private string number;
     private bool inUse;
 
-    public TelephoneDevice(string number)
+    public TelephoneDevice(string name, string number)
     {
+        deviceName = name;
         this.number = number;
         this.number = PhoneDirectory.Register(this);
     }
