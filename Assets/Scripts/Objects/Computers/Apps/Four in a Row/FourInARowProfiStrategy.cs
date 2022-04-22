@@ -75,7 +75,8 @@ public class FourInARowProfiStrategy : FourInARowStrategy
             return count * 100 * (colorIndex == playerId ? 10 : 5);
 
         matrix[columnIndex, rowIndex] = colorIndex;
-        count = (count > 3 ? 3 : 1) * (colorIndex != playerId ? -2 : 1);
+        count *= (colorIndex != playerId ? -2 : 1) * (depth + 1) * (count > 3 ? 10 : 1);
+
         int score = CheckColumn(matrix, depth + 1, columnIndex, playerId);
         matrix[columnIndex, rowIndex] = -1;
 

@@ -22,6 +22,8 @@ public class FourInARowApp : PCApp
     private List<FourInARowStrategy> players;
     private int coinCounter;
     private IEnumerator ieInput;
+    private bool isGameRunning;
+    private bool isGamePaused;
 
     public override List<string> GetAttributes()
     {
@@ -80,21 +82,45 @@ public class FourInARowApp : PCApp
 
         hintButton.SetAction(ShowHint);
         hintButton.IsEnabled = false;
-        optionsButton.SetAction(options.Show);
+        optionsButton.SetAction(ShowOptions);
         newGameButton.SetAction(NewGame);
 
-        options.Init(SetupOptions);
+        options.Init(ApplyOptions, ResumeGame);
     }
 
     protected override void PreCall()
     {
+        isGameRunning = false;
+        isGamePaused = false;
         SetupOptions();
         options.Show();
     }
 
     public override void ResetApp()
     {
+        isGameRunning = false;
+        isGamePaused = false;
+        StopInput();
         board.ResetBoard();
+    }
+
+    private void ShowOptions()
+    {
+        isGamePaused = true;
+        StopInput();
+        options.Show(true);
+    }
+
+    private void ResumeGame()
+    {
+        isGamePaused = false;
+        SwitchPlayer();
+    }
+
+    private void ApplyOptions()
+    {
+        isGameRunning = true;
+        SetupOptions();
     }
 
     private void SetupOptions()
@@ -128,7 +154,7 @@ public class FourInARowApp : PCApp
         }
 
         options.Hide();
-        NewGame();
+        StartGame();
     }
 
     private void ResetPlayers()
@@ -160,6 +186,13 @@ public class FourInARowApp : PCApp
     }
 
     private void NewGame()
+    {
+        isGameRunning = true;
+        isGamePaused = false;
+        StartGame();
+    }
+
+    private void StartGame()
     {
         coinCounter = 0;
         StopInput();
@@ -193,6 +226,10 @@ public class FourInARowApp : PCApp
         board.UnhighlightSlot();
         hintButton.IsEnabled = false;
         board.IsSelectionEnabled = false;
+
+        if (!isGameRunning || isGamePaused)
+            return;
+
         FourInARowCoin coin = coinPrefab.Instantiate(CurrentPlayerId, coinCounter);
 
         if (!board.InsertCoin(columnIndex, coin, coinCounter + 1))
@@ -241,6 +278,11 @@ public class FourInARowApp : PCApp
 
         CurrentPlayerId++;
         CurrentPlayerId %= players.Count;
+        SwitchPlayer();
+    }
+
+    private void SwitchPlayer()
+    {
         bool isUser = players[CurrentPlayerId].IsUser;
         playerDisplays[CurrentPlayerId].IsCurrent = true;
         board.IsSelectionEnabled = isUser;

@@ -25,10 +25,13 @@ public class FourInARowOptions : MonoBehaviour
     private bool isVisible;
     private readonly FourInARowSettings settings = new FourInARowSettings();
     private System.Action newGameAction;
+    private System.Action hideAction;
+    private bool isHideActionEnabled;
 
-    public void Init(System.Action newGameAction)
+    public void Init(System.Action newGameAction, System.Action hideAction)
     {
         this.newGameAction = newGameAction;
+        this.hideAction = hideAction;
 
         numberOfPlayersSpinner.Value = settings.numberOfPlayers;
         numberOfPlayersSpinner.minValue = 2;
@@ -105,9 +108,11 @@ public class FourInARowOptions : MonoBehaviour
         }
     }
 
-    public void Show()
+    public void Show(bool isHideActionEnabled = false)
     {
         ResetInputs();
+        hideButton.IsEnabled = isHideActionEnabled;
+        this.isHideActionEnabled = isHideActionEnabled;
         SetVisible(true);
     }
 
@@ -115,6 +120,12 @@ public class FourInARowOptions : MonoBehaviour
     {
         FourInARowPlayerConfig.HideActiveDropdownInput();
         SetVisible(false);
+
+        if (!isHideActionEnabled)
+            return;
+
+        hideAction.Invoke();
+        isHideActionEnabled = false;
     }
 
     private void SetVisible(bool isVisible, bool instant = false)

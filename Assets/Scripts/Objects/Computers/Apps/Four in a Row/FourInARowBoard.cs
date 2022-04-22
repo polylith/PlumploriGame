@@ -28,7 +28,7 @@ public class FourInARowBoard : MonoBehaviour
     public RectTransform coinsParent;
     public int slotSize = 128;
 
-    private bool isSelectionEnabled;
+    private bool isSelectionEnabled = true;
     private readonly List<FourInARowSlot> winningSlots = new List<FourInARowSlot>();
     private FourInARowSlot highlightedSlot;
 

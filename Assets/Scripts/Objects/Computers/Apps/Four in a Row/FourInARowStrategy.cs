@@ -20,7 +20,6 @@ public abstract class FourInARowStrategy
         FourInARowBoard board,
         int playerId)
     {
-        // TODO
         switch (mode)
         {
             case 1:

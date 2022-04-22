@@ -14,7 +14,7 @@ public class FourInARowColumnSelect : MonoBehaviour, IPointerEnterHandler, IPoin
     public Outline outline;
     public int columnIndex;
 
-    private bool isEnabled;
+    private bool isEnabled = true;
 
     private void SetEnabled(bool isEnabled)
     {
