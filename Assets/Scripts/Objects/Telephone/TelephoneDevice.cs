@@ -2,21 +2,20 @@ public class TelephoneDevice : ITelephoneDevice
 {
     public bool InUse { get => inUse; }
 
-    public string Name { get => deviceName; }
+    public string Name { get => PBEntry.Name; }
 
-    public string Number { get => number; }
+    public string Number { get => PBEntry.Number; }
 
-    public bool HasNumber { get => null != number; }
+    public bool HasNumber { get => null != PBEntry && null != PBEntry.Number; }
 
-    private string deviceName = "???";
-    private string number;
+    public PhoneBookEntry PBEntry { get; private set; }
+
     private bool inUse;
 
-    public TelephoneDevice(string name, string number)
+    public TelephoneDevice(PhoneBookEntry entry)
     {
-        deviceName = name;
-        this.number = number;
-        this.number = PhoneDirectory.Register(this);
+        PBEntry = entry;
+        PBEntry.Number = PhoneDirectory.Register(this);
     }
 
     public void AnswerCall(ITelephoneDevice phoneDevice)

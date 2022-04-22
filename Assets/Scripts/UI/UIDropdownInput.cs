@@ -58,6 +58,7 @@ public class UIDropdownInput : MonoBehaviour
         content.sizeDelta = new Vector2(width, height);
         layoutElement.preferredHeight = height;
         optionButtons = new List<UIIconTextButton>();
+        float minSize = float.MaxValue;
 
         for (int i = 0; i < options.Count; i++)
         {
@@ -67,14 +68,25 @@ public class UIDropdownInput : MonoBehaviour
             optionButtons.Add(optionButton);
             optionButton.transform.name = "Option (" + i + ")";
             optionButton.transform.SetParent(content);
+            optionButton.textMesh.autoSizeTextContainer = true;
             optionButton.SetText(
                 Language.LanguageManager.GetText(dropdownOption.langKey)
             );
+            minSize = Mathf.Min(minSize, optionButton.textMesh.fontSize);
             optionButton.sprites = new Sprite[] { dropdownOption.icon };
             optionButton.SetIcon(0);
             optionButton.SetAction(() => { Select(dropdownOption); });
         }
-        
+
+        for (int i = 0; i < optionButtons.Count; i++)
+        {
+            optionButtons[i].textMesh.autoSizeTextContainer = false;
+            optionButtons[i].textMesh.fontSize = minSize;
+        }
+
+        selectedOption.textMesh.autoSizeTextContainer = false;
+        selectedOption.textMesh.fontSize = minSize;
+
         selectedOption.SetAction(ToggleListVisibility);
 
         isInited = true;

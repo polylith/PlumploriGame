@@ -113,6 +113,7 @@ public class FourInARowOptions : MonoBehaviour
 
     public void Hide()
     {
+        FourInARowPlayerConfig.HideActiveDropdownInput();
         SetVisible(false);
     }
 

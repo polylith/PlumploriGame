@@ -8,7 +8,7 @@ public class FourInARowBoard : MonoBehaviour
     /// 0   
     /// 1 X 
     /// 2 3 
-    public readonly int[][] Directions = new int[][] {
+    public readonly static int[][] Directions = new int[][] {
         new int[] { -1,  1 }, // 0
         new int[] { -1,  0 }, // 1
         new int[] { -1, -1 }, // 2
@@ -22,7 +22,7 @@ public class FourInARowBoard : MonoBehaviour
     public int Score { get => winningSlots.Count; }
     public int ColumnCount { get => fourInARowColumns.Length; }
     public int RowCount { get => fourInARowColumns[0].RowCount; }
-
+    public int[,] Matrix { get => GetMatrix(); }
     public FourInARowColumnSelect[] fourInARowColumnSelects;
     public FourInARowColumn[] fourInARowColumns;
     public RectTransform coinsParent;
@@ -30,6 +30,32 @@ public class FourInARowBoard : MonoBehaviour
 
     private bool isSelectionEnabled;
     private readonly List<FourInARowSlot> winningSlots = new List<FourInARowSlot>();
+    private FourInARowSlot highlightedSlot;
+
+    public void HighlightSlot(int columnIndex, int rowIndex, int colorIndex)
+    {
+        if (columnIndex < 0 || columnIndex >= fourInARowColumns.Length
+            || rowIndex < 0 || rowIndex >= RowCount)
+            return;
+
+        FourInARowSlot slot = GetSlot(columnIndex, rowIndex);
+
+        if (highlightedSlot == slot)
+            return;
+
+        UnhighlightSlot();
+        highlightedSlot = slot;
+        slot.Highlight(colorIndex);
+    }
+
+    public void UnhighlightSlot()
+    {
+        if (null == highlightedSlot)
+            return;
+
+        highlightedSlot.Highlight();
+        highlightedSlot = null;
+    }
 
     public int NextSlotIndexInColumn(int columnIndex)
     {
@@ -57,6 +83,8 @@ public class FourInARowBoard : MonoBehaviour
 
     public void ResetBoard()
     {
+        UnhighlightSlot();
+
         for (int i = 0; i < fourInARowColumns.Length; i++)
         {
             fourInARowColumns[i].ResetColumn();
@@ -125,6 +153,17 @@ public class FourInARowBoard : MonoBehaviour
         {
             slot.Highlight();
         }
+    }
+
+    private int[,] GetMatrix()
+    {
+        int[,] matrix = new int[ColumnCount, RowCount];
+
+        for (int column = 0; column < ColumnCount; column++)
+            for (int row = 0; row < RowCount; row++)
+                matrix[column, row] = GetSlot(column,row).PlayerId;
+
+        return matrix;
     }
 
     private void ClearWinningSlots()

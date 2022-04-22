@@ -1,5 +1,20 @@
 public abstract class FourInARowStrategy
 {
+    protected static int FindRow(int[,] matrix, int columnIndex)
+    {
+        int rowIndex = 0;
+
+        while (rowIndex < matrix.GetLength(1))
+        {
+            if (matrix[columnIndex, rowIndex] < 0)
+                return rowIndex;
+
+            rowIndex++;
+        }
+
+        return rowIndex;
+    }
+
     public static FourInARowStrategy GetStrategy(
         int mode,
         FourInARowBoard board,
@@ -11,8 +26,9 @@ public abstract class FourInARowStrategy
             case 1:
                 return new FourInARowLazyStrategy(board, playerId);
             case 2:
-
-                break;
+                return new FourInARowProfiStrategy(board, playerId);
+            case 3:
+                return new FourInARowMasterStrategy(board, playerId);
         }
 
         return new FourInARowUserStrategy(board, playerId);

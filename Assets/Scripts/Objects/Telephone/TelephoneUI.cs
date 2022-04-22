@@ -304,9 +304,7 @@ public class TelephoneUI : InteractableUI
 
         for (int i = 0; i < phonelist.Count; i++)
         {
-            string name = phonelist[i].Name;
-            string number = phonelist[i].Number;
-            UIPhonebookEntry entry = entryPrefab.Instantiate(name, number, this, i);
+            UIPhonebookEntry entry = entryPrefab.Instantiate(phonelist[i], this, i);
             entry.transform.SetParent(list, false);
         }
 

@@ -13,6 +13,8 @@ public class Telephone : Interactable, ITelephoneDevice
         // GameEvent.GetInstance().Execute<bool>(SetCallIn, true, 10f);
     }
 
+    private static int voiceCounter;
+
     private readonly float[][][] audioPositions = new float[][][] {
         new float[][]
         {
@@ -46,13 +48,12 @@ public class Telephone : Interactable, ITelephoneDevice
     };
 
     public bool InUse { get => inUse; }
-    public string Name { get => deviceName; }
-    public string Number { get => number; }
-    public bool HasNumber { get => null != number; }
+    public string Name { get => null != PBEntry ? PBEntry.Name : "???"; }
+    public string Number { get => null != PBEntry ? PBEntry.Number : "???"; }
+    public bool HasNumber { get => null != PBEntry && null != PBEntry.Number; }
+    public PhoneBookEntry PBEntry { get; private set; }
 
     public Color color = Color.clear;
-    public string deviceName = "???";
-    public string number;
     public GameObject handset;
     public AudioSource audioSource;
     public AudioDistortionFilter audioFilter;
@@ -74,7 +75,8 @@ public class Telephone : Interactable, ITelephoneDevice
         
     private void OnDestroy()
     {
-        PhoneDirectory.Remove(number);
+        if (null != PBEntry)
+        PhoneDirectory.Remove(PBEntry.Number);
     }
 
     private void Init()
@@ -83,8 +85,9 @@ public class Telephone : Interactable, ITelephoneDevice
             return;
 
         isEnabled = true;
-        number = PhoneDirectory.Register(this);
-        transform.name = "Phone " + number;
+        PBEntry = new PhoneBookEntry();
+        PBEntry.Number = PhoneDirectory.Register(this);
+        transform.name = "Phone " + PBEntry.Number;
         handsetLocalPosition = handset.transform.localPosition;
 
         MaterialMap matMap = new MaterialMap();
@@ -530,13 +533,13 @@ public class Telephone : Interactable, ITelephoneDevice
 
     private IEnumerator IEVoice(AudioSource source)
     {
-        int v = Random.Range(0, 100) % audioPositions.Length;
-        int[] arr = ArrayHelper.GetArray(0, audioPositions[v].Length);
+        voiceCounter %= audioPositions.Length;
+        int[] arr = ArrayHelper.GetArray(0, audioPositions[voiceCounter].Length);
         ArrayHelper.ShuffleArray(arr);
         audioFilter.distortionLevel = 0.6f;
         source.mute = true;
         AudioManager audioManager = AudioManager.GetInstance();
-        audioManager.PlaySound("phone.voice." + v, handset, 1f, source);
+        audioManager.PlaySound("phone.voice." + voiceCounter, handset, 1f, source);
         source.Pause();
         float volume = source.volume * 0.175f;
         int i = 0;
@@ -546,7 +549,7 @@ public class Telephone : Interactable, ITelephoneDevice
         while (isTalking)
         {
             int j = arr[i];
-            float[] t = audioPositions[v][j];
+            float[] t = audioPositions[voiceCounter][j];
             float duration = t[1] - t[0];
             source.time = t[0];
             source.mute = false;
@@ -579,6 +582,7 @@ public class Telephone : Interactable, ITelephoneDevice
         source.time = 0f;
         source.mute = false;
         ieVoice = null;
+        voiceCounter++;
     }
 
     protected override bool ShouldBeEnabled()

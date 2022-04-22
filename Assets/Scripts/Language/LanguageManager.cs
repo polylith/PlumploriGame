@@ -240,7 +240,7 @@ namespace Language
             texts.Add(LangKey.UserMode.ToString().ToLower(), "Spielermodus");
             texts.Add(LangKey.SimpleMode.ToString().ToLower(), "Leichter Modus");
             texts.Add(LangKey.ProfiMode.ToString().ToLower(), "Profimodus");
-
+            texts.Add(LangKey.MasterMode.ToString().ToLower(), "Meistermodus");
 
             texts = new Dictionary<string, string>();
             textDB.Add(SystemLanguage.English, texts);
@@ -398,6 +398,7 @@ namespace Language
             texts.Add(LangKey.UserMode.ToString().ToLower(), "User Mode");
             texts.Add(LangKey.SimpleMode.ToString().ToLower(), "Simple Mode");
             texts.Add(LangKey.ProfiMode.ToString().ToLower(), "Profi Mode");
+            texts.Add(LangKey.MasterMode.ToString().ToLower(), "Master Mode");
 
             return textDB;
         }

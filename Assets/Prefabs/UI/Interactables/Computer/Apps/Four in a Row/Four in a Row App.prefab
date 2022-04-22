@@ -4406,6 +4406,14 @@ MonoBehaviour:
     langKey: 141
     isEnabled: 1
     index: 0
+  - icon: {fileID: 21300000, guid: 9119c7940a942c44a88d4a89281c866c, type: 3}
+    langKey: 142
+    isEnabled: 1
+    index: 0
+  - icon: {fileID: 21300000, guid: 9119c7940a942c44a88d4a89281c866c, type: 3}
+    langKey: 143
+    isEnabled: 1
+    index: 0
   playerConfigs:
   - {fileID: 5446450539845207762}
   - {fileID: 4394246585507554291}
@@ -4436,7 +4444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.9411765, g: 0.9411765, b: 0.9411765, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

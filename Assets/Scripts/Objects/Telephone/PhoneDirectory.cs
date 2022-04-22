@@ -15,9 +15,12 @@ public static class PhoneDirectory
 
         for (int i = 0; i < numbers.Length; i++)
         {
-            string name = Language.NameDB.GetName();
-            string number = numbers[i];
-            TelephoneDevice device = new TelephoneDevice(name, number);
+            PhoneBookEntry entry = new PhoneBookEntry()
+            {
+                Name = Language.NameDB.GetName(),
+                Number = numbers[i]
+            };
+            TelephoneDevice device = new TelephoneDevice(entry);
             Register(device);
         }
 
@@ -53,10 +56,8 @@ public static class PhoneDirectory
             {
                 if (!number.Equals(phoneDevice.Number))
                 {
-                    string name = phoneDevice.Name;
-                    PhoneBookEntry entry = new PhoneBookEntry()
-                    { Name = name, Number = number };
-                    phoneBook.Add(entry);
+                    ITelephoneDevice device = dict[number];
+                    phoneBook.Add(device.PBEntry);
                 }
             }
 

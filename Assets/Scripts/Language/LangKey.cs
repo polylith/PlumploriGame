@@ -157,6 +157,7 @@
         Level,
         UserMode,
         SimpleMode,
-        ProfiMode
+        ProfiMode,
+        MasterMode,
     }
 }

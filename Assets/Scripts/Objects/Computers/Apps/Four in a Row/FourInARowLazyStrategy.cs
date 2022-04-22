@@ -11,7 +11,7 @@ public class FourInARowLazyStrategy : FourInARowStrategy
     {
         int columnIndex = -1;
 
-        if (Board.InsertCount > 0)
+        if (Board.InsertCount > 3)
         {
             columnIndex = GetMax();
         }
@@ -33,7 +33,7 @@ public class FourInARowLazyStrategy : FourInARowStrategy
 
         foreach (int colorIndex in mapCounter.Keys)
         {
-            if (colorIndex != MyPlayerId && mapCounter[colorIndex][columnIndex] > value)
+            if (colorIndex != MyPlayerId && mapCounter[colorIndex][columnIndex] >= value)
                 otherColorIndex = colorIndex;
         }
 
@@ -56,21 +56,32 @@ public class FourInARowLazyStrategy : FourInARowStrategy
                 int myCount = myColorCount[columnIndex];
                 int otherPlayerId = GetOtherColorIndex(mapCounter1, columnIndex, myCount);
 
+                if (myCount > 2)
+                    return columnIndex;
+
                 if (otherPlayerId < 0)
                 {
-                    if (myCount >= max)
+                    if (myCount > max)
                     {
                         max = myCount;
                         bestColumnIndex = columnIndex;
                     }
                 }
+                else if (mapCounter1[otherPlayerId][columnIndex] > 2)
+                {
+                    return columnIndex;
+                }
                 else if (mapCounter1[otherPlayerId][columnIndex] >= max)
                 {
-                    if (myColorCount[columnIndex] >= mapCounter1[otherPlayerId][columnIndex]
+                    if (myCount >= mapCounter1[otherPlayerId][columnIndex]
+                        && mapCounter2.ContainsKey(otherPlayerId)
                         && mapCounter2[otherPlayerId][columnIndex] < 3)
                     {
-                        max = Mathf.Max(max, myColorCount[columnIndex]);
-                        bestColumnIndex = columnIndex;
+                        if (myCount > max)
+                        {
+                            max = Mathf.Max(max, myCount);
+                            bestColumnIndex = columnIndex;
+                        }
                     }
                     else if (mapCounter1[otherPlayerId][columnIndex] > max)
                     {
@@ -111,13 +122,13 @@ public class FourInARowLazyStrategy : FourInARowStrategy
             return;
         }
 
-        Dictionary<int, int> counter = new Dictionary<int, int>();
         int columnCount = Board.ColumnCount;
         int rowCount = Board.RowCount;
-        int[][] directions = Board.Directions;
+        int[][] directions = FourInARowBoard.Directions;
 
         for (int index = 0; index < directions.Length; index++)
         {
+            Dictionary<int, int> counter = new Dictionary<int, int>();
             int columnIndex = currentColumnIndex;
             int rowIndex = currentRowIndex;
             int deltaColumnIndex = directions[index][0];
@@ -174,18 +185,18 @@ public class FourInARowLazyStrategy : FourInARowStrategy
                 columnIndex += deltaColumnIndex;
                 rowIndex += deltaRowIndex;
             }
-        }
 
-        foreach (int colorIndex in counter.Keys)
-        {
-            if (!mapCounter.ContainsKey(colorIndex))
+            foreach (int colorIndex in counter.Keys)
             {
-                mapCounter.Add(colorIndex, new int[columnCount]);
-            }
+                if (!mapCounter.ContainsKey(colorIndex))
+                {
+                    mapCounter.Add(colorIndex, new int[columnCount]);
+                }
 
-            int currentCountValue = mapCounter[colorIndex][currentColumnIndex];
-            int newCountValue = counter[colorIndex];
-            mapCounter[colorIndex][currentColumnIndex] = Mathf.Max(currentCountValue, newCountValue);
+                int currentCountValue = mapCounter[colorIndex][currentColumnIndex];
+                int newCountValue = counter[colorIndex];
+                mapCounter[colorIndex][currentColumnIndex] = Mathf.Max(currentCountValue, newCountValue);
+            }
         }
     }
 }

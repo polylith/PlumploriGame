@@ -9,36 +9,28 @@ public class UIPhonebookEntry : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public TextMeshProUGUI entryNameDisplay;
     public TextMeshProUGUI entryNumberDisplay;
 
-    private string entryName = "???";
-    private string entryNumber;
+    private PhoneBookEntry pbEntry;
     private TelephoneUI telephoneUI;
 
-    public UIPhonebookEntry Instantiate(string name, string number, TelephoneUI telephoneUI, int i)
+    public UIPhonebookEntry Instantiate(PhoneBookEntry entry, TelephoneUI telephoneUI, int i)
     {
-        UIPhonebookEntry entry = Instantiate(this) as UIPhonebookEntry;
-        entry.telephoneUI = telephoneUI;
-        entry.name = "Entry " + i;
-        entry.SetName(name);
-        entry.SetNumber(number);
-        return entry;
+        UIPhonebookEntry uiEntry = Instantiate(this);
+        uiEntry.telephoneUI = telephoneUI;
+        uiEntry.name = "Entry " + i;
+        uiEntry.SetEntry(entry);
+        return uiEntry;
     }
 
-    private void Awake()
+    public void SetEntry(PhoneBookEntry entry)
     {
-        entryNameDisplay.SetText("");
-        entryNumberDisplay.SetText("");
+        pbEntry = entry;
+        UpdateDisplays();
     }
-
-    public void SetName(string name)
+        
+    private void UpdateDisplays()
     {
-        entryName = name;
-        entryNameDisplay.SetText(name);
-    }
-
-    public void SetNumber(string number)
-    {
-        entryNumber = number;
-        entryNumberDisplay.SetText(number);
+        entryNameDisplay.SetText(pbEntry.Name);
+        entryNumberDisplay.SetText(pbEntry.Number);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -46,7 +38,7 @@ public class UIPhonebookEntry : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (telephoneUI.InUse)
             return;
 
-        telephoneUI.InputNumber(entryNumber);
+        telephoneUI.InputNumber(pbEntry.Number);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

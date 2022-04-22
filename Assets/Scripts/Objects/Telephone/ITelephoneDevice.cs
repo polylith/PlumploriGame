@@ -4,6 +4,7 @@ public interface ITelephoneDevice
     public string Name { get; }
     public string Number { get; }
     public bool HasNumber { get; }
+    public PhoneBookEntry PBEntry { get; }
 
     public void FinishCall();
     public void FinishInCall();

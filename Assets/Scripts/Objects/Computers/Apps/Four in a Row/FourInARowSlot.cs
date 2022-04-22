@@ -26,6 +26,18 @@ public class FourInARowSlot : MonoBehaviour
         coin = null;
     }
 
+    public void Highlight(int colorIndex)
+    {
+        Color color = Color.gray;
+
+        if (colorIndex > -1 && colorIndex < FourInARowCoin.Colors.Length)
+        {
+            color = FourInARowCoin.Colors[colorIndex];
+        }
+
+        back.color = color;
+    }
+
     public void Highlight()
     {
         Color color = Color.gray;

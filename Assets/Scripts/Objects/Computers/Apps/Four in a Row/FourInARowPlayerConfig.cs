@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -6,6 +5,15 @@ using TMPro;
 public class FourInARowPlayerConfig : MonoBehaviour
 {
     private static UIDropdownInput activeDropdownInput;
+
+    public static void HideActiveDropdownInput()
+    {
+        if (null == activeDropdownInput)
+            return;
+
+        activeDropdownInput.HideList();
+        activeDropdownInput = null;
+    }
 
     private static void UpdateActiveDropdownInput(UIDropdownInput uiDropdownInput)
     {
@@ -20,11 +28,7 @@ public class FourInARowPlayerConfig : MonoBehaviour
             return;
         }
 
-        if (null != activeDropdownInput)
-        {
-            activeDropdownInput.HideList();
-            activeDropdownInput = null;
-        }
+        HideActiveDropdownInput();
 
         if (uiDropdownInput.IsListVisible)
         {

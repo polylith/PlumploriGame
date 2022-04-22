@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class FourInARowApp : PCApp
 {
@@ -19,6 +21,7 @@ public class FourInARowApp : PCApp
 
     private List<FourInARowStrategy> players;
     private int coinCounter;
+    private IEnumerator ieInput;
 
     public override List<string> GetAttributes()
     {
@@ -141,14 +144,25 @@ public class FourInARowApp : PCApp
         CurrentPlayerId = -1;
     }
 
+    private void StopInput()
+    {
+        if (null != ieInput)
+            StopCoroutine(ieInput);
+
+        ieInput = null;
+    }
+
     private void ShowHint()
     {
-        // TODO
+        int columnIndex = FourInARowProfiStrategy.FindBest(board, CurrentPlayerId);
+        int rowIndex = board.NextSlotIndexInColumn(columnIndex);
+        board.HighlightSlot(columnIndex, rowIndex, CurrentPlayerId);
     }
 
     private void NewGame()
     {
         coinCounter = 0;
+        StopInput();
         board.ResetBoard();
 
         /*
@@ -176,6 +190,7 @@ public class FourInARowApp : PCApp
 
     private void InsertCoin(int columnIndex)
     {
+        board.UnhighlightSlot();
         hintButton.IsEnabled = false;
         board.IsSelectionEnabled = false;
         FourInARowCoin coin = coinPrefab.Instantiate(CurrentPlayerId, coinCounter);
@@ -234,12 +249,22 @@ public class FourInARowApp : PCApp
         if (isUser)
             return;
 
-        GameEvent.GetInstance().Execute(HandleInput, UnityEngine.Random.Range(0.5f, 1f));
+        ieInput = IEHandleInput();
+        StartCoroutine(ieInput);
     }
 
-    private void HandleInput()
+    private IEnumerator IEHandleInput()
     {
         int columnIndex = players[CurrentPlayerId].FindBestSlotColumnIndex();
+
+        float waitTime = UnityEngine.Random.Range(0.5f, 1f);
+
+        yield return new WaitForSecondsRealtime(waitTime);
+
         InsertCoin(columnIndex);
+
+        yield return null;
+
+        ieInput = null;
     }
 }
