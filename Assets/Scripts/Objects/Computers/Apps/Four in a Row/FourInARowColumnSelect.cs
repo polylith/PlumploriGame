@@ -18,9 +18,6 @@ public class FourInARowColumnSelect : MonoBehaviour, IPointerEnterHandler, IPoin
 
     private void SetEnabled(bool isEnabled)
     {
-        if (this.isEnabled == isEnabled)
-            return;
-
         this.isEnabled = isEnabled;
         SetState(false);
         back.raycastTarget = isEnabled;

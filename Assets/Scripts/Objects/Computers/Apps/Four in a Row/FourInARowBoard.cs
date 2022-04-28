@@ -15,6 +15,7 @@ public class FourInARowBoard : MonoBehaviour
         new int[] {  0, -1 }, // 3
     };
 
+    public int MaxPlayers { get; set; }
     public int InsertCount { get; private set; }
     public bool HasFreeSlots { get => CheckFreeSlots(); }
     public int NextFreeColumnIndex { get => GetNextFreeColumnIndex(); }
@@ -30,31 +31,40 @@ public class FourInARowBoard : MonoBehaviour
 
     private bool isSelectionEnabled = true;
     private readonly List<FourInARowSlot> winningSlots = new List<FourInARowSlot>();
-    private FourInARowSlot highlightedSlot;
+    private readonly List<FourInARowSlot> highlightedSlots = new List<FourInARowSlot>();
 
-    public void HighlightSlot(int columnIndex, int rowIndex, int colorIndex)
+    public void HighlightSlots(List<int[]> list, int colorIndex)
     {
-        if (columnIndex < 0 || columnIndex >= fourInARowColumns.Length
-            || rowIndex < 0 || rowIndex >= RowCount)
-            return;
+        UnhighlightSlots();
 
-        FourInARowSlot slot = GetSlot(columnIndex, rowIndex);
+        foreach (int[] data in list)
+        {
+            int columnIndex = data[0];
+            int rowIndex = data[1];
 
-        if (highlightedSlot == slot)
-            return;
-
-        UnhighlightSlot();
-        highlightedSlot = slot;
-        slot.Highlight(colorIndex);
+            if (columnIndex >= 0 && columnIndex < ColumnCount
+                && rowIndex >= 0 && rowIndex < RowCount)
+            {
+                FourInARowSlot slot = GetSlot(columnIndex, rowIndex);
+                highlightedSlots.Add(slot);
+                slot.Highlight(colorIndex);
+            }
+        }
     }
 
-    public void UnhighlightSlot()
+    public void UnhighlightSlots()
     {
-        if (null == highlightedSlot)
+        if (highlightedSlots.Count == 0)
+        {
             return;
+        }
 
-        highlightedSlot.Highlight();
-        highlightedSlot = null;
+        foreach (FourInARowSlot slot in highlightedSlots)
+        {
+            slot.Highlight();
+        }
+
+        highlightedSlots.Clear();
     }
 
     public int NextSlotIndexInColumn(int columnIndex)
@@ -83,7 +93,7 @@ public class FourInARowBoard : MonoBehaviour
 
     public void ResetBoard()
     {
-        UnhighlightSlot();
+        UnhighlightSlots();
 
         for (int i = 0; i < fourInARowColumns.Length; i++)
         {
@@ -268,9 +278,6 @@ public class FourInARowBoard : MonoBehaviour
 
     private void SetSelectionEnabled(bool isSelectionEnabled)
     {
-        if (this.isSelectionEnabled == isSelectionEnabled)
-            return;
-
         this.isSelectionEnabled = isSelectionEnabled;
 
         for (int index = 0; index < fourInARowColumnSelects.Length; index++)

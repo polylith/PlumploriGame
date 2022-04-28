@@ -19,8 +19,6 @@ public class FourInARowProfiStrategy : FourInARowStrategy
 
         if (board.InsertCount > 3)
         {
-            Debug.Log("==========");
-
             int maxScore = int.MinValue;
 
             for (int columnIndex = 0; columnIndex < matrix.GetLength(0); columnIndex++)
@@ -30,8 +28,6 @@ public class FourInARowProfiStrategy : FourInARowStrategy
                 if (rowIndex < matrix.GetLength(1))
                 {
                     int score = CheckColumn(matrix, 0, columnIndex, playerId);
-
-                    Debug.Log(playerId + " col " + columnIndex + " score " + score + " max " + maxScore + " -> " + bestColumnIndex);
 
                     if (score > maxScore)
                     {
@@ -79,9 +75,6 @@ public class FourInARowProfiStrategy : FourInARowStrategy
 
         int score = CheckColumn(matrix, depth + 1, columnIndex, playerId);
         matrix[columnIndex, rowIndex] = -1;
-
-        Debug.Log("(" + columnIndex + ", " + rowIndex + ") " + score + " + " + count);
-
         return score + count;
     }
 

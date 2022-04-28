@@ -24,10 +24,15 @@ public class FourInARowApp : PCApp
     private IEnumerator ieInput;
     private bool isGameRunning;
     private bool isGamePaused;
+    private bool isGameFinished;
+    private int hintCount;
 
     public override List<string> GetAttributes()
     {
-        return new List<string>();
+        return new List<string>()
+        {
+            "FourInARowApp.HasWon"
+        };
     }
 
     public override Dictionary<string, Action<bool>> GetDelegates()
@@ -37,7 +42,10 @@ public class FourInARowApp : PCApp
 
     public override List<Formula> GetGoals()
     {
-        return null;
+        return new List<Formula>()
+        {
+            new Implication(WorldDB.Get("FourInARowApp.HasWon"), null)
+        };
     }
 
     protected override void Effect()
@@ -114,12 +122,17 @@ public class FourInARowApp : PCApp
     private void ResumeGame()
     {
         isGamePaused = false;
+
+        if (isGameFinished)
+            return;
+
         SwitchPlayer();
     }
 
     private void ApplyOptions()
     {
         isGameRunning = true;
+        isGamePaused = false;
         SetupOptions();
     }
 
@@ -153,6 +166,7 @@ public class FourInARowApp : PCApp
             }
         }
 
+        board.MaxPlayers = players.Count;
         options.Hide();
         StartGame();
     }
@@ -180,9 +194,27 @@ public class FourInARowApp : PCApp
 
     private void ShowHint()
     {
-        int columnIndex = FourInARowProfiStrategy.FindBest(board, CurrentPlayerId);
-        int rowIndex = board.NextSlotIndexInColumn(columnIndex);
-        board.HighlightSlot(columnIndex, rowIndex, CurrentPlayerId);
+        hintCount++;
+        int columnIndex1 = FourInARowProfiStrategy.FindBest(board, CurrentPlayerId);
+        int rowIndex = board.NextSlotIndexInColumn(columnIndex1);
+        List<int[]> list = new List<int[]>() { new int[] { columnIndex1, rowIndex } };
+        int columnIndex2 = FourInARowMasterStrategy.FindBest(board, CurrentPlayerId);
+
+        if (columnIndex2 != columnIndex1)
+        {
+            rowIndex = board.NextSlotIndexInColumn(columnIndex2);
+            list.Add(new int[] { columnIndex2, rowIndex });            
+        }
+
+        int columnIndex3 = FourInARowLazyStrategy.FindBest(board, CurrentPlayerId);
+
+        if (columnIndex3 != columnIndex1 && columnIndex3 != columnIndex2)
+        {
+            rowIndex = board.NextSlotIndexInColumn(columnIndex3);
+            list.Add(new int[] { columnIndex3, rowIndex });
+        }
+
+        board.HighlightSlots(list, CurrentPlayerId);
     }
 
     private void NewGame()
@@ -195,6 +227,8 @@ public class FourInARowApp : PCApp
     private void StartGame()
     {
         coinCounter = 0;
+        isGameFinished = false;
+        hintCount = 0;
         StopInput();
         board.ResetBoard();
 
@@ -223,11 +257,11 @@ public class FourInARowApp : PCApp
 
     private void InsertCoin(int columnIndex)
     {
-        board.UnhighlightSlot();
+        board.UnhighlightSlots();
         hintButton.IsEnabled = false;
         board.IsSelectionEnabled = false;
 
-        if (!isGameRunning || isGamePaused)
+        if (!isGameRunning || isGamePaused || isGameFinished)
             return;
 
         FourInARowCoin coin = coinPrefab.Instantiate(CurrentPlayerId, coinCounter);
@@ -246,6 +280,7 @@ public class FourInARowApp : PCApp
         {
             WinnerPlayerId = CurrentPlayerId;
             action = ShowWinner;
+            isGameFinished = true;
         }
         else if (!board.HasFreeSlots)
         {
@@ -261,6 +296,12 @@ public class FourInARowApp : PCApp
         if (WinnerPlayerId > -1)
         {
             board.HighlightWinningSlots();
+
+            if (hintCount == 0 && players[WinnerPlayerId].IsUser)
+            {
+                computer.AppFire("FourInARowApp.HasWon", true);
+            }
+
             playerDisplays[WinnerPlayerId].AddScore(board.Score);
             AudioManager.GetInstance().PlaySound("win", computer.gameObject);
             return;

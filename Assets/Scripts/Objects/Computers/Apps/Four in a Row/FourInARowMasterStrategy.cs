@@ -1,86 +1,84 @@
 using System;
-using System.Collections.Generic;
 
 public class FourInARowMasterStrategy : FourInARowStrategy
 {
-    private readonly List<int> playerIds = new List<int>();
-
     public FourInARowMasterStrategy(FourInARowBoard board, int playerId)
         : base(board, playerId)
-    {
-        playerIds.Add(playerId);
-
-        for (int colorIndex = 0; colorIndex < 4; colorIndex++)
-        {
-            if (colorIndex != playerId)
-            {
-                playerIds.Add(colorIndex);
-            }
-        }
-    }
+    {}
 
     public override int FindBestSlotColumnIndex()
     {
-        int bestColumnIndex = -1;
+        return FindBest(Board, MyPlayerId);
+    }
 
-        if (Board.InsertCount > 3)
+    public static int FindBest(FourInARowBoard board, int myPlayerId)
+    {
+        int bestColumnIndex = CheckWin(board, myPlayerId);
+
+        if (bestColumnIndex > -1)
+            return bestColumnIndex;
+
+        for (int colorIndex = 0; colorIndex < board.MaxPlayers; colorIndex++)
         {
-            bestColumnIndex = FindBest();
+            if (colorIndex != myPlayerId)
+            {
+                bestColumnIndex = CheckWin(board, colorIndex);
+
+                if (bestColumnIndex > -1)
+                    return bestColumnIndex;
+            }
         }
 
-        if (bestColumnIndex < 0)
-        {
-            bestColumnIndex = UnityEngine.Random.Range(0, Board.ColumnCount);
+        int half = board.ColumnCount >> 1;
 
-            while (Board.HasFreeSlots && !Board.HasColumnFreeSlots(bestColumnIndex))
+        for (int colorIndex = 0; colorIndex < board.MaxPlayers; colorIndex++)
+        {
+            if (colorIndex != myPlayerId)
             {
-                bestColumnIndex = UnityEngine.Random.Range(0, Board.ColumnCount);
+                for (int i = 0; i <= half; i++)
+                {
+                    int[,] matrix = board.Matrix;
+                    int j = half - i;
+                    int rowIndex = FindRow(matrix, j);
+
+                    if (rowIndex < board.RowCount
+                        && !CheckWinForTwoMoves(j, colorIndex, myPlayerId, matrix))
+                    {
+                        return j;
+                    }
+
+                    matrix = board.Matrix;
+                    j = half + i;
+                    rowIndex = FindRow(matrix, j);
+
+                    if (rowIndex < board.RowCount
+                        && !CheckWinForTwoMoves(j, colorIndex, myPlayerId, matrix))
+                    {
+                        return j;
+                    }
+                }
             }
+        }
+
+        bestColumnIndex = UnityEngine.Random.Range(0, board.ColumnCount);
+
+        while (board.HasFreeSlots && !board.HasColumnFreeSlots(bestColumnIndex))
+        {
+            bestColumnIndex = UnityEngine.Random.Range(0, board.ColumnCount);
         }
 
         return bestColumnIndex;
     }
 
-    private int FindBest()
+    private static int CheckWin(FourInARowBoard board, int colorIndex)
     {
-        foreach (int colorIndex in playerIds)
+        for (int columnIndex = 0; columnIndex < board.ColumnCount; columnIndex++)
         {
-            for (int columnIndex = 0; columnIndex < Board.ColumnCount; columnIndex++)
+            int[,] matrix = board.Matrix;
+
+            if (CheckWin(columnIndex, colorIndex, matrix))
             {
-                int[,] matrix = Board.Matrix;
-
-                if (CheckWin(columnIndex, colorIndex, matrix))
-                {
-                    return columnIndex;
-                }
-            }
-        }
-
-        int half = Board.ColumnCount >> 1;
-
-        for (int index = 1; index < playerIds.Count; index++)
-        {
-            for (int i = 0; i <= half; i++)
-            {
-                int[,] matrix = Board.Matrix;
-                int j = half - i;
-                int rowIndex = FindRow(matrix, j);
-
-                if (rowIndex < Board.RowCount
-                    && !CheckWinForTwoMoves(j, playerIds[index], MyPlayerId, matrix))
-                {
-                    return j;
-                }
-
-                matrix = Board.Matrix;
-                j = half + i;
-                rowIndex = FindRow(matrix, j);
-
-                if (rowIndex < Board.RowCount
-                    && !CheckWinForTwoMoves(j, playerIds[index], MyPlayerId, matrix))
-                {
-                    return j;
-                }
+                return columnIndex;
             }
         }
 
@@ -102,29 +100,26 @@ public class FourInARowMasterStrategy : FourInARowStrategy
     }
 
     private static bool CheckWin(int columnIndex, int colorIndex,
-        int[,] matrix, int rowIndex = -1)
+        int[,] matrix, int nextRowIndex = -1)
     {
-        if (rowIndex == -1)
+        if (nextRowIndex == -1)
         {
-            rowIndex = FindRow(matrix, columnIndex);
+            nextRowIndex = FindRow(matrix, columnIndex);
         }
 
         int rowCount = matrix.GetLength(1);
 
-        if (rowIndex >= rowCount)
+        if (nextRowIndex >= rowCount)
         {
             return false;
         }
 
-        matrix[columnIndex, rowIndex] = colorIndex;
-
+        matrix[columnIndex, nextRowIndex] = colorIndex;
         string vert = "";
-        int startIndex = Math.Max(rowIndex - 3, 0);
-        int endIndex = Math.Min(rowIndex + 4, rowCount);
 
-        for (int i = startIndex; i < endIndex; i++)
+        for (int rowIndex = 0; rowIndex <= nextRowIndex; rowIndex++)
         {
-            vert += matrix[colorIndex, i] == colorIndex ? "1" : "0";
+            vert += matrix[columnIndex, rowIndex] == colorIndex ? "1" : "0";
         }
 
         if (vert.Contains("1111"))
@@ -132,8 +127,8 @@ public class FourInARowMasterStrategy : FourInARowStrategy
             return true;
         }
 
-        startIndex = Math.Max(columnIndex - 3, 0);
-        endIndex = Math.Min(columnIndex + 4, matrix.GetLength(0));
+        int startIndex = Math.Max(columnIndex - 3, 0);
+        int endIndex = Math.Min(columnIndex + 4, matrix.GetLength(0));
 
         string horiz = "";
         string diag1 = "";
@@ -141,9 +136,9 @@ public class FourInARowMasterStrategy : FourInARowStrategy
 
         for (int i = startIndex; i < endIndex; i++)
         {
-            horiz += matrix[i, rowIndex] == colorIndex ? "1" : "0";
-            int j = rowIndex + columnIndex - i;
-            int k = rowIndex - columnIndex + i;
+            horiz += matrix[i, nextRowIndex] == colorIndex ? "1" : "0";
+            int j = nextRowIndex + columnIndex - i;
+            int k = nextRowIndex - columnIndex + i;
 
             if (j >= 0 && j < rowCount)
             {

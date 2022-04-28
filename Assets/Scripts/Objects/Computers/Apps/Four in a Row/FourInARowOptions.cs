@@ -77,6 +77,7 @@ public class FourInARowOptions : MonoBehaviour
 
     private void ApplySettings()
     {
+        isHideActionEnabled = false;
         settings.numberOfPlayers = numberOfPlayersSpinner.Value;
         settings.playerMode0 = playerConfigs[0].SelectedIndex;
         settings.playerMode1 = playerConfigs[1].SelectedIndex;
