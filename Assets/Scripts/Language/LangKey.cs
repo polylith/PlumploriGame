@@ -143,6 +143,7 @@
         No,
         Ok,
         Cancel,
+        Retry,
         AppLaunchError,
         Option,
         Options,

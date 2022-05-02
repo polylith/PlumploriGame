@@ -122,6 +122,7 @@ public class IPv4Config : AbstractData
         return (~mask >> 1) > offset;
     }
 
+    public bool HasInternetConnection { get => CheckInternetConnection(); }
     public bool IsConnected { get => ip > 0; }
     public string IP { get => GetDotDecimal(ip, false); }
     public string Mask { get => GetDotDecimal(mask, true); }
@@ -132,8 +133,21 @@ public class IPv4Config : AbstractData
     public uint ip { get; private set; } = 0;
     public uint mask { get; private set; } = 0;
 
+    public Router Router { get; set; }
+
     private uint gateway = 0;
     private string mac = null;
+
+    private bool CheckInternetConnection()
+    {
+        if (!IsConnected)
+            return false;
+
+        if (null == Router)
+            return true;
+
+        return Router.IsConnected;
+    }
 
     public void CheckOffset(int offset)
     {
@@ -144,6 +158,7 @@ public class IPv4Config : AbstractData
     public void Reset()
     {
         Set(0, 0, 0);
+        Router = null;
     }
 
     public void Set(uint ip, uint mask, uint gateway)

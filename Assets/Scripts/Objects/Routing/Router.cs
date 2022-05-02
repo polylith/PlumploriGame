@@ -137,11 +137,13 @@ public class Router : Interactable, IIPv4Device
             {
                 // connect
                 configMap.Register(ipV4Device, ipV4Config, internIPvpV4Config.ip);
+                ipV4Config.Router = this;
             }
             catch (System.Exception ex)
             {
                 Debug.Log(ex);
                 HasError = true;
+                ipV4Config.Reset();
             }
         }
 

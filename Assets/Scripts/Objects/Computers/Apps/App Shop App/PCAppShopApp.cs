@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PCAppShopApp : PCApp
 {
+    public NotConnectedDisplay notConnectedDisplay;
     public UITextButton categoryButtonPrefab;
     public PCAppDisplay pcAppDisplayPrefab;
 
@@ -52,7 +53,26 @@ public class PCAppShopApp : PCApp
 
     protected override void PreCall()
     {
+        InitAppDisplay();
+    }
+
+    private bool CheckConnection()
+    {
+        if (!computer.HasInternetConnection)
+        {
+            notConnectedDisplay.Show(InitAppDisplay);
+            return false;
+        }
+
+        notConnectedDisplay.Hide();
+        return true;
+    }
+
+    private void InitAppDisplay() { 
         ResetApp();
+
+        if (!CheckConnection())
+            return;
 
         categoryMap = new Dictionary<string, List<PCAppDisplay>>();
         categoryButtons = new List<UITextButton>();
@@ -106,7 +126,7 @@ public class PCAppShopApp : PCApp
 
     private void ShowCategory(PCApp.Category category, UITextButton categoryButton)
     {
-        if (currentCategoryName.Equals(category.ToString()))
+        if (!CheckConnection() || currentCategoryName.Equals(category.ToString()))
             return;
 
         UnsetActiveCategory();
@@ -153,6 +173,9 @@ public class PCAppShopApp : PCApp
 
     private void InstallApp(PCAppDisplay pcAppDisplay)
     {
+        if (!CheckConnection())
+            return;
+
         pcAppDisplay.Install(computer);
     }
 }

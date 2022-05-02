@@ -42,6 +42,7 @@ public class ExtraNet : AbstractData
             try
             {
                 // connect
+                ipV4Config.Reset();
                 configMap.Register(ipV4Device, ipV4Config, this.ipV4Config.ip);
             }
             catch (System.Exception ex)

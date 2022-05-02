@@ -40,6 +40,7 @@ public class Computer : Interactable, IIPv4Device
     public bool IsRunning { get => CurrentState >= State.Running && CurrentState < State.ShuttingDown; }
     public bool HasVirus { get => hasVirus; }
     public bool Crashed { get; set; }
+    public bool HasInternetConnection { get => IsRunning && null != IPv4Config && IPv4Config.HasInternetConnection; }
     public bool IsConnected { get => IsRunning && null != IPv4Config && IPv4Config.IsConnected; }
     public IPv4Config IPv4Config { get => CheckIPv4Config(); }
 

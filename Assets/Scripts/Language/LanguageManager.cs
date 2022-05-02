@@ -224,6 +224,7 @@ namespace Language
             texts.Add(LangKey.No.ToString().ToLower(), "Nein");
             texts.Add(LangKey.Ok.ToString().ToLower(), "Ok");
             texts.Add(LangKey.Cancel.ToString().ToLower(), "Abbrechen");
+            texts.Add(LangKey.Retry.ToString().ToLower(), "Erneut versuchen");
             texts.Add(LangKey.Option.ToString().ToLower(), "Option");
             texts.Add(LangKey.Options.ToString().ToLower(), "Optionen");
             texts.Add(LangKey.AppLaunchError.ToString().ToLower(), "<b><i>{0}</i> konnte nicht gestartet werden.</b><br>Das System kann diese Anwendung zur Zeit nicht starten. Bitte versuchen Sie es noch einmal.<br><b>Wenn das Problem weiterhin besteht, wenden Sie sich an Ihren Administrator.</b>");
@@ -382,6 +383,7 @@ namespace Language
             texts.Add(LangKey.No.ToString().ToLower(), "No");
             texts.Add(LangKey.Ok.ToString().ToLower(), "Ok");
             texts.Add(LangKey.Cancel.ToString().ToLower(), "Cancel");
+            texts.Add(LangKey.Retry.ToString().ToLower(), "Retry");
             texts.Add(LangKey.Option.ToString().ToLower(), "Option");
             texts.Add(LangKey.Options.ToString().ToLower(), "Options");
             texts.Add(LangKey.AppLaunchError.ToString().ToLower(), "<b><i>{0}</i> failed to start.</b><br> System is unable to start this application at this time. Please retry again.<br><b>If the problem persits, contact your administrator.</b>");
