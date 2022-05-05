@@ -21,7 +21,17 @@ public class RouterUI : InteractableUI
 
     public Image[] lamps;
 
+    private void OnDisable()
+    {
+        Unassign();   
+    }
+
     protected override void BeforeHide()
+    {
+        Unassign();
+    }
+
+    private void Unassign()
     {
         if (null == interactable || !(interactable is Router router))
             return;
