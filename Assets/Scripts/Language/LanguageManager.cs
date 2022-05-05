@@ -220,6 +220,7 @@ namespace Language
             texts.Add(LangKey.ObjectsFound.ToString().ToLower(), "{0} Objekt(e) gefunden");
             texts.Add(LangKey.ObjectsRemoved.ToString().ToLower(), "{0} Objekt(e) entfernt");
             texts.Add(LangKey.Data.ToString().ToLower(), "Daten");
+            texts.Add(LangKey.Retrieving.ToString().ToLower(), "{0} werden abgerufen");
             texts.Add(LangKey.Yes.ToString().ToLower(), "Ja");
             texts.Add(LangKey.No.ToString().ToLower(), "Nein");
             texts.Add(LangKey.Ok.ToString().ToLower(), "Ok");
@@ -379,6 +380,7 @@ namespace Language
             texts.Add(LangKey.ObjectsFound.ToString().ToLower(), "{0} object(s) found");
             texts.Add(LangKey.ObjectsRemoved.ToString().ToLower(), "{0} object(s) removed");
             texts.Add(LangKey.Data.ToString().ToLower(), "Data");
+            texts.Add(LangKey.Retrieving.ToString().ToLower(), "Retrieving {0}");
             texts.Add(LangKey.Yes.ToString().ToLower(), "Yes");
             texts.Add(LangKey.No.ToString().ToLower(), "No");
             texts.Add(LangKey.Ok.ToString().ToLower(), "Ok");

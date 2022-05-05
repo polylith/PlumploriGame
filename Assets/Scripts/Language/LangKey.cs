@@ -160,5 +160,6 @@
         SimpleMode,
         ProfiMode,
         MasterMode,
+        Retrieving,
     }
 }

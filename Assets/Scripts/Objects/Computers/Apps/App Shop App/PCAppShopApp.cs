@@ -60,7 +60,7 @@ public class PCAppShopApp : PCApp
     {
         if (!computer.HasInternetConnection)
         {
-            notConnectedDisplay.Show(InitAppDisplay);
+            notConnectedDisplay.Show(InitAppDisplay, computer);
             return false;
         }
 

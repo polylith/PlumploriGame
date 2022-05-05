@@ -4399,10 +4399,6 @@ MonoBehaviour:
   - {fileID: 2026945891218161966}
   playerModes:
   - icon: {fileID: 21300000, guid: a1fd46212e293bf42b09017cb822e32e, type: 3}
-    langKey: 140
-    isEnabled: 1
-    index: 0
-  - icon: {fileID: 21300000, guid: 9119c7940a942c44a88d4a89281c866c, type: 3}
     langKey: 141
     isEnabled: 1
     index: 0
@@ -4412,6 +4408,10 @@ MonoBehaviour:
     index: 0
   - icon: {fileID: 21300000, guid: 9119c7940a942c44a88d4a89281c866c, type: 3}
     langKey: 143
+    isEnabled: 1
+    index: 0
+  - icon: {fileID: 21300000, guid: 9119c7940a942c44a88d4a89281c866c, type: 3}
+    langKey: 144
     isEnabled: 1
     index: 0
   playerConfigs:
