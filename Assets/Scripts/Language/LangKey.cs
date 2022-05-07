@@ -161,5 +161,7 @@
         ProfiMode,
         MasterMode,
         Retrieving,
+        Apply,
+        Settings,
     }
 }
