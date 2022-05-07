@@ -77,16 +77,21 @@ public class IPv4ConfigDisplay : MonoBehaviour
         if (null == router)
         {
             // direct dis/connect
-            ExtraNet.GetInstance().Connect(Computer, UpdateConnectionInfo);
+            ExtraNet.GetInstance().Connect(Computer, InitConnectionInfo);
         }
         else
         {
             // dis/connect router
-            router.Connect(Computer, UpdateConnectionInfo);
+            router.Connect(Computer, InitConnectionInfo);
         }
     }
 
-    public void UpdateConnectionInfo()
+    public void InitConnectionInfo()
+    {
+        UpdateConnectionInfo(true);
+    }
+
+    public void UpdateConnectionInfo(bool playSound)
     {
         string macString = "--:--:--:--:--:--";
         string ipString = "---.---.---.---";
@@ -106,7 +111,9 @@ public class IPv4ConfigDisplay : MonoBehaviour
                 maskString = ipV4Config.Mask;
                 gatewayString = ipV4Config.Gateway;
                 isConnected = true;
-                AudioManager.GetInstance().PlaySound("beep3x", Computer.gameObject);
+
+                if (playSound)
+                    AudioManager.GetInstance().PlaySound("beep3x", Computer.gameObject);
             }
         }
 
@@ -141,7 +148,7 @@ public class IPv4ConfigDisplay : MonoBehaviour
         Vector3 scale = isVisible ? Vector3.one : new Vector3(0f, 1f, 1f);
 
         if (isVisible)
-            UpdateConnectionInfo();
+            UpdateConnectionInfo(false);
 
         if (instant)
         {
