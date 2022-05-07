@@ -30,7 +30,9 @@ public class UITextButton : UIButton
     public override void SetState(int state)
     {
         base.SetState(state);
-        textMesh.color = IsEnabled ? textColors[State] : Color.gray; 
+
+        if (State >= 0)
+            textMesh.color = IsEnabled ? textColors[State] : Color.gray; 
     }
 
     public UITextButton Instantiate(UIButtonData data)

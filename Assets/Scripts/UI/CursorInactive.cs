@@ -11,20 +11,21 @@ public class CursorInactive : MonoBehaviour, IPointerEnterHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         ActionController actionController = ActionController.GetInstance();
-
-        if ((actionController.IsCurrentAction(typeof(UseAction))
+        
+        if (eventData.pointerEnter != gameObject
+            ||(actionController.IsCurrentAction(typeof(UseAction))
             || actionController.IsCurrentAction(typeof(GrabAction)))
             && actionController.IsCurrentActionActive())
             return;
 
         actionController.UnsetActionState(null);
         
-        UIGame.GetInstance().SetCursorEnabled(false, false);
-
         UIDropPoint uiDropPoint = UIDropPoint.GetInstance();
         uiDropPoint.IsFreezed = false;
         uiDropPoint.HidePointer();
         
         GameManager.GetInstance().UnHighlight();
+
+        UIGame.GetInstance().SetCursorEnabled(false, false);
     }
 }

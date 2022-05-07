@@ -128,8 +128,6 @@ public class Inventorybox : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        UIGame.GetInstance().SetCursorEnabled(true, false);
-        Highlight(true);
         UIToolTip.GetInstance().SetText(
             LanguageManager.GetText(isOpen 
             ? LangKey.Close : LangKey.Open, 
@@ -137,6 +135,8 @@ public class Inventorybox : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
             1
         );
         UIToolTip.GetInstance().Show(transform);
+        UIGame.GetInstance().SetCursorEnabled(true, false);
+        Highlight(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)

@@ -130,9 +130,9 @@ public class PCAppShopApp : PCApp
             return;
 
         UnsetActiveCategory();
-        activeCategoryButton = categoryButton;
-        activeCategoryButton.SetState(2);
         currentCategoryName = category.ToString();
+        activeCategoryButton = categoryButton;
+        activeCategoryButton.SetState(2);        
 
         if (!categoryMap.ContainsKey(currentCategoryName))
         {

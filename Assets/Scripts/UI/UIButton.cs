@@ -35,7 +35,9 @@ public abstract class UIButton : MonoBehaviour, IPointerClickHandler, IPointerEn
 
     private void Start()
     {
-        if (state > -1)
+        if (state > 1)
+            SetState(2);
+        else if (state > -1)
             SetState(0);
     }
 

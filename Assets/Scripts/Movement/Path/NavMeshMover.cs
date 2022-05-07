@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -67,14 +68,22 @@ namespace Movement
 
             // LogPath(path, start, info.target);
 
-            Vector3[] points = new Vector3[path.corners.Length];
+            List<Vector3> points = new List<Vector3>();
+            Vector3 lastPoint = start;
 
-            for (int i = 0; i < points.Length; i++)
+            for (int i = 0; i < path.corners.Length; i++)
             {
-                points[i] = Calc.GetPointOnGround(path.corners[i]).point;
+                Vector3 point = Calc.GetPointOnGround(path.corners[i]).point;
+
+                if (Vector3.Distance(lastPoint, point) > 0f)
+                {
+                    Debug.DrawLine(lastPoint, point, Color.red, 15f);
+                    points.Add(point);
+                    lastPoint = point;
+                }                    
             }
 
-            info.points = points;
+            info.points = points.ToArray();
             return info;
         }
     }

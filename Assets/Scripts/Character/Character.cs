@@ -311,19 +311,24 @@ public abstract class Character : MonoBehaviour
         Vector3[] path = new Vector3[0];
         RaycastHit hit = Calc.GetPointOnGround(target);
         target = hit.point;
+        float speed = moveSpeed;
 
         if (bCheckNavMesh)
         {
             float distance = Vector3.Distance(transform.position, target);
-
+            
             Debug.Log("Distance " + transform.position + " -> " + target + " = " + distance);
 
+            // TODO improve
             if (distance > 0.5f)
             {
                 Vector3 direction = (target - transform.position).normalized;
                 Vector3 start = transform.position + direction;
                 MovePathInfo info = NavMeshMover.CalculatePath(start, target);
                 path = info.points;
+
+                foreach (Vector3 v in path)
+                    Debug.Log("\t" + v);
             }
 
             if (path.Length == 0)
@@ -361,7 +366,7 @@ public abstract class Character : MonoBehaviour
         uiDropPoint.ShowPointer(target, hit.normal, 2);
         uiDropPoint.IsFreezed = true;
 
-        duration = Calc.CalcPathDuration(path, moveSpeed);
+        duration = Calc.CalcPathDuration(path, speed);
         targets = new List<Vector3>(path);
         moveSequence = DOTween.Sequence().
             SetAutoKill(false).
@@ -374,8 +379,7 @@ public abstract class Character : MonoBehaviour
                     duration,
                     PathType.Linear,
                     PathMode.Ignore,
-                    10,
-                    Color.red
+                    5
                 ).
                 SetEase(Ease.Linear).
                 OnWaypointChange(WayPointCallback)
