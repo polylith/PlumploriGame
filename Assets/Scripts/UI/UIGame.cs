@@ -70,7 +70,7 @@ public class UIGame : MonoBehaviour
         inventory.Show(false, true);
 
         showObject.gameObject.SetActive(false);
-        uiCursor.SetActive(true);
+        uiCursor.IsActive = true;
         shadeVisible = true;
         shade.enabled = true;
     }
@@ -268,7 +268,7 @@ public class UIGame : MonoBehaviour
         if (IsHidden)
             return;
 
-        uiCursor.SetActive(visible);
+        uiCursor.IsActive = visible;
         RestoreObjectIcon(visible);
     }
 

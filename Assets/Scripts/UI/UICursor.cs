@@ -14,11 +14,13 @@ public class UICursor : MonoBehaviour
 {
     private static Vector2 defaultPosition = new Vector2(0.15f, 0.75f);
 
+    public bool IsActive { get => isActive; set => SetActive(value); }
+
     public Texture2D defaultTexture;
 
     private Vector2 pivot = defaultPosition;
     private Texture2D tex;
-    public bool isActive = false;
+    private bool isActive = false;
     private bool isEnabled = false;
     private bool isOverUI;
     private RectTransform rectTransform;
@@ -34,9 +36,12 @@ public class UICursor : MonoBehaviour
         Hide();
     }
 
-    public bool IsActive()
+    private void OnApplicationFocus(bool focus)
     {
-        return isActive;
+        if (!focus)
+            return;
+
+        SetActive(IsActive);
     }
 
     public bool IsEnabled()
@@ -44,11 +49,8 @@ public class UICursor : MonoBehaviour
         return isEnabled;
     }
             
-    public void SetActive(bool active)
+    private void SetActive(bool active)
     {
-        if (isActive == active)
-            return;
-
         isActive = active;
 
         if (active)

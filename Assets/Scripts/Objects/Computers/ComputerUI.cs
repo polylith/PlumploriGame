@@ -205,7 +205,18 @@ public class ComputerUI : InteractableUI
 
     public void UpdateConnectButton()
     {
-        ipV4ConfigDisplay.UpdateConnectionInfo();
+        ipV4ConfigDisplay.UpdateConnectionInfo(false);
+    }
+
+    protected override void Suspend()
+    {
+        if (null != interactable && interactable is Computer computer)
+        {
+            computer.UpdateScreen();
+        }
+
+        base.Suspend();
+        UIGame.GetInstance().HideCursor(false);
     }
 
     private void LogOff()

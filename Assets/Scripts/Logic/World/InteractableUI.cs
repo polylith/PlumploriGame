@@ -173,6 +173,7 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
     public TextMeshProUGUI headLine;
     public TextMeshProUGUI statusLine;
     public UIIconButton closeButton;
+    public UIIconButton suspendButton;
 
     public delegate void OnVisibilityChangeEvent();
     public event OnVisibilityChangeEvent OnVisibilityChange;
@@ -180,12 +181,14 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
     public bool IsCollectable { get => null != interactable && interactable is Collectable; }
     public bool IsVisible { get => isVisible; }
     public bool IsEnabled { get => isEnabled; set => SetEnabled(value); }
+    public bool IsSuspended { get => isSuspended; }
 
     protected Interactable interactable;
     protected bool isEnabled = true;
     protected IEnumerator ieScale;
 
     private bool isVisible = true;
+    private bool isSuspended;
 
     private void Awake()
     {
@@ -246,6 +249,29 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
         this.isEnabled = isEnabled;
     }
 
+    /// <summary>
+    /// <para>
+    /// This method suspends the interactive UI.
+    /// This visually closes the UI, but does not terminate it.
+    /// It is called only if there is a suspend button for the
+    /// interactive UI.
+    /// </para>
+    /// <para>
+    /// Suspending is required, for example, when a computer should
+    /// be left but not turned off.
+    /// </para>
+    /// <para>
+    /// To preserve the state of the interactive object,
+    /// this method needs to be overridden in the specific UI.
+    /// The base method only handles the visual suspension of the UI.
+    /// </para>
+    /// </summary>
+    protected virtual void Suspend()
+    {
+        isSuspended = true;
+        Hide();        
+    }
+
     public void Show()
     {
         UIGame.GetInstance().AddTmpGUI(uiParent.gameObject);
@@ -253,6 +279,11 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
         if (null != statusLine)
         {
             UIToolTip.TmpTextMesh = statusLine;
+        }
+
+        if (null != suspendButton)
+        {
+            suspendButton.SetAction(Suspend);
         }
 
         Initialize();
@@ -305,7 +336,7 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
             if (null != ieScale)
                 StopCoroutine(ieScale);
 
-            if (isVisible && null != soundId && soundId.Length > 0)
+            if (isVisible && !string.IsNullOrEmpty(soundId))
                 AudioManager.GetInstance().PlaySound(soundId);
 
             ieScale = IEScale(scale);
