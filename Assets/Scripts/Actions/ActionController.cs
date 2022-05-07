@@ -40,6 +40,22 @@ namespace Action
         private IEnumerator ieScale;
         private readonly Dictionary<string, GameAction> actionMap = new Dictionary<string, GameAction>();
 
+        public void HandleCursor()
+        {
+            if ((IsCurrentAction(typeof(UseAction))
+                || IsCurrentAction(typeof(GrabAction)))
+                && IsCurrentActionActive())
+                return;
+
+            UnsetActionState(null);
+
+            UIDropPoint uiDropPoint = UIDropPoint.GetInstance();
+            uiDropPoint.IsFreezed = false;
+            uiDropPoint.HidePointer();
+
+            GameManager.GetInstance().UnHighlight();
+        }
+
         public Inventory GetInventory()
         {
             return inventorybox.inventory;
