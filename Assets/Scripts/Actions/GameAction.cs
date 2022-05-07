@@ -128,13 +128,16 @@ namespace Action
         /// </summary>
         public void OnPointerEnter(PointerEventData eventData)
         {
+            UIGame uiGame = UIGame.GetInstance();
+
             if (isCurrent)
             {
-                UIGame.GetInstance().SetCursorEnabled(false, false);
+                uiGame.SetCursorEnabled(false, false);
                 return;
             }
 
-            UIGame.GetInstance().SetCursorEnabled(true, false);
+            ActionController.GetInstance().HandleCursor();
+            uiGame.SetCursorEnabled(true, false);
             Highlight(1);
         }
 
