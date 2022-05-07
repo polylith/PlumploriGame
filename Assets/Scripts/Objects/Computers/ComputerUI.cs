@@ -139,18 +139,21 @@ public class ComputerUI : InteractableUI
     protected override void BeforeHide()
     {
         OnVisibilityChange -= SwitchState;
+        loginScreen.OnValidLogin -= OnValidLogin;
+
+        if (IsSuspended)
+            return;
+
         desktop.localScale = new Vector3(1f, 0f, 1f);
         bootTrans.gameObject.SetActive(false);
         blueScreen.Hide();
-        loginScreen.OnValidLogin -= OnValidLogin;
 
         if (null != interactable && interactable is Computer computer)
         {
             computer.StopPCNoise();
             computer.CurrentState = Computer.State.Off;
+            computer.UpdateScreen();
         }
-
-        UIGame.GetInstance().HideCursor(false);
     }
 
     private void SwitchState()
