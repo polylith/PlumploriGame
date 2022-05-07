@@ -286,8 +286,9 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
             suspendButton.SetAction(Suspend);
         }
 
+        ShowStatus("");
         Initialize();
-        Scale(true);
+        Scale(true);        
     }
 
     public void Hide()
@@ -359,6 +360,9 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
 
         uiParent.localScale = scale;
         OnVisibilityChange?.Invoke();
+
+        if (!isVisible)
+            UIGame.GetInstance().HideCursor(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
