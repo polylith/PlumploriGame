@@ -128,6 +128,7 @@ public class Inventorybox : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        ActionController.GetInstance().HandleCursor();
         UIToolTip.GetInstance().SetText(
             LanguageManager.GetText(isOpen 
             ? LangKey.Close : LangKey.Open, 
