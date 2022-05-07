@@ -49,9 +49,23 @@ public class RouterUI : InteractableUI
         maskInput.text = router.maskString;
         offsetInput.text = router.rangeOffset.ToString();
 
-        UpdateConnectionInfo(router);
+        UpdateConnectionInfo(router, false);
         applyButton.SetAction(() => { ApplyConfig(router); });
         connectButton.SetAction(() => { Connect(router); });
+
+        applyButton.SetToolTip(
+            LanguageManager.GetText(
+                LangKey.Apply,
+                LanguageManager.GetText(LangKey.Settings)
+            )
+        );
+
+        connectButton.SetToolTip(
+            LanguageManager.GetText(
+                router.IsConnected ? LangKey.Deactivate : LangKey.Activate,
+                LanguageManager.GetText(LangKey.NetworkConnection)
+            )
+        );
 
         router.OnLampStateChange += SetLampState;
         router.OnConnectionCountChange(OnConnectionCountChange, true);
@@ -141,10 +155,10 @@ public class RouterUI : InteractableUI
 
     private void Connect(Router router)
     {
-        router.Connect(() => { UpdateConnectionInfo(router); });
+        router.Connect(() => { UpdateConnectionInfo(router, true); });
     }
 
-    private void UpdateConnectionInfo(Router router)
+    private void UpdateConnectionInfo(Router router, bool playSound)
     {
         string macString = "--:--:--:--:--:--";
         string ipString = "---.---.---.---";
@@ -161,7 +175,9 @@ public class RouterUI : InteractableUI
                 ipString = ipV4Config.IP;
                 gatewayString = ipV4Config.Gateway;
                 isConnected = true;
-                AudioManager.GetInstance().PlaySound("beep3x", router.gameObject);
+
+                if (playSound)
+                    AudioManager.GetInstance().PlaySound("beep3x", router.gameObject);
             }
         }
 
