@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,9 +61,11 @@ public class CollectableSet : EntitySet
             collectable = GameObject.Instantiate(dict[key]);
             collectable.transform.name = entityData.Prefix;
             collectable.SetPrefix(entityData.Prefix);
-            collectable.transform.position = entityData.Position;
-            collectable.transform.rotation = entityData.Rotation;
-            collectable.transform.position = entityData.Position;
+
+            collectable.transform.SetPositionAndRotation(
+                entityData.Position,
+                entityData.Rotation
+            );
         }
 
         return collectable;
