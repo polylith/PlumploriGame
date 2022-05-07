@@ -121,6 +121,8 @@ namespace Language
             texts.Add(LangKey.Set.ToString().ToLower(), "{0} setzen");
             texts.Add(LangKey.Activate.ToString().ToLower(), "{0} aktivieren");
             texts.Add(LangKey.Delete.ToString().ToLower(), "{0} löschen");
+            texts.Add(LangKey.Apply.ToString().ToLower(), "{0} anwenden");
+            texts.Add(LangKey.Settings.ToString().ToLower(), "Einstellungen");
             texts.Add(LangKey.Add.ToString().ToLower(), "{0} hinzufügen");
             texts.Add(LangKey.Show.ToString().ToLower(), "Zeige {0} an");
             texts.Add(LangKey.Hide.ToString().ToLower(), "Blende {0} aus");
@@ -278,6 +280,8 @@ namespace Language
             texts.Add(LangKey.Install.ToString().ToLower(), "{0} install");
             texts.Add(LangKey.Installed.ToString().ToLower(), "{0} installed");
             texts.Add(LangKey.Delete.ToString().ToLower(), "Delete {0}");
+            texts.Add(LangKey.Apply.ToString().ToLower(), "Apply {0}");
+            texts.Add(LangKey.Settings.ToString().ToLower(), "Settings");
             texts.Add(LangKey.Set.ToString().ToLower(), "Set {0}");
             texts.Add(LangKey.Deactivate.ToString().ToLower(), "Deactivate {0}");
             texts.Add(LangKey.Activate.ToString().ToLower(), "Activate {0}");
