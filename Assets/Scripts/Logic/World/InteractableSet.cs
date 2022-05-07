@@ -61,9 +61,11 @@ public class InteractableSet : EntitySet
             interactable = GameObject.Instantiate(dict[key]);
             interactable.transform.name = entityData.Prefix;
             interactable.SetPrefix(entityData.Prefix);
-            interactable.transform.position = entityData.Position;
-            interactable.transform.rotation = entityData.Rotation;
-            interactable.transform.position = entityData.Position;
+
+            interactable.transform.SetPositionAndRotation(
+                entityData.Position,
+                entityData.Rotation
+            );
         }
 
         return interactable;
