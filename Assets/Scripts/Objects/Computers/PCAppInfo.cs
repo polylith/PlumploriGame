@@ -15,6 +15,7 @@ public class PCAppInfo : MonoBehaviour, IPointerExitHandler, IPointerEnterHandle
     public string AppName { get => appName; }
     public bool IsVirus { get => isVirus; }
     public bool HasApp { get => null != app; }
+    public PCApp App { get => app; }
     public bool IsAppActive { get => HasApp && app.IsActive; }
     public int Id { get => id; }
     public float MemValue { get => memValue; }
@@ -110,7 +111,7 @@ public class PCAppInfo : MonoBehaviour, IPointerExitHandler, IPointerEnterHandle
         this.app = app;
 
         if (null != app)
-            SetId(app.Id, app.GetAppName());
+            SetId(app.Id, app.AppName);
     }
 
     public float NextValue()
@@ -234,5 +235,10 @@ public class PCAppInfo : MonoBehaviour, IPointerExitHandler, IPointerEnterHandle
             return;
 
         SetState(0);
+    }
+
+    public override string ToString()
+    {
+        return Id + " " + AppName;
     }
 }

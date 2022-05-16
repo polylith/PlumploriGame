@@ -6,9 +6,24 @@ using UnityEngine;
 /// </summary>
 public class EntityData : AbstractData
 {
+    /// <summary>
+    /// Type name is always GetType().ToString() of the entity
+    /// </summary>
     public string TypeName { get => typeName; }
+
+    /// <summary>
+    /// Initial position of the entity
+    /// </summary>
     public Vector3 Position { get => position; }
+
+    /// <summary>
+    /// Initial rotation of the entity
+    /// </summary>
     public Quaternion Rotation { get => rotation; }
+
+    /// <summary>
+    /// Prefix used in logic formulas
+    /// </summary>
     public string Prefix { get => prefix; }
 
     private string typeName;
@@ -17,7 +32,8 @@ public class EntityData : AbstractData
     private string prefix;
     private readonly Dictionary<string, string> attributes;
 
-    public EntityData(string typeName, Vector3 position, Quaternion rotation, string prefix)
+    public EntityData(string typeName, Vector3 position,
+        Quaternion rotation, string prefix)
     {
         this.typeName = typeName;
         this.position = position;
@@ -36,6 +52,8 @@ public class EntityData : AbstractData
         if (HasAttribute(key))
             attributes.Remove(key);
 
+        Debug.Log(key + " = " + value);
+
         if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value))
             return;
 
@@ -50,6 +68,27 @@ public class EntityData : AbstractData
             value = attributes[key];
 
         return value;
+    }
+
+    /// <summary>
+    /// Removes all entries in attributes that start with
+    /// a given prefix
+    /// </summary>
+    /// <param name="prefix">prefix to be removed</param>
+    public void Clear(string prefix)
+    {
+        List<string> list = new List<string>();
+
+        foreach (string key in attributes.Keys)
+        {
+            if (key.StartsWith(prefix))
+                list.Add(key);
+        }
+
+        foreach (string key in list)
+        {
+            attributes.Remove(key);
+        }
     }
 
     public void Load()

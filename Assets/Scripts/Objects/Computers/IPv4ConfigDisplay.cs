@@ -10,6 +10,7 @@ using Language;
 public class IPv4ConfigDisplay : MonoBehaviour
 {
     public Computer Computer { get; private set; }
+    public bool IsVisible { get => isVisible; }
 
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI macDislay;
@@ -23,6 +24,17 @@ public class IPv4ConfigDisplay : MonoBehaviour
 
     private bool isVisible;
     private IEnumerator ieScale;
+
+    public void StoreCurrentState(EntityData entityData)
+    {
+        entityData.SetAttribute("ipV4ConfigDisplay.IsVisible", IsVisible ? "1" : "");
+    }
+
+    public void RestoreCurrentState(EntityData entityData)
+    {
+        bool b = entityData.GetAttribute("ipV4ConfigDisplay.IsVisible").Equals("1");
+        SetVisible(b, true);
+    }
 
     public void Init(Computer computer)
     {
@@ -139,7 +151,7 @@ public class IPv4ConfigDisplay : MonoBehaviour
         SetVisible(false);
     }
 
-    private void SetVisible(bool isVisible, bool instant = false)
+    public void SetVisible(bool isVisible, bool instant = false)
     {
         if (this.isVisible == isVisible)
             return;

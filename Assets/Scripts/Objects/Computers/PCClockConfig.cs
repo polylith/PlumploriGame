@@ -2,12 +2,15 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using Language;
+using System;
 
 /// <summary>
 /// This config is for setting up the pc clock
 /// </summary>
 public class PCClockConfig : MonoBehaviour
 {
+    public bool IsVisible { get => isVisible; }
+
     public PCClock pcClock;
 
     public TextMeshProUGUI titleText;
@@ -25,6 +28,68 @@ public class PCClockConfig : MonoBehaviour
     private IEnumerator ieScale;
     private bool isInfected;
 
+    public void StoreCurrentState(EntityData entityData)
+    {
+        entityData.SetAttribute("pcClockConfig.IsVisible", IsVisible ? "1" : "");
+        entityData.SetAttribute("pcClockConfig.IsAutoSync", pcClock.IsAutoSync ? "1" : "");
+
+        string currentTimeStr = null;
+        string updatedTimestamp = null;
+
+        if (!pcClock.IsAutoSync)
+        {
+            int h = hourSpinner.Value;
+            int m = minSpinner.Value;
+            int s = secSpinner.Value;
+            currentTimeStr = h + ":" + m + ":" + s;
+
+            DateTime now = DateTime.Now;
+            updatedTimestamp = ((DateTimeOffset)now).ToUnixTimeSeconds().ToString();
+        }
+
+        entityData.SetAttribute("pcClockConfig.currentTime", currentTimeStr);
+        entityData.SetAttribute("pcClockConfig.updatedTimestamp", updatedTimestamp);
+    }
+
+    public void RestoreCurrentState(EntityData entityData)
+    {
+        bool isVisible = entityData.GetAttribute("pcClockConfig.IsVisible").Equals("1");
+        SetVisible(isVisible, true);
+
+        bool isAutoSync = entityData.GetAttribute("pcClockConfig.IsAutoSync").Equals("1");
+        int h = 0;
+        int m = 0;
+        int s = 0;
+
+        if (!isAutoSync)
+        {
+            string currentTimeStr = entityData.GetAttribute("pcClockConfig.currentTime");
+            string[] timeArray = currentTimeStr.Split(':');
+            int currentTime = int.Parse(timeArray[0]) * 60 * 60;
+            currentTime += int.Parse(timeArray[1]) * 60;
+            currentTime += int.Parse(timeArray[2]);
+
+            string updatedTimestampStr = entityData.GetAttribute("pcClockConfig.updatedTimestamp");
+
+            DateTime now = DateTime.Now;
+            long currentTimestamp = ((DateTimeOffset)now).ToUnixTimeSeconds();
+            long updatedTimestamp = long.Parse(updatedTimestampStr);
+            currentTimestamp -= updatedTimestamp;
+            currentTime += (int)currentTimestamp;
+
+            s = currentTime % 60;
+            currentTime /= 60;
+            m = currentTime % 60;
+            currentTime /= 60;
+            h = currentTime % 24;
+            UpdateTime(h, m, s);
+        }
+        // TODO
+        pcClock.Apply(h, m, s, isAutoSync);
+        AutoTimeSyncButtonChanged(isAutoSync);
+        Apply(false);
+    }
+
     private void Start()
     {
         isVisible = true;
@@ -40,7 +105,9 @@ public class PCClockConfig : MonoBehaviour
         );
         UpdateTime(pcClock.hour, pcClock.min, pcClock.sec);
 
-        okButton.SetAction(Apply);
+        okButton.SetAction(() => {
+            Apply(true);
+        });
         cancelButton.SetAction(Hide);
 
         autoTimeSyncButton.initialIsOn = pcClock.IsAutoSync;
@@ -93,14 +160,16 @@ public class PCClockConfig : MonoBehaviour
         secSpinner.Value = s;
     }
 
-    private void Apply()
+    private void Apply(bool hide)
     {
         int h = hourSpinner.Value;
         int m = minSpinner.Value;
         int s = secSpinner.Value;
         bool isAutoSync = autoTimeSyncButton.IsOn;
         pcClock.Apply(h, m, s, isAutoSync);
-        Hide();
+
+        if (hide)
+            Hide();
     }
 
     public void ToggleVisibility()
@@ -113,7 +182,7 @@ public class PCClockConfig : MonoBehaviour
         SetVisible(false);
     }
 
-    private void SetVisible(bool isVisible, bool instant = false)
+    public void SetVisible(bool isVisible, bool instant = false)
     {
         if (this.isVisible == isVisible)
             return;

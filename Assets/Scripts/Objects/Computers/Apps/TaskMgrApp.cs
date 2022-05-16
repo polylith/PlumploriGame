@@ -13,6 +13,18 @@ public class TaskMgrApp : PCApp
     private PCAppInfo current;
     private IEnumerator ieUpdate;
 
+    public override void StoreCurrentState(EntityData entityData)
+    {
+
+        base.StoreCurrentState(entityData);  
+    }
+
+    public override void RestoreCurrentState(EntityData entityData)
+    {
+
+        base.RestoreCurrentState(entityData);
+    }
+
     private void Awake()
     {
         Init();

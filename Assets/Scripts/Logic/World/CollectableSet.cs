@@ -61,7 +61,7 @@ public class CollectableSet : EntitySet
             collectable = GameObject.Instantiate(dict[key]);
             collectable.transform.name = entityData.Prefix;
             collectable.SetPrefix(entityData.Prefix);
-
+            collectable.EntityData = entityData;
             collectable.transform.SetPositionAndRotation(
                 entityData.Position,
                 entityData.Rotation

@@ -29,8 +29,96 @@ public class PromptApp : PCApp
     public TextMeshProUGUI outputPrefab;
     public TMP_InputField inputLine;
 
-    private List<string> history;
+    private readonly List<string> history = new List<string>();
     private int histPos;
+
+    public override void StoreCurrentState(EntityData entityData)
+    {
+        entityData.SetAttribute(appName + ".history.Count", history.Count.ToString());
+
+        if (history.Count > 0)
+        {
+            for (int i = 0; i < history.Count; i++)
+            {
+                entityData.SetAttribute(appName + ".history." + i, history[i]);
+            }
+        }
+
+        entityData.SetAttribute(appName + ".inputLine", inputLine.text);
+
+        TextMeshProUGUI[] textLines = textParent.GetComponentsInChildren<TextMeshProUGUI>();
+
+        entityData.SetAttribute(appName + ".textLines.Length", textLines.Length.ToString());
+
+        for (int i = 0; i < textLines.Length; i++)
+        {
+            entityData.SetAttribute(appName + ".textLines." + i, textLines[i].text);
+            entityData.SetAttribute(appName + ".textLines." + i + ".color", ColorUtility.ToHtmlStringRGBA(textLines[i].color));
+        }
+
+        if (histPos > -1)
+        {
+            entityData.SetAttribute(appName + ".histPos", histPos.ToString());
+        }
+
+        ClearConsole(false);
+        base.StoreCurrentState(entityData);
+    }
+
+    public override void RestoreCurrentState(EntityData entityData)
+    {
+        history.Clear();
+        ClearConsole(false);
+
+        string countStr = entityData.GetAttribute(appName + ".history.Count");
+
+        if (!string.IsNullOrEmpty(countStr))
+        {
+            int historyCount = int.Parse(countStr);
+
+            if (historyCount > 0)
+            {
+                for (int i = 0; i < historyCount; i++)
+                {
+                    string line = entityData.GetAttribute(appName + ".history." + i);
+                    history.Add(line);
+                }
+            }
+
+        }
+
+        string lengthStr = entityData.GetAttribute(appName + ".textLines.Length");
+
+        if (!string.IsNullOrEmpty(lengthStr))
+        {
+            int textLinesLength = int.Parse(lengthStr);
+
+            for (int i = 0; i < textLinesLength; i++)
+            {
+                string text = entityData.GetAttribute(appName + ".textLines." + i);
+                string colorStr = "#" + entityData.GetAttribute(appName + ".textLines." + i + ".color");
+                WriteConsole(text, "", colorStr);
+            }
+        }
+
+        string histPosStr = entityData.GetAttribute(appName + ".histPos");
+        histPos = -1;
+
+        if (!string.IsNullOrEmpty(histPosStr))
+        {
+            histPos = int.Parse(histPosStr);
+        }
+
+        string inputText = entityData.GetAttribute(appName + ".inputLine");
+
+        if (!string.IsNullOrEmpty(inputText))
+        {
+            inputLine.text = inputText;
+        }
+
+        base.RestoreCurrentState(entityData);
+        FocusInput();
+    }
 
     private void Awake()
     {
@@ -39,16 +127,19 @@ public class PromptApp : PCApp
 
     public override void ResetApp()
     {
-        history?.Clear();
-        history = null;
-        ClearConsole(false);
+        ClearHistory(false);
+    }
+
+    private void ClearHistory(bool focusInput)
+    {
+        history.Clear();
+        histPos = -1;
+        ClearConsole(focusInput);
     }
 
     protected override void PreCall()
     {
-        history = new List<string>();
-        histPos = -1;
-        ClearConsole();
+        ClearHistory(true);
         textParent.offsetMin = Vector2.zero;
     }
 
@@ -57,7 +148,7 @@ public class PromptApp : PCApp
         ClearConsole(true);
     }
 
-    private void ClearConsole(bool focus)
+    private void ClearConsole(bool focusInput)
     {
         foreach (Transform trans in textParent)
         {
@@ -67,7 +158,7 @@ public class PromptApp : PCApp
 
         ClearInputLine();
 
-        if (focus)
+        if (focusInput)
             FocusInput();
     }
 

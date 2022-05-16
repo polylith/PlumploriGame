@@ -56,7 +56,7 @@ public class PCIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
                 taskIcon.desktopGrid = desktopGrid;
                 taskIcon.icon = icon;
                 taskIcon.state = state;
-                taskIcon.name = app.GetAppName() + " (Task Icon)";
+                taskIcon.name = app.AppName + " (Task Icon)";
                 SetState(1);
             }
 

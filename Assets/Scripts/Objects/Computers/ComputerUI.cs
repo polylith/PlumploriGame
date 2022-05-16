@@ -142,7 +142,9 @@ public class ComputerUI : InteractableUI
         loginScreen.OnValidLogin -= OnValidLogin;
 
         if (IsSuspended)
+        {
             return;
+        }
 
         desktop.localScale = new Vector3(1f, 0f, 1f);
         bootTrans.gameObject.SetActive(false);
@@ -158,10 +160,11 @@ public class ComputerUI : InteractableUI
 
     private void SwitchState()
     {
-        if (null == interactable || !(interactable is Computer computer)
+        if (IsSuspended || null == interactable || !(interactable is Computer computer)
             || computer.CurrentState == Computer.State.ShuttingDown)
             return;
 
+        RestoreCurrentState();
         LoginData loginData = computer.CurrentUser;
 
         if (null == loginData && computer.CurrentState == Computer.State.Off
@@ -197,7 +200,9 @@ public class ComputerUI : InteractableUI
 
     private void HideDesktop()
     {
-        isBootMenuVisible = false;
+        pcClock.pcClockConfig.Hide();
+        ipV4ConfigDisplay.Hide();
+        HideBootMenue();
         bootMenu.localScale = new Vector3(1f, 0f, 1f);
         desktopGrid.gameObject.SetActive(false);
         desktop.localScale = new Vector3(1f, 0f, 1f);
@@ -211,15 +216,105 @@ public class ComputerUI : InteractableUI
         ipV4ConfigDisplay.UpdateConnectionInfo(false);
     }
 
-    protected override void Suspend()
+    protected override void StoreCurrentState()
     {
-        if (null != interactable && interactable is Computer computer)
+        if (null == interactable)
+            return;
+
+        EntityData entityData = interactable.EntityData;
+        entityData.SetAttribute("uiSuspended", IsSuspended ? "1" : "");
+
+        if (!IsSuspended || null == interactable || !(interactable is Computer computer))
+            return;
+
+        pcClock.pcClockConfig.StoreCurrentState(entityData);
+        ipV4ConfigDisplay.StoreCurrentState(entityData);
+        List<string> appNames = new List<string>();
+        List<string> virusNames = new List<string>();
+
+        foreach (int id in computer.Infos.Keys)
         {
-            computer.UpdateScreen();
+            PCAppInfo info = computer.Infos[id];
+            PCApp app = info.App;
+            Debug.Log(info);
+
+            if (null != app)
+            {
+                app.StoreCurrentState(entityData);
+                appNames.Add(app.appName);
+            }
+            else if (info.IsVirus)
+            {
+                virusNames.Add(info.AppName);
+            }
         }
 
+        entityData.SetAttribute("activeAppNames", string.Join(";", appNames));
+        entityData.SetAttribute("activeVirusNames", string.Join(";", virusNames));
+    }
+
+    protected override void RestoreCurrentState()
+    {
+        if (null == interactable)
+            return;
+
+        EntityData entityData = interactable.EntityData;
+        bool isSuspended = entityData.GetAttribute("uiSuspended").Equals("1");
+
+        if (!isSuspended
+            || null == interactable
+            || !(interactable is Computer computer))
+            return;
+
+        computer.InitAppInfos(false);
+        bootTrans.gameObject.SetActive(false);
+        desktopGrid.gameObject.SetActive(true);
+        desktop.localScale = new Vector3(1f, 1f, 1f);
+        desktopBackground.color = Color.white;
+        loginScreen.SetVisible(false, true);
+        blueScreen.Hide();
+        HideBootMenue();
+        pcCursor.SetVisible(true);
+        suspendButton.SetState(0);
+        UpdateConnectButton();
+        computer.ShowAppIcons(desktopGrid, taskBar);
+
+        pcClock.pcClockConfig.RestoreCurrentState(entityData);
+        ipV4ConfigDisplay.RestoreCurrentState(entityData);
+
+        string activeAppNamesStr = entityData.GetAttribute("activeAppNames");
+        string activeVirusNamesStr = entityData.GetAttribute("activeVirusNames");
+
+        if (!string.IsNullOrEmpty(activeAppNamesStr))
+        {
+            string[] appNames = activeAppNamesStr.Split(';');
+            computer.RestoreApps(appNames);
+        }
+
+        if (!string.IsNullOrEmpty(activeVirusNamesStr))
+        {
+            string[] virusNames = activeVirusNamesStr.Split(';');
+            computer.RestoreViruses(virusNames);
+        }
+
+        foreground.DOColor(Color.clear, 1f);
+
+        entityData.SetAttribute("uiSuspended");
+        computer.CurrentState = Computer.State.Running;
+    }
+
+    protected override void Suspend()
+    {
+        Computer computer = (Computer)interactable;
+        computer?.UpdateScreen();
         base.Suspend();
-        UIGame.GetInstance().HideCursor(false);
+        GameEvent.GetInstance().Execute(() =>
+        {
+            computer?.CloseAllApps();
+            pcCursor.SetVisible(false);
+            HideBootMenue();
+            UIGame.GetInstance().HideCursor(false);
+        }, 0.5f);
     }
 
     private void LogOff()
@@ -284,7 +379,7 @@ public class ComputerUI : InteractableUI
         if (null != ieAnim)
             return;
 
-        computer.InitAppInfos();
+        computer.InitAppInfos(computer.HasVirus);
         ieAnim = IEBoot(computer);
         StartCoroutine(ieAnim);
     }
@@ -301,6 +396,7 @@ public class ComputerUI : InteractableUI
 
     private IEnumerator IEBoot(Computer computer)
     {
+        suspendButton.SetState(-1);
         HideDesktop();
         ipV4ConfigDisplay.Init(computer);
 
@@ -398,6 +494,7 @@ public class ComputerUI : InteractableUI
         computer.CurrentState = Computer.State.Running;
         ieAnim = null;
         computer.UpdateScreen();
+        suspendButton.SetState(0);
     }
 
     public void SetVirus(Computer computer)
@@ -475,6 +572,7 @@ public class ComputerUI : InteractableUI
     private IEnumerator IEShutdown(Computer computer)
     {
         pcCursor.SetVisible(false);
+        suspendButton.SetState(-1);
 
         AudioManager audioManager = AudioManager.GetInstance();
         computer.PCNoise();

@@ -56,7 +56,7 @@ public class Computer : Interactable, IIPv4Device
     public LoginData CurrentUser;
     
     private List<int> appIds = new List<int>();
-    private Dictionary<int, PCAppInfo> infos = new Dictionary<int, PCAppInfo>();
+    private readonly Dictionary<int, PCAppInfo> infos = new Dictionary<int, PCAppInfo>();
     private List<PCApp> apps;
     private bool hasVirus = false;
     private IPv4Config ipV4Config;
@@ -208,19 +208,13 @@ public class Computer : Interactable, IIPv4Device
         }
     }
 
-    public void InitAppInfos()
+    public void InitAppInfos(bool hasVirus)
     {
         InitSystem();
 
-        /*
-        foreach (PCApp app in apps)
-        {
-            RegisterApp(app);
-        }
-        */
         if (hasVirus)
         {
-            hasVirus = false;
+            this.hasVirus = false;
             SetVirus(true);
         }
     }
@@ -387,7 +381,7 @@ public class Computer : Interactable, IIPv4Device
                 PCDialog.DialogType.Error,
                 LanguageManager.GetText(
                     Language.LangKey.AppLaunchError,
-                    app.GetAppName()
+                    app.AppName
                 ),
                 PCDialog.ButtonLabels.Ok,
                 new List<System.Action>() {
@@ -398,7 +392,51 @@ public class Computer : Interactable, IIPv4Device
             return;
         }
 
-        StartApp(app.GetAppName(), id, HasVirus, app);
+        StartApp(app.AppName, id, HasVirus, app);
+    }
+
+    public void RestoreViruses(string[] virusNames)
+    {
+        if (null == virusNames || virusNames.Length == 0)
+        {
+            hasVirus = false;
+            return;
+        }
+
+        hasVirus = true;
+
+        foreach (string virusName in virusNames)
+        {
+            StartApp(virusName, -1, true, null);
+        }
+    }
+
+    public void RestoreApps(string[] appNames)
+    {
+        if (null == appNames || appNames.Length == 0)
+            return;
+
+        PCApp currentApp = null;
+
+        foreach (PCApp app in apps)
+        {
+            foreach (string appName in appNames)
+            {
+                if (appName.Equals(app.appName))
+                {
+                    StartApp(appName, -1, false, app);
+                    app.RestoreCurrentState(EntityData);
+
+                    if (app.IsActive)
+                        currentApp = app;
+                }
+            }
+        }
+
+        if (null != currentApp)
+        {
+            SetCurrentApp(currentApp);
+        }
     }
 
     public void StartApp(string name, int id, bool isVirus, PCApp app)

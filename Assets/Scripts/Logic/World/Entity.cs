@@ -62,6 +62,8 @@ public abstract class Entity : MonoBehaviour
     /// </summary>
     public string Prefix { get => GetPrefix(); }
 
+    public EntityData EntityData { get => GetEntityData(); set => SetEntityData(value); }
+    
     /// <summary>
     /// Dictionary containing atomic formulas used in
     /// the consequent of an inference rule to pass its
@@ -71,6 +73,8 @@ public abstract class Entity : MonoBehaviour
 
     public string langKey;
     protected string prefix;
+
+    private EntityData entityData;
 
     /// <summary>
     /// Bounds of the collider
@@ -167,8 +171,29 @@ public abstract class Entity : MonoBehaviour
     /// <returns>description used for the LookAction</returns>
     public abstract string GetDescription();
 
+    private void SetEntityData(EntityData entityData)
+    {
+        this.entityData = entityData;
+    }
+
+    private EntityData GetEntityData()
+    {
+        if (null == entityData)
+        {
+            entityData = new EntityData(
+                GetType().ToString(),
+                transform.position,
+                transform.rotation,
+                GetPrefix()
+            );
+        }
+
+        return entityData;
+    }
+
     private string GetPrefix()
     {
+        // TODO
         if (null == prefix)
             prefix = GetID(this);
 

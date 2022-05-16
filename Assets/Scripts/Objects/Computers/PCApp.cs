@@ -35,6 +35,7 @@ public abstract class PCApp : MonoBehaviour
         Game
     }
 
+    public string AppName { get => GetAppName(); }
     public bool IsReady { get; private set; }
     public bool IsInfected { get => isInfected; }
     public bool IsEnabled { get => isEnabled; }
@@ -116,6 +117,42 @@ public abstract class PCApp : MonoBehaviour
     public abstract List<string> GetAttributes();
     public abstract Dictionary<string, System.Action<bool>> GetDelegates();
 
+    /// <summary>
+    /// <para>
+    /// Stores the current state of the pc app.
+    /// This methods needs to be overriden.
+    /// </para>
+    /// <para>
+    /// The base method need to be called after all
+    /// specific data are stored.
+    /// </para>
+    /// </summary>
+    /// <param name="entityData"></param>
+    public virtual void StoreCurrentState(EntityData entityData)
+    {
+        entityData.SetAttribute(appName + ".isActive", isActive ? "1" : "");
+        entityData.SetAttribute(appName + ".isInfected", isInfected ? "1" : "");
+    }
+
+    /// <para>
+    /// Restores the current state of the pc app.
+    /// This methods needs to be overriden.
+    /// </para>
+    /// <para>
+    /// The base method need to be called after all
+    /// specific data are restored.
+    /// </para>
+    public virtual void RestoreCurrentState(EntityData entityData)
+    {
+        bool isActive = entityData.GetAttribute(appName + ".isActive").Equals("1");
+        SetActive(isActive);
+
+        bool isInfected = entityData.GetAttribute(appName + ".isInfected").Equals("1");
+        SetInfected(isInfected);
+
+        entityData.Clear(appName);
+    }
+
     public void SetEnabled(bool isEnabled)
     {
         if (this.isEnabled == isEnabled)
@@ -140,7 +177,7 @@ public abstract class PCApp : MonoBehaviour
         appTitle.SetText(text);
     }
 
-    public string GetAppName()
+    private string GetAppName()
     {
         return Language.LanguageManager.GetText(appName);
     }

@@ -251,6 +251,38 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
 
     /// <summary>
     /// <para>
+    /// Stores the current state of the interactable ui
+    /// of the interactable. This methods needs to be
+    /// overriden if this interactable ui is suspendable.
+    /// </para>
+    /// <para>
+    /// The base method does NOT need to be called, because
+    /// nothing will happen there.
+    /// </para>
+    /// </summary>
+    protected virtual void StoreCurrentState()
+    {
+        // nothing to do here
+    }
+
+    /// <summary>
+    /// <para>
+    /// Restores the current state of an suspended interactable ui
+    /// of the interactable. This methods needs to be
+    /// overriden if this interactable ui is suspendable.
+    /// </para>
+    /// <para>
+    /// The base method does NOT need to be called, because
+    /// nothing will happen there.
+    /// </para>
+    /// </summary>
+    protected virtual void RestoreCurrentState()
+    {
+        // nothing to do here
+    }
+
+    /// <summary>
+    /// <para>
     /// This method suspends the interactive UI.
     /// This visually closes the UI, but does not terminate it.
     /// It is called only if there is a suspend button for the
@@ -269,7 +301,8 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
     protected virtual void Suspend()
     {
         isSuspended = true;
-        Hide();        
+        StoreCurrentState();
+        Hide();
     }
 
     public void Show()
@@ -331,18 +364,18 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
         if (instant)
         {
             uiParent.localScale = scale;
+            isSuspended = false;
+            return;
         }
-        else
-        {
-            if (null != ieScale)
-                StopCoroutine(ieScale);
 
-            if (isVisible && !string.IsNullOrEmpty(soundId))
-                AudioManager.GetInstance().PlaySound(soundId);
+        if (null != ieScale)
+            StopCoroutine(ieScale);
 
-            ieScale = IEScale(scale);
-            StartCoroutine(ieScale);
-        }
+        if (isVisible && !string.IsNullOrEmpty(soundId))
+            AudioManager.GetInstance().PlaySound(soundId);
+
+        ieScale = IEScale(scale);
+        StartCoroutine(ieScale);
     }
 
     private IEnumerator IEScale(Vector3 scale)
@@ -360,6 +393,7 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
 
         uiParent.localScale = scale;
         OnVisibilityChange?.Invoke();
+        isSuspended = false;
 
         if (!isVisible)
             UIGame.GetInstance().HideCursor(false);
