@@ -30,7 +30,7 @@ public class PromptApp : PCApp
     public TMP_InputField inputLine;
 
     private readonly List<string> history = new List<string>();
-    private int histPos;
+    private int histPos = -1;
 
     public override void StoreCurrentState(EntityData entityData)
     {
@@ -61,8 +61,13 @@ public class PromptApp : PCApp
             entityData.SetAttribute(appName + ".histPos", histPos.ToString());
         }
 
-        ClearConsole(false);
         base.StoreCurrentState(entityData);
+    }
+
+    public override void Close(bool instant)
+    {
+        ClearConsole(false);
+        base.Close(instant);
     }
 
     public override void RestoreCurrentState(EntityData entityData)
@@ -84,7 +89,6 @@ public class PromptApp : PCApp
                     history.Add(line);
                 }
             }
-
         }
 
         string lengthStr = entityData.GetAttribute(appName + ".textLines.Length");
@@ -139,8 +143,8 @@ public class PromptApp : PCApp
 
     protected override void PreCall()
     {
-        ClearHistory(true);
         textParent.offsetMin = Vector2.zero;
+        FocusInput();
     }
 
     private void ClearConsole(string arg = "")
@@ -177,18 +181,23 @@ public class PromptApp : PCApp
             scrollRect.normalizedPosition = Vector2.zero;
     }
 
-    private void ShowHistory(int d)
+    private void ShowHistory(bool d)
     {
         ClearInputLine();
 
-        if (history.Count == 0)
+        if (history.Count == 0 || d && histPos < -1)
             return;
 
-        histPos += d;
+        if (histPos < 0)
+            histPos = d ? 0 : history.Count - 1;
+        else if (d)
+            histPos++;
+        else
+            histPos--;
 
-        if (histPos == history.Count)
+        if (histPos < 0 || histPos == history.Count)
         {
-            histPos = -1;
+            histPos = -2;
             return;
         }
 
@@ -362,10 +371,10 @@ public class PromptApp : PCApp
     {
         string text = inputLine.text.Trim();
         ClearInputLine();
+        SetInput(text);
 
         if (!"".Equals(text))
         {
-            SetInput(text);
             HandleInput(text);
         }
 
@@ -412,7 +421,7 @@ public class PromptApp : PCApp
 
     protected override void Effect()
     {
-        
+        // TODO
     }
 
     private void ListTasks(string arg = "")
@@ -438,9 +447,9 @@ public class PromptApp : PCApp
             DoInput();
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
-            ShowHistory(1);
+            ShowHistory(true);
         else if (Input.GetKeyDown(KeyCode.UpArrow))
-            ShowHistory(-1);
+            ShowHistory(false);
 
         if (!inputLine.isFocused)
             FocusInput(false);

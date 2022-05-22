@@ -73,7 +73,6 @@ public class AntivirusApp : PCApp
         StopClean();
         scanResult.Clear();
         ClearReport();
-        base.ResetApp();
     }
 
     protected override void PreCall()

@@ -36,6 +36,7 @@ public abstract class PCApp : MonoBehaviour
     }
 
     public string AppName { get => GetAppName(); }
+    public bool Restored { get; private set; }
     public bool IsReady { get; private set; }
     public bool IsInfected { get => isInfected; }
     public bool IsEnabled { get => isEnabled; }
@@ -127,7 +128,7 @@ public abstract class PCApp : MonoBehaviour
     /// specific data are stored.
     /// </para>
     /// </summary>
-    /// <param name="entityData"></param>
+    /// <param name="entityData">entity data to store current state</param>
     public virtual void StoreCurrentState(EntityData entityData)
     {
         entityData.SetAttribute(appName + ".isActive", isActive ? "1" : "");
@@ -142,8 +143,10 @@ public abstract class PCApp : MonoBehaviour
     /// The base method need to be called after all
     /// specific data are restored.
     /// </para>
+    /// <param name="entityData">entity data to restore current state</param>
     public virtual void RestoreCurrentState(EntityData entityData)
     {
+        Restored = true;
         bool isActive = entityData.GetAttribute(appName + ".isActive").Equals("1");
         SetActive(isActive);
 
@@ -151,6 +154,7 @@ public abstract class PCApp : MonoBehaviour
         SetInfected(isInfected);
 
         entityData.Clear(appName);
+        ShowIconInTaskBar(true);
     }
 
     public void SetEnabled(bool isEnabled)
@@ -215,6 +219,7 @@ public abstract class PCApp : MonoBehaviour
             return;
 
         SetActive(false, instant);
+        Restored = false;
         computer?.SetCurrentApp(null);        
     }
 
@@ -270,13 +275,15 @@ public abstract class PCApp : MonoBehaviour
         if (isActive)
         {
             ShowAppTitle();
-            PreCall();
         }
 
         if (instant)
         {
             transform.localScale = scale;
             IsReady = true;
+
+            if (isActive)
+                PreCall();
         }
         else
         {
@@ -314,5 +321,8 @@ public abstract class PCApp : MonoBehaviour
 
         transform.localScale = scale;
         IsReady = true;
+
+        if (isActive)
+            PreCall();
     }
 }

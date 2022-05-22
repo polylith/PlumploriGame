@@ -13,6 +13,37 @@ public class CalcApp : PCApp
     private float param = 0f;
     private System.Action<float, float> op;
     private System.Action<float, float> lastOp;
+    private bool hasError;
+
+    public override void StoreCurrentState(EntityData entityData)
+    {
+        entityData.SetAttribute(appName + ".input", sInput);
+        entityData.SetAttribute(appName + ".hasError", hasError ? "1" : "");
+
+        base.StoreCurrentState(entityData);
+    }
+
+    public override void RestoreCurrentState(EntityData entityData)
+    {
+        Clear();
+
+        string sInput = entityData.GetAttribute(appName + ".input");
+        hasError = entityData.GetAttribute(appName + ".hasError").Equals("1");
+
+        if (hasError)
+        {
+            ShowError();
+        }
+        else
+        {
+            foreach (char c in sInput)
+            {
+                DoInput(c.ToString());
+            }
+        }
+
+        base.RestoreCurrentState(entityData);
+    }
 
     public override void SetInfected(bool isInfected)
     {
@@ -87,6 +118,7 @@ public class CalcApp : PCApp
 
     private void Clear()
     {
+        hasError = false;
         sInput = "0";
         result = 0f;
         op = null;
@@ -98,6 +130,7 @@ public class CalcApp : PCApp
         AudioManager.GetInstance().PlaySound("buzzer", computer.gameObject);
         string text = "<color=#ff0000>" + LanguageManager.GetText(LangKey.Error) + "</color>";
         ShowText(text);
+        hasError = true;
         computer?.AppFire("HasError", true);
     }
 
@@ -113,6 +146,7 @@ public class CalcApp : PCApp
             color = "#0000ff";
         }
 
+        hasError = false;
         text = "<color=" + color + ">" + text + "</color>";
         ShowText(text);
     }
@@ -210,7 +244,7 @@ public class CalcApp : PCApp
     public void InputRec()
     {
         UnityEngine.EventSystems.EventSystem.current?.SetSelectedGameObject(null);
-        bool error = false;
+        bool error;
 
         if (null == op)
         {
@@ -271,6 +305,8 @@ public class CalcApp : PCApp
 
     private void DoInput(string s)
     {
+        hasError = false;
+
         if (null == s || !digits.Contains(s))
             return;
 

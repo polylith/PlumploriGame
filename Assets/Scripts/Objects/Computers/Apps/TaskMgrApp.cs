@@ -15,13 +15,13 @@ public class TaskMgrApp : PCApp
 
     public override void StoreCurrentState(EntityData entityData)
     {
-
+        // TODO
         base.StoreCurrentState(entityData);  
     }
 
     public override void RestoreCurrentState(EntityData entityData)
     {
-
+        // TODO
         base.RestoreCurrentState(entityData);
     }
 
