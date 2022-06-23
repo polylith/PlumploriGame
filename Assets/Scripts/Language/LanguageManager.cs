@@ -145,6 +145,7 @@ namespace Language
             texts.Add(LangKey.UG.ToString().ToLower(), "UG");
             texts.Add(LangKey.OG.ToString().ToLower(), "OG");
 
+            texts.Add(LangKey.Candle.ToString().ToLower(), "Kerze");
             texts.Add(LangKey.TV.ToString().ToLower(), "Fernseher");
             texts.Add(LangKey.Router.ToString().ToLower(), "Router");
             texts.Add(LangKey.PC.ToString().ToLower(), "Rechner");
@@ -159,6 +160,7 @@ namespace Language
             texts.Add(LangKey.ProfiBrainApp.ToString().ToLower(), "Profi Brain");
             texts.Add(LangKey.FourInARowApp.ToString().ToLower(), "Verbinde Vier");
             texts.Add(LangKey.TicTacToeApp.ToString().ToLower(), "Dodelschach");
+            texts.Add(LangKey.CameraConnectApp.ToString().ToLower(), "Kamera Verbindung");
             texts.Add(LangKey.Drawn.ToString().ToLower(), "Patt");
             texts.Add(LangKey.YouWin.ToString().ToLower(), "Sie gewinnen!");
             texts.Add(LangKey.YouLose.ToString().ToLower(), "Sie verlieren!");
@@ -307,6 +309,7 @@ namespace Language
             texts.Add(LangKey.UG.ToString().ToLower(), "B");
             texts.Add(LangKey.OG.ToString().ToLower(), "");
 
+            texts.Add(LangKey.Candle.ToString().ToLower(), "Candle");
             texts.Add(LangKey.TV.ToString().ToLower(), "TV");
             texts.Add(LangKey.Router.ToString().ToLower(), "Router");
             texts.Add(LangKey.PC.ToString().ToLower(), "Computer");
@@ -318,6 +321,7 @@ namespace Language
             texts.Add(LangKey.ProfiBrainApp.ToString().ToLower(), "Profi Brain");
             texts.Add(LangKey.FourInARowApp.ToString().ToLower(), "Four in a Row");
             texts.Add(LangKey.TicTacToeApp.ToString().ToLower(), "Tic Tac Toe");
+            texts.Add(LangKey.CameraConnectApp.ToString().ToLower(), "Camera Connection");
             texts.Add(LangKey.Drawn.ToString().ToLower(), "Drawn");
             texts.Add(LangKey.YouWin.ToString().ToLower(), "You made it!");
             texts.Add(LangKey.YouLose.ToString().ToLower(), "You lose!");

@@ -40,6 +40,14 @@ namespace Action
         private IEnumerator ieScale;
         private readonly Dictionary<string, GameAction> actionMap = new Dictionary<string, GameAction>();
 
+        public void CancelCurrentAction()
+        {
+            if (null == Current)
+                return;
+
+            Current.Cancel();
+        }
+
         public void HandleCursor()
         {
             if ((IsCurrentAction(typeof(UseAction))

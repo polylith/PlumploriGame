@@ -155,7 +155,7 @@ public class UIProgress : MonoBehaviour
                 int j = (i + count) % imgs.Length;
                 imgs[j].transform.localScale = Vector3.one * scales[i];
 
-                yield return null;
+                yield return new WaitForEndOfFrame();
             }
 
             count++;

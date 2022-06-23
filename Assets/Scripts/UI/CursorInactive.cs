@@ -10,9 +10,15 @@ public class CursorInactive : MonoBehaviour, IPointerEnterHandler
 {
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (eventData.pointerEnter != gameObject)
-            return;
+        ActionController actionController = ActionController.GetInstance();
 
-        ActionController.GetInstance().HandleCursor();
+        if (eventData.pointerEnter != gameObject
+            || actionController.IsCurrentAction(typeof(DropAction))
+                && actionController.IsCurrentActionActive())
+        {
+            return;
+        }
+
+        actionController.HandleCursor();
     }
 }

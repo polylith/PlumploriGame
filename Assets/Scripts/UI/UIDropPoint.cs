@@ -63,9 +63,13 @@ public class UIDropPoint : MonoBehaviour
     public void SetObjectPlace(ObjectPlace objectPlace)
     {
         this.objectPlace = objectPlace;
-        img2.transform.position = canvas.worldCamera.WorldToScreenPoint(
-            objectPlace.transform.position
-        );
+
+        if (objectPlace is ObjectPlace3D)
+        {
+            img2.transform.position = canvas.worldCamera.WorldToScreenPoint(
+                objectPlace.transform.position
+            );
+        }
     }
             
     public void Show(bool visible, Collectable collectable = null)

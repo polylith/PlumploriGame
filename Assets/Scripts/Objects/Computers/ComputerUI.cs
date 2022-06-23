@@ -430,7 +430,7 @@ public class ComputerUI : InteractableUI
         bootImage.rectTransform.localRotation = Quaternion.Euler(0f, 0f, 0f);
         bootTrans.gameObject.SetActive(true);
 
-        while (f <= maxValue)
+        while (f < maxValue)
         {
             zz = Mathf.Max(0.2f, Random.value * (1f - f));
 
@@ -450,9 +450,9 @@ public class ComputerUI : InteractableUI
             bootBar.rectTransform.DOScale(new Vector3(f, 1f, 1f), 0.5f);
             percent = Mathf.Round(Mathf.Min(f, maxValue) * 100f) + " %";
             bootPercentDisplay.SetText(percent);
-            f += Time.deltaTime * Random.Range(0.5f, 2f);
+            f += Random.Range(0.05f, 0.15f);
 
-            yield return null;
+            yield return new WaitForSecondsRealtime(0.1f);
 
             if (computer.HasVirus && f < 1f && Random.value > 0.75f)
             {

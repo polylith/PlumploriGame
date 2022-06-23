@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.06386955, g: 0.06386234, b: 0.06389029, a: 1}
+  m_IndirectSpecularColor: {r: 0.06387223, g: 0.063864335, b: 0.063890725, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -927,6 +927,7 @@ Transform:
   - {fileID: 1218089897}
   - {fileID: 1014048922}
   - {fileID: 1068154926}
+  - {fileID: 1469209397}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2041,6 +2042,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 8573867091458254287}
     m_Modifications:
     - target: {fileID: 2797656509374617010, guid: 519e7e51fda5c8c4fb97152d6646d4a9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2797656509374617010, guid: 519e7e51fda5c8c4fb97152d6646d4a9, type: 3}
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
@@ -2054,7 +2059,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3539296901704904817, guid: 519e7e51fda5c8c4fb97152d6646d4a9, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3539296901704904817, guid: 519e7e51fda5c8c4fb97152d6646d4a9, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6412,6 +6417,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1430782264}
   m_CullTransparentMesh: 1
+--- !u!1 &1469209396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1469209397}
+  - component: {fileID: 1469209398}
+  m_Layer: 0
+  m_Name: Candle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1469209397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469209396}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 158922915}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1469209398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469209396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f116546cd359f4c92d664c0b949a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundID: candle.burn
+  clip: {fileID: 8300000, guid: 0ca326c7bfaebd740bacb214f8b53790, type: 3}
+  pitch: 1
+  volume: 1
+  panStereo: 0
+  spartialBlend: 0
+  maxDistance: 15
+  rolloffmode: 1
+  loop: 1
+  paused: 0
 --- !u!1 &1484862216
 GameObject:
   m_ObjectHideFlags: 0
@@ -7826,6 +7884,7 @@ MonoBehaviour:
   - {fileID: 2797995191966537375, guid: bb2facaaa1ed9450e88db043fe4b8500, type: 3}
   - {fileID: 6267413592658639543, guid: b6150218e6f3b4627972e2eab9b66858, type: 3}
   - {fileID: 44461424557131583, guid: 0a280315b8e7949aa91fda4c2abb635a, type: 3}
+  - {fileID: 4214608170198060874, guid: 73bda064f3d274a49954f4c0055ab22a, type: 3}
 --- !u!4 &1696040843
 Transform:
   m_ObjectHideFlags: 0
@@ -10883,10 +10942,10 @@ RectTransform:
   - {fileID: 8573867093147858920}
   - {fileID: 8573867093188717084}
   - {fileID: 8573867091934481215}
-  - {fileID: 436555939}
   - {fileID: 8573867092703031652}
   - {fileID: 8573867093084468813}
   - {fileID: 8573867091758018902}
+  - {fileID: 436555939}
   - {fileID: 8573867092829443013}
   - {fileID: 1552278275}
   - {fileID: 8573867092502469320}
@@ -11019,7 +11078,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8573867091458254287}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -12105,7 +12164,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8573867091458254287}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -12641,7 +12700,7 @@ RectTransform:
   - {fileID: 301270777}
   - {fileID: 8573867091983473519}
   m_Father: {fileID: 8573867091458254287}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}

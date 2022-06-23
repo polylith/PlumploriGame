@@ -163,5 +163,7 @@
         Retrieving,
         Apply,
         Settings,
+        CameraConnectApp,
+        Candle,
     }
 }

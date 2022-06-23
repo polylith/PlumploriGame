@@ -1,44 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &6414977688186706644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1092953533237611109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24621d7cb47094f438e906a82ef6162a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  category: 0
-  appContent: {fileID: 1668750657770080412}
-  appName: PromptApp
-  icon: {fileID: 21300000, guid: 40118dd332fde2b4fb9d3bb89262279a, type: 3}
-  pcIcon: {fileID: 8470307417637030165, guid: 005727adc17134b5e92c3f3ea45b80bb, type: 3}
-  appTitle: {fileID: 6883744827381945806}
-  closeButton: {fileID: 7867989541784702211}
-  hideButton: {fileID: 1172392918890113568}
-  scrollRect: {fileID: 1996065329316013469}
-  textParent: {fileID: 5105161948033301516}
-  outputPrefab: {fileID: 1843900151903191091, guid: 60a40b09b80414f03ab163d885dcf54f, type: 3}
-  inputLine: {fileID: 435858075796703831}
---- !u!114 &7583804621807068218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9152550555742838744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
 --- !u!1 &711024078196040048
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,7 +343,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 10, y: 0}
+  m_AnchoredPosition: {x: 15, y: 0}
   m_SizeDelta: {x: 45, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &161166128560805989
@@ -1294,3 +1255,42 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 437170318647410031, guid: b2f41c558e1e34879a3c8bc256a184bc, type: 3}
   m_PrefabInstance: {fileID: 665362194697844490}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6414977688186706644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092953533237611109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24621d7cb47094f438e906a82ef6162a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  category: 0
+  appContent: {fileID: 1668750657770080412}
+  appName: PromptApp
+  icon: {fileID: 21300000, guid: 40118dd332fde2b4fb9d3bb89262279a, type: 3}
+  pcIcon: {fileID: 8470307417637030165, guid: 005727adc17134b5e92c3f3ea45b80bb, type: 3}
+  appTitle: {fileID: 6883744827381945806}
+  closeButton: {fileID: 7867989541784702211}
+  hideButton: {fileID: 1172392918890113568}
+  scrollRect: {fileID: 1996065329316013469}
+  textParent: {fileID: 5105161948033301516}
+  outputPrefab: {fileID: 1843900151903191091, guid: 60a40b09b80414f03ab163d885dcf54f, type: 3}
+  inputLine: {fileID: 435858075796703831}
+--- !u!114 &7583804621807068218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9152550555742838744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1

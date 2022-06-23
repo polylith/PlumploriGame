@@ -45,16 +45,23 @@ public class PromptApp : PCApp
         }
 
         entityData.SetAttribute(appName + ".inputLine", inputLine.text);
+        inputLine.gameObject.SetActive(false);
 
         TextMeshProUGUI[] textLines = textParent.GetComponentsInChildren<TextMeshProUGUI>();
-
-        entityData.SetAttribute(appName + ".textLines.Length", textLines.Length.ToString());
+        int textLinesLength = 0;
 
         for (int i = 0; i < textLines.Length; i++)
         {
-            entityData.SetAttribute(appName + ".textLines." + i, textLines[i].text);
-            entityData.SetAttribute(appName + ".textLines." + i + ".color", ColorUtility.ToHtmlStringRGBA(textLines[i].color));
+            if (textLines[i].IsActive())
+            {
+                entityData.SetAttribute(appName + ".textLines." + i, textLines[i].text);
+                entityData.SetAttribute(appName + ".textLines." + i + ".color", ColorUtility.ToHtmlStringRGBA(textLines[i].color));
+                textLinesLength++;
+            }
         }
+
+        inputLine.gameObject.SetActive(true);
+        entityData.SetAttribute(appName + ".textLines.Length", textLinesLength.ToString());
 
         if (histPos > -1)
         {

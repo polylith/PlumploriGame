@@ -309,15 +309,15 @@ public abstract class Entity : MonoBehaviour
     }
 
     [System.Obsolete("This function might no longer be usefull.", true)]
-    public List<ObjectPlace> GetObjectPlaces()
+    public List<ObjectPlace3D> GetObjectPlaces()
     {
-        List<ObjectPlace> list = new List<ObjectPlace>();
-        ObjectPlace[] places = transform.GetComponents<ObjectPlace>();
+        List<ObjectPlace3D> list = new List<ObjectPlace3D>();
+        ObjectPlace3D[] places = transform.GetComponents<ObjectPlace3D>();
 
         if (null != places)
             list.AddRange(places);
 
-        places = transform.GetComponentsInChildren<ObjectPlace>();
+        places = transform.GetComponentsInChildren<ObjectPlace3D>();
 
         if (null != places)
             list.AddRange(places);

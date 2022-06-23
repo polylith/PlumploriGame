@@ -9,6 +9,9 @@ using Action;
 /// </summary>
 public class Openable : Interactable
 {
+    public bool HasContent { get => content.Count > 0; }
+    public List<Collectable> Content { get => content; }
+
     public string soundToken = "cabinette";
     public float soundDelay = 1f;
     public bool rotate = true;
@@ -21,6 +24,7 @@ public class Openable : Interactable
     protected bool isOpen = false;
     private IEnumerator ieAnim;
     private float speed = 0.1f;
+    private readonly List<Collectable> content = new List<Collectable>();
 
     public override List<string> GetAttributes()
     {
@@ -58,8 +62,16 @@ public class Openable : Interactable
     {
         ActionController actionController = ActionController.GetInstance();
 
+        if (actionController.IsCurrentAction(typeof(UseAction)))
+            return -1;
+
         if (!actionController.IsCurrentAction(typeof(OpenAction)))
             return base.IsInteractionEnabled();
+
+        if (null != interactableUIPrefab && null == InteractableUI)
+        {
+            InitInteractableUI(true);
+        }
 
         return 1;
     }
@@ -92,6 +104,19 @@ public class Openable : Interactable
 
         this.isOpen = isOpen;
         Fire("IsOpen", isOpen);
+
+        if (null != InteractableUI && !instant)
+        {
+            if (IsOpen)
+            {
+                InteractableUI.SetInteractable(this);
+                InteractableUI.Show();
+            }
+            else
+            {
+                InteractableUI.Hide();
+            }
+        }
 
         StopAnimate();
 

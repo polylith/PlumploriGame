@@ -1,321 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!64 &8325318285932587671
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3770728517167582126}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1294212384445345044, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
---- !u!208 &339166603539683918
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3770728517167582126}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.574, y: 0.19100001, z: 0.497}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: -0.93, z: 0.497}
-  m_TimeToStationary: 0.5
---- !u!114 &8325318285932587670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3770728517167582126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06c026ebdfd1765419b48d5817c6fb24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  langKey: Drawer
-  interactableUIPrefab: {fileID: 0}
-  lookPos: {fileID: 0}
-  interactPos: {fileID: 8325318286466410254}
-  col: {fileID: 8325318285932587671}
-  soundToken: drawer
-  soundDelay: 0
-  rotate: 0
-  v: {x: 0, y: 0, z: 0.71}
-  panel: {fileID: 3835210137654553313}
-  audioSource: {fileID: 8325318285862259416}
---- !u!64 &8325318287446743049
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4080376019572737708}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2862320191908347338, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
---- !u!208 &8461386563262192833
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4080376019572737708}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.574, y: 0.19100001, z: 0.497}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: -0.34, z: 0.497}
-  m_TimeToStationary: 0.5
---- !u!114 &8325318287446743048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4080376019572737708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06c026ebdfd1765419b48d5817c6fb24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  langKey: Drawer
-  interactableUIPrefab: {fileID: 0}
-  lookPos: {fileID: 0}
-  interactPos: {fileID: 8325318286466410254}
-  col: {fileID: 8325318287446743049}
-  soundToken: drawer
-  soundDelay: 0
-  rotate: 0
-  v: {x: 0, y: 0, z: 0.71}
-  panel: {fileID: 8877040628078547305}
-  audioSource: {fileID: 8325318285862259416}
---- !u!64 &8325318286177044570
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4368062958886319691}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7603675599885614922, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
---- !u!208 &8075585525514937439
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4368062958886319691}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.574, y: 0.19100001, z: 0.497}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: -0.34, z: 0.497}
-  m_TimeToStationary: 0.5
---- !u!114 &8325318286177044573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4368062958886319691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06c026ebdfd1765419b48d5817c6fb24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  langKey: Drawer
-  interactableUIPrefab: {fileID: 0}
-  lookPos: {fileID: 0}
-  interactPos: {fileID: 8325318286466410254}
-  col: {fileID: 8325318286177044570}
-  soundToken: drawer
-  soundDelay: 0
-  rotate: 0
-  v: {x: 0, y: 0, z: 0.71}
-  panel: {fileID: 2192621336069040437}
-  audioSource: {fileID: 8325318285862259416}
---- !u!65 &8325318286038838742
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5549446282916764197}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1479166, y: 3.1687498, z: 0.11157894}
-  m_Center: {x: 0.5739583, y: 0, z: 0.05578935}
---- !u!208 &3651325795706148383
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5549446282916764197}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.574, y: 1.5840001, z: 0.056}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0.57, y: -1.5, z: 0.056}
-  m_TimeToStationary: 0.5
---- !u!114 &8325318286038838729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5549446282916764197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06c026ebdfd1765419b48d5817c6fb24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  langKey: Cupboard
-  interactableUIPrefab: {fileID: 0}
-  lookPos: {fileID: 0}
-  interactPos: {fileID: 8325318286466410254}
-  col: {fileID: 8325318286038838742}
-  soundToken: cabinette
-  soundDelay: 1.5
-  rotate: 1
-  v: {x: 0, y: 100, z: 0}
-  panel: {fileID: 1115909613513371409}
-  audioSource: {fileID: 8325318285822758013}
---- !u!64 &8325318286747066653
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5624637726090588481}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4241957927551691392, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
---- !u!208 &4645405195063778772
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5624637726090588481}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.574, y: 0.19100001, z: 0.497}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: -0.93, z: 0.497}
-  m_TimeToStationary: 0.5
---- !u!114 &8325318286747066652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5624637726090588481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06c026ebdfd1765419b48d5817c6fb24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  langKey: Drawer
-  interactableUIPrefab: {fileID: 0}
-  lookPos: {fileID: 0}
-  interactPos: {fileID: 8325318286466410254}
-  col: {fileID: 8325318286747066653}
-  soundToken: drawer
-  soundDelay: 0
-  rotate: 0
-  v: {x: 0, y: 0, z: 0.71}
-  panel: {fileID: 3698562883247596558}
-  audioSource: {fileID: 8325318285862259416}
---- !u!65 &8325318286999483580
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6953610384603236497}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1479166, y: 3.1687498, z: 0.11157894}
-  m_Center: {x: -0.5739583, y: 0, z: 0.05578935}
---- !u!208 &4868215455312473793
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6953610384603236497}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.574, y: 1.5840001, z: 0.056}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: -0.574, y: -1.5, z: 0.056}
-  m_TimeToStationary: 0.5
---- !u!114 &8325318286999483583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6953610384603236497}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06c026ebdfd1765419b48d5817c6fb24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  langKey: Cupboard
-  interactableUIPrefab: {fileID: 0}
-  lookPos: {fileID: 0}
-  interactPos: {fileID: 8325318286466410254}
-  col: {fileID: 8325318286999483580}
-  soundToken: cabinette
-  soundDelay: 1.45
-  rotate: 1
-  v: {x: 0, y: 100, z: 0}
-  panel: {fileID: 3174072812261732664}
-  audioSource: {fileID: 8325318285389496352}
 --- !u!1 &8325318285389496354
 GameObject:
   m_ObjectHideFlags: 0
@@ -991,34 +675,9 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5178340521498026666, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
   m_PrefabInstance: {fileID: 8325318285878044932}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &2192621336069040437 stripped
+--- !u!4 &8359738236493254383 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 7918658158456029233, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
-  m_PrefabInstance: {fileID: 8325318285878044932}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4080376019572737708 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5415878176942649256, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
-  m_PrefabInstance: {fileID: 8325318285878044932}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8877040628078547305 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8594858530639038355, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
-  m_PrefabInstance: {fileID: 8325318285878044932}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4368062958886319691 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -3524345154852430001, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
-  m_PrefabInstance: {fileID: 8325318285878044932}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &3835210137654553313 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5093605898974348261, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
-  m_PrefabInstance: {fileID: 8325318285878044932}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5624637726090588481 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -4789645372531091387, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
   m_PrefabInstance: {fileID: 8325318285878044932}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1115909613513371409 stripped
@@ -1031,19 +690,44 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4506677310313640737, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
   m_PrefabInstance: {fileID: 8325318285878044932}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &3174072812261732664 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -2340206351096555460, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
-  m_PrefabInstance: {fileID: 8325318285878044932}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6953610384603236497 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7851648738116410987, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
   m_PrefabInstance: {fileID: 8325318285878044932}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &8359738236493254383 stripped
+--- !u!1 &5624637726090588481 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4789645372531091387, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
+  m_PrefabInstance: {fileID: 8325318285878044932}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3174072812261732664 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
+  m_CorrespondingSourceObject: {fileID: -2340206351096555460, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
+  m_PrefabInstance: {fileID: 8325318285878044932}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8877040628078547305 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8594858530639038355, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
+  m_PrefabInstance: {fileID: 8325318285878044932}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4080376019572737708 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5415878176942649256, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
+  m_PrefabInstance: {fileID: 8325318285878044932}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3835210137654553313 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5093605898974348261, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
+  m_PrefabInstance: {fileID: 8325318285878044932}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4368062958886319691 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3524345154852430001, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
+  m_PrefabInstance: {fileID: 8325318285878044932}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2192621336069040437 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7918658158456029233, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
   m_PrefabInstance: {fileID: 8325318285878044932}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &3698562883247596558 stripped
@@ -1051,3 +735,319 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4673214172324547850, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
   m_PrefabInstance: {fileID: 8325318285878044932}
   m_PrefabAsset: {fileID: 0}
+--- !u!64 &8325318285932587671
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3770728517167582126}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1294212384445345044, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
+--- !u!208 &339166603539683918
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3770728517167582126}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.574, y: 0.19100001, z: 0.497}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: -0.93, z: 0.497}
+  m_TimeToStationary: 0.5
+--- !u!114 &8325318285932587670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3770728517167582126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c026ebdfd1765419b48d5817c6fb24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  langKey: Drawer
+  interactableUIPrefab: {fileID: 2776295605048287137, guid: d4b55cf2fb2094dd5ac0a964c9114d28, type: 3}
+  lookPos: {fileID: 0}
+  interactPos: {fileID: 8325318286466410254}
+  col: {fileID: 8325318285932587671}
+  soundToken: drawer
+  soundDelay: 0
+  rotate: 0
+  v: {x: 0, y: 0, z: 0.71}
+  panel: {fileID: 3835210137654553313}
+  audioSource: {fileID: 8325318285862259416}
+--- !u!64 &8325318287446743049
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4080376019572737708}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2862320191908347338, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
+--- !u!208 &8461386563262192833
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4080376019572737708}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.574, y: 0.19100001, z: 0.497}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: -0.34, z: 0.497}
+  m_TimeToStationary: 0.5
+--- !u!114 &8325318287446743048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4080376019572737708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c026ebdfd1765419b48d5817c6fb24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  langKey: Drawer
+  interactableUIPrefab: {fileID: 2776295605048287137, guid: d4b55cf2fb2094dd5ac0a964c9114d28, type: 3}
+  lookPos: {fileID: 0}
+  interactPos: {fileID: 8325318286466410254}
+  col: {fileID: 8325318287446743049}
+  soundToken: drawer
+  soundDelay: 0
+  rotate: 0
+  v: {x: 0, y: 0, z: 0.71}
+  panel: {fileID: 8877040628078547305}
+  audioSource: {fileID: 8325318285862259416}
+--- !u!64 &8325318286177044570
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4368062958886319691}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7603675599885614922, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
+--- !u!208 &8075585525514937439
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4368062958886319691}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.574, y: 0.19100001, z: 0.497}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: -0.34, z: 0.497}
+  m_TimeToStationary: 0.5
+--- !u!114 &8325318286177044573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4368062958886319691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c026ebdfd1765419b48d5817c6fb24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  langKey: Drawer
+  interactableUIPrefab: {fileID: 2776295605048287137, guid: d4b55cf2fb2094dd5ac0a964c9114d28, type: 3}
+  lookPos: {fileID: 0}
+  interactPos: {fileID: 8325318286466410254}
+  col: {fileID: 8325318286177044570}
+  soundToken: drawer
+  soundDelay: 0
+  rotate: 0
+  v: {x: 0, y: 0, z: 0.71}
+  panel: {fileID: 2192621336069040437}
+  audioSource: {fileID: 8325318285862259416}
+--- !u!65 &8325318286038838742
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5549446282916764197}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.1479166, y: 3.1687498, z: 0.11157894}
+  m_Center: {x: 0.5739583, y: 0, z: 0.05578935}
+--- !u!208 &3651325795706148383
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5549446282916764197}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.574, y: 1.5840001, z: 0.056}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.57, y: -1.5, z: 0.056}
+  m_TimeToStationary: 0.5
+--- !u!114 &8325318286038838729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5549446282916764197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c026ebdfd1765419b48d5817c6fb24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  langKey: Cupboard
+  interactableUIPrefab: {fileID: 0}
+  lookPos: {fileID: 0}
+  interactPos: {fileID: 8325318286466410254}
+  col: {fileID: 8325318286038838742}
+  soundToken: cabinette
+  soundDelay: 1.5
+  rotate: 1
+  v: {x: 0, y: 100, z: 0}
+  panel: {fileID: 1115909613513371409}
+  audioSource: {fileID: 8325318285822758013}
+--- !u!64 &8325318286747066653
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5624637726090588481}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4241957927551691392, guid: 753cb098f7fd74b2c91b0535ab94f1b8, type: 3}
+--- !u!208 &4645405195063778772
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5624637726090588481}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.574, y: 0.19100001, z: 0.497}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: -0.93, z: 0.497}
+  m_TimeToStationary: 0.5
+--- !u!114 &8325318286747066652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5624637726090588481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c026ebdfd1765419b48d5817c6fb24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  langKey: Drawer
+  interactableUIPrefab: {fileID: 2776295605048287137, guid: d4b55cf2fb2094dd5ac0a964c9114d28, type: 3}
+  lookPos: {fileID: 0}
+  interactPos: {fileID: 8325318286466410254}
+  col: {fileID: 8325318286747066653}
+  soundToken: drawer
+  soundDelay: 0
+  rotate: 0
+  v: {x: 0, y: 0, z: 0.71}
+  panel: {fileID: 3698562883247596558}
+  audioSource: {fileID: 8325318285862259416}
+--- !u!65 &8325318286999483580
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6953610384603236497}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.1479166, y: 3.1687498, z: 0.11157894}
+  m_Center: {x: -0.5739583, y: 0, z: 0.05578935}
+--- !u!208 &4868215455312473793
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6953610384603236497}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.574, y: 1.5840001, z: 0.056}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.574, y: -1.5, z: 0.056}
+  m_TimeToStationary: 0.5
+--- !u!114 &8325318286999483583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6953610384603236497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c026ebdfd1765419b48d5817c6fb24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  langKey: Cupboard
+  interactableUIPrefab: {fileID: 0}
+  lookPos: {fileID: 0}
+  interactPos: {fileID: 8325318286466410254}
+  col: {fileID: 8325318286999483580}
+  soundToken: cabinette
+  soundDelay: 1.45
+  rotate: 1
+  v: {x: 0, y: 100, z: 0}
+  panel: {fileID: 3174072812261732664}
+  audioSource: {fileID: 8325318285389496352}

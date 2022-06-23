@@ -100,7 +100,7 @@ public class Portal : Interactable
         if (!character.IsNPC)
         {
             UIGame uiGame = UIGame.GetInstance();
-            uiGame.IsUIExclusive = true;
+            uiGame.SetUIExclusive(gameObject, true);
             uiGame.SetCursorVisible(false);
             uiGame.ShowShade();
             UIDropPoint.GetInstance().HidePointer();
@@ -143,7 +143,7 @@ public class Portal : Interactable
 
             yield return new WaitForSecondsRealtime(0.5f);
 
-            uiGame.IsUIExclusive = true;
+            uiGame.SetUIExclusive(gameObject, true);
         }
         else
         {

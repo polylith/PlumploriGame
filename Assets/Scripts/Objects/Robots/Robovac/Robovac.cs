@@ -96,13 +96,13 @@ public class Robovac : Interactable
 
     public override void RegisterGoals()
     {
-        RegisterAtoms(GetAttributes());
+        Formula f = WorldDB.Get(Prefix + "HasTargets");
+        WorldDB.RegisterFormula(new Implication(f, null));
     }
 
     protected override void RegisterAtoms()
     {
-        Formula f = WorldDB.Get(Prefix + "HasTargets");
-        WorldDB.RegisterFormula(new Implication(f, null));
+        RegisterAtoms(GetAttributes());
     }
 
     public override Vector3 GetInteractionPosition()

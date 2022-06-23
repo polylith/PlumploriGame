@@ -99,6 +99,17 @@ public abstract class Interactable : Entity
     }
 
     /// <summary>
+    /// This function returns the position to look at on interaction.
+    /// The base function just return the 3D position of the interactable.
+    /// In specific subclasses this function needs to be overridden.
+    /// </summary>
+    /// <returns>the postion in 3D world to look at</returns>
+    public virtual Vector3 GetLookAtPosition()
+    {
+        return transform.position;
+    }
+
+    /// <summary>
     /// Just set a Texture2D. This method is only called
     /// by the ObjectCamera if there is no image of the
     /// object yet or its appearance has changed.

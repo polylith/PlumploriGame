@@ -216,12 +216,29 @@ public class GameManager : MonoBehaviour
     /// <param name="interactable">reference to the interactable object</param>
     public void Interact(Interactable interactable)
     {
-        if (interactable is Collectable collectable
-            && collectable.IsCollected
-            && !ActionController.GetInstance().IsDropActionActive())
+        Vector3 position = interactable.GetInteractionPosition();
+        Vector3 lookAt = interactable.GetLookAtPosition();
+
+        if (interactable is Collectable collectable)
         {
-            ActionController.GetInstance().ApplyActionState();
-            return;
+            if (!ActionController.GetInstance().IsDropActionActive())
+            {
+                if (collectable.IsCollected)
+                {
+                    ActionController.GetInstance().ApplyActionState();
+                    return;
+                }
+                else
+                {
+                    ObjectPlace objectPlace = UIDropPoint.GetInstance().ObjectPlace;
+
+                    if (null != objectPlace)
+                    {
+                        position = objectPlace.GetWalkPosition(collectable);
+                        lookAt = objectPlace.GetLookAtPosition();
+                    }
+                }
+            }
         }
 
         /* 
@@ -229,10 +246,9 @@ public class GameManager : MonoBehaviour
          * look at the interactable object.
          * no callback needed.
          */
-        Vector3 position = interactable.GetInteractionPosition();
         GotoAndInteract(
             position,
-            interactable.transform.position
+            lookAt
         );
     }
 
@@ -304,7 +320,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator IELoad(RoomConfig roomConfig)
     {
         UIGame uiGame = UIGame.GetInstance();
-        uiGame.IsUIExclusive = true;
+        uiGame.SetUIExclusive(gameObject, true);
         uiGame.SetCursorVisible(false);
         uiGame.ShowShade();
 
@@ -344,7 +360,7 @@ public class GameManager : MonoBehaviour
         cameraFollowTarget.SetPosition(room.cameraPosition);
         cameraFollowTarget.SetTarget(CurrentPlayer.transform);
         cameraFollowTarget.SetActive(true);
-
+        
         StartCoroutine(IEFinishLoad());
     }
 
@@ -370,7 +386,7 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(1f);
 
-        uiGame.IsUIExclusive = false;
+        uiGame.SetUIExclusive(gameObject, false);
     }
 
     /// <summary>
@@ -423,6 +439,12 @@ public class GameManager : MonoBehaviour
     public void Highlight(Interactable interactable, int enabledState)
     {
         UnHighlight();
+
+        if (null == interactable || !interactable.gameObject.activeSelf)
+        {
+            return;
+        }
+
         List<Renderer> rendererList = CheckRenderers(interactable);
         currentHighlighted = interactable;
         outlinePostEffect.AddRenderers(rendererList);

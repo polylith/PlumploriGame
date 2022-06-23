@@ -22,7 +22,7 @@ public class InventoryContent
 
     public List<Collectable> GetItems()
     {
-        return list;
+        return this.list;
     }
 
     public bool HasCapacity()

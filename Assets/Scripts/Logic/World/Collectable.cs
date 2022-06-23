@@ -32,6 +32,7 @@ public abstract class Collectable : Interactable
 
     public bool IsCollected { get => collected; }
     public bool IsDropping { get => isDropping; }
+    public ObjectPlace ObjectPlace { get => objectPlace; }
 
     private Vector3 position;
     private Quaternion rotation;
@@ -72,6 +73,24 @@ public abstract class Collectable : Interactable
 
         f = WorldDB.Get(Prefix + "Dropped");
         WorldDB.RegisterFormula(new Implication(f, null));
+    }
+
+    public override Vector3 GetInteractionPosition()
+    {
+        if (null == objectPlace)
+        {
+            return base.GetInteractionPosition();
+        }
+
+        return objectPlace.GetWalkPosition(this);
+    }
+
+    public override Vector3 GetLookAtPosition()
+    {
+        if (null == objectPlace)
+            return base.GetLookAtPosition();
+
+        return objectPlace.GetLookAtPosition();
     }
 
     public override int IsInteractionEnabled()
@@ -309,17 +328,21 @@ public abstract class Collectable : Interactable
         objectPlace = uiDropPoint.ObjectPlace;
         Vector3 walkPosition = objectPlace.GetWalkPosition(this);
         Vector3 position = objectPlace.transform.position;
-        Vector3 dropRotation = objectPlace.GetRotation();
 
-        // rotate the walk position according to the rotation of the drop position
-        // TODO check if this really works in any case
-        walkPosition = Calc.RotatePointAroundPivot(
-            walkPosition,
-            position,
-            dropRotation
-        );
+        if (objectPlace is ObjectPlace3D objectPlace3D)
+        {
+            Vector3 dropRotation = objectPlace3D.GetRotation();
+
+            // rotate the walk position according to the rotation of the drop position
+            // TODO check if this really works in any case
+            walkPosition = Calc.RotatePointAroundPivot(
+                walkPosition,
+                position,
+                dropRotation
+            );
+        }
+
         SetLayer((int)Layers.Invisible);
-        
         uiGame.SetCursorVisible(false);
         uiGame.SetOverUI(true);
         gameManager.GotoAndInteract(
@@ -357,7 +380,7 @@ public abstract class Collectable : Interactable
     }
 
     /// <summary>
-    /// Puts this collectable to an given ObjectPlace.
+    /// Puts this collectable to a given ObjectPlace.
     /// </summary>
     /// <param name="objectPlace">place for that collectable</param>
     public void SetObjectPlace(ObjectPlace objectPlace)
@@ -366,18 +389,26 @@ public abstract class Collectable : Interactable
         collected = false;
         Fire("Collected", false);
         Fire("Dropped", true);
-        col.enabled = true;
 
-        RestoreLayer();
-        transform.gameObject.SetActive(true);
-        transform.position = this.objectPlace.transform.position;
-        transform.localRotation = Quaternion.Euler(this.objectPlace.GetRotation());
-        this.objectPlace.SetCollectable(this);
+
+        if (objectPlace is ObjectPlace3D objectPlace3D)
+        {
+            col.enabled = true;
+            RestoreLayer();
+            transform.gameObject.SetActive(true);
+            transform.position = objectPlace3D.transform.position;
+            transform.localRotation = Quaternion.Euler(objectPlace3D.GetRotation());
+            objectPlace3D.SetCollectable(this);
+        }
+        else if (objectPlace is DrawerContentSlotUI drawerContentSlotUI)
+        {
+            drawerContentSlotUI.AddObject(this);
+        }
     }
 
     /// <summary>
     /// Finish drop interaction and restore UI.
-    /// Also used then drop action is cancelled.
+    /// Also used when drop action is cancelled.
     /// </summary>
     public void FinishDrop()
     {
@@ -396,7 +427,7 @@ public abstract class Collectable : Interactable
         uiGame.HideObject();
         uiGame.HideObjectOnCursor();
         uiGame.HideCursor(1f);
-        uiGame.SetOverUI(false);
+        uiGame.SetOverUI(uiGame.IsUIExclusive);
     }
         
     public override void MouseClick()

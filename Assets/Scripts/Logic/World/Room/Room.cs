@@ -16,7 +16,7 @@ public class Room : MonoBehaviour
     public bool CamIsMoving;
 
     private readonly List<Transform> cameraPositions = new List<Transform>();
-    private readonly List<ObjectPlace> objectPlaces = new List<ObjectPlace>();
+    private readonly List<ObjectPlace3D> objectPlaces = new List<ObjectPlace3D>();
     private int positionIndex = 0;
 
     private void Start()
@@ -49,7 +49,7 @@ public class Room : MonoBehaviour
 
     private void InitObjectPlaces()
     {
-        ObjectPlace[] places = GetComponentsInChildren<ObjectPlace>();
+        ObjectPlace3D[] places = GetComponentsInChildren<ObjectPlace3D>();
         objectPlaces.AddRange(places);
     }
 
@@ -57,7 +57,7 @@ public class Room : MonoBehaviour
     {
         isVisible &= null != collectable;
 
-        foreach (ObjectPlace place in objectPlaces)
+        foreach (ObjectPlace3D place in objectPlaces)
         {
             place.SetVisible(
                 isVisible

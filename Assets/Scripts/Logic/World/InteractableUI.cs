@@ -345,7 +345,7 @@ public abstract class InteractableUI : MonoBehaviour, IPointerEnterHandler, IPoi
 
         if (null != uiGame)
         {
-            uiGame.IsUIExclusive = uiExclusiveMode && isVisible;
+            uiGame.SetUIExclusive(gameObject, uiExclusiveMode && isVisible);
 
             if (uiExclusiveMode)
             {

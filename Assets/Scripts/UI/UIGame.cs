@@ -19,15 +19,12 @@ public class UIGame : MonoBehaviour
     public static readonly float minFoV = 60f / (9f / 16f);
 
     private static UIGame ins;
-    
-    public bool IsUIExclusive { get; set; }
-    /* 
-     * TODO better solution 
-     * when two interactable uis are open, one is ui exclusive
-     * the other one is not, or both are ui exclusive, we get
-     * a problem
-     * solution bind ui exclusive to caller/owner
-     */
+
+    public bool IsCursor3DWorldEnabled { get => !IsUIExclusive && !IsCursorOverUI; }
+
+    public bool IsCursorOverUI { get => uiCursor.IsOverUI() || CheckPointerOverUI(); }
+
+    public bool IsUIExclusive { get => uiExclusiveCallerList.Count > 0; }
     public bool IsObjectVisible { get => showObject.gameObject.activeSelf; }
 
     public bool IsHidden { get => isHidden; }
@@ -47,6 +44,8 @@ public class UIGame : MonoBehaviour
     private bool shadeVisible;
     private bool isObjectOnCursorVisible;
     private Material currentSkybox;
+
+    private readonly List<int> uiExclusiveCallerList = new List<int>();
     
     private void Awake()
     {
@@ -180,7 +179,30 @@ public class UIGame : MonoBehaviour
         UIContext.GetInstance().Show(obj);
     }
 
-    public bool IsCursorOverUI { get => uiCursor.IsOverUI() || CheckPointerOverUI(); }
+    public void SetUIExclusive(GameObject gameObject, bool isUIExclusive)
+    {
+        if (null == gameObject)
+            return;
+
+        Debug.Log(gameObject.name + " " + isUIExclusive + " uiExclusiveCallerList count " + uiExclusiveCallerList.Count);
+
+        int id = gameObject.GetInstanceID();
+
+        if (isUIExclusive)
+        {
+            if (!uiExclusiveCallerList.Contains(id))
+            {
+                uiExclusiveCallerList.Add(id);
+            }
+            
+            return;
+        }
+
+        if (uiExclusiveCallerList.Contains(id))
+        {
+            uiExclusiveCallerList.Remove(id);
+        }
+    }
 
     private bool CheckPointerOverUI()
     {
