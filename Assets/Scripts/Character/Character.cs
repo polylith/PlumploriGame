@@ -299,7 +299,7 @@ public abstract class Character : MonoBehaviour
     }
 
     // for Player
-    public float Goto(Vector3 target, Vector3 lookat, System.Action action = null,
+    public float Goto(Vector3 target, Vector3 lookAt, System.Action action = null,
         bool bCheckNavMesh = true)
     {
         if (IsMoving)
@@ -335,9 +335,9 @@ public abstract class Character : MonoBehaviour
             {
                 if (null != action)
                 {
-                    if (!target.Equals(lookat))
+                    if (!target.Equals(lookAt))
                     {
-                        LookAt(lookat, action);
+                        LookAt(lookAt, action);
                     }
                     else
                     {
@@ -387,9 +387,9 @@ public abstract class Character : MonoBehaviour
             OnComplete(() => {
                 FinishSequence();
                 SetWalking(false);
-                if (!target.Equals(lookat))
+                if (!target.Equals(lookAt))
                 {
-                    LookAt(lookat, action);
+                    LookAt(lookAt, action);
                 }
                 else if (null != action)
                 {
@@ -405,6 +405,7 @@ public abstract class Character : MonoBehaviour
             }
         );
         PlaySeq();
+        
         return duration;
     }
 

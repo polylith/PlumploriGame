@@ -133,6 +133,7 @@ public class CameraConnectApp : PCApp
 
         Room room = gameManager.CurrentRoom;
         FotoCamera[] fotoCameras = room.transform.GetComponentsInChildren<FotoCamera>();
+        // TODO also search for cameras in openables
         Player player = gameManager.CurrentPlayer;
         List<Collectable> collectedItems = player.GetInventoryItems();
         cameraList.Clear();

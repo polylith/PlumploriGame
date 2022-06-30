@@ -40,7 +40,7 @@ public abstract class Collectable : Interactable
     private int layer;
 
     private InventorySlot inventorySlot;
-    private InventoryContent inventoryContent;
+    private InventoryContent inventoryContent; // TODO NOT used???
     private bool collected = false;
     private bool isDropping;
     private ObjectPlace objectPlace;
@@ -88,7 +88,21 @@ public abstract class Collectable : Interactable
     public override Vector3 GetLookAtPosition()
     {
         if (null == objectPlace)
+        {
+            ActionController actionController = ActionController.GetInstance();
+
+            if (actionController.WillDropActionBeActive())
+            {
+                ObjectPlace objectPlace = UIDropPoint.GetInstance().ObjectPlace;
+
+                if (null != objectPlace)
+                {
+                    return objectPlace.GetLookAtPosition();
+                }
+            }
+
             return base.GetLookAtPosition();
+        }
 
         return objectPlace.GetLookAtPosition();
     }
@@ -327,7 +341,7 @@ public abstract class Collectable : Interactable
         // walk position is the interact position 
         objectPlace = uiDropPoint.ObjectPlace;
         Vector3 walkPosition = objectPlace.GetWalkPosition(this);
-        Vector3 position = objectPlace.transform.position;
+        Vector3 lookAt = objectPlace.GetLookAtPosition();
 
         if (objectPlace is ObjectPlace3D objectPlace3D)
         {
@@ -337,7 +351,7 @@ public abstract class Collectable : Interactable
             // TODO check if this really works in any case
             walkPosition = Calc.RotatePointAroundPivot(
                 walkPosition,
-                position,
+                lookAt,
                 dropRotation
             );
         }
@@ -347,7 +361,7 @@ public abstract class Collectable : Interactable
         uiGame.SetOverUI(true);
         gameManager.GotoAndInteract(
             walkPosition,
-            position,
+            lookAt,
             InvokeDrop
         );
 

@@ -206,7 +206,8 @@ public class GameManager : MonoBehaviour
 
         Vector3 position = interactable.GetInteractionPosition();
         position = Calc.GetPointOnGround(position).point;
-        CurrentPlayer.Goto(position, interactable.transform.position);
+        Vector3 lookAt = interactable.GetLookAtPosition();
+        CurrentPlayer.Goto(position, lookAt);
     }
 
     /// <summary>

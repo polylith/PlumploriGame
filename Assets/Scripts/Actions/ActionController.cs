@@ -219,6 +219,11 @@ namespace Action
             return Current.IsActivated();
         }
 
+        public bool WillDropActionBeActive()
+        {
+            return IsCurrentAction(typeof(DropAction)) && Current.IsApplyable();
+        }
+
         public bool IsDropActionActive()
         {
             return IsCurrentAction(typeof(DropAction)) && Current.IsActivated();
